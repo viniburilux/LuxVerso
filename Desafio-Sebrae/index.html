@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxVerso Research & Tech — Jornada Sebrae 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a1412; --ink-2:#0f1d1a; --line:#1e332e;
+    --fg:#e9efec; --fg-dim:#93a8a1; --fg-dimmer:#5f7770;
+    --signal:#4fd6ac; --signal-dim:#2c5c4c; --amber:#e8a33d;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--ink); color:var(--fg); font-family:'IBM Plex Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- topbar ---- */
+  header.topbar{
+    position:sticky; top:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; background:rgba(10,20,18,0.9); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:baseline; gap:10px;}
+  .brand-mark{width:9px; height:9px; background:var(--signal); box-shadow:0 0 12px var(--signal);}
+  .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
+  .topbar-right{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+
+  /* ---- side nav dots ---- */
+  .sidenav{
+    position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:55;
+    display:flex; flex-direction:column; gap:16px; align-items:center;
+  }
+  @media (max-width:900px){ .sidenav{display:none;} }
+  .sidenav a{
+    width:6px; height:6px; border-radius:50%; background:var(--line);
+    border:1px solid var(--fg-dimmer); transition:all .2s; position:relative;
+  }
+  .sidenav a.active{background:var(--signal); border-color:var(--signal); box-shadow:0 0 8px var(--signal);}
+  .sidenav a span{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--fg-dim);
+    white-space:nowrap; opacity:0; transition:opacity .2s; pointer-events:none;
+  }
+  .sidenav a:hover span{opacity:1;}
+
+  main{position:relative; z-index:1;}
+
+  section{
+    max-width:1180px; margin:0 auto; padding:110px 40px;
+    border-top:1px solid var(--line); position:relative;
+  }
+  section:first-of-type{border-top:none;}
+  .num{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal);
+    letter-spacing:.12em; text-transform:uppercase; display:flex; align-items:center; gap:10px; margin-bottom:26px;
+  }
+  .num::before{content:''; width:22px; height:1px; background:var(--signal);}
+  h1,h2{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; margin:0;}
+  h1{font-size:clamp(30px,4.6vw,52px); line-height:1.12;}
+  h2{font-size:clamp(26px,3.6vw,40px); line-height:1.15;}
+  h1 em, h2 em{font-style:normal; color:var(--signal);}
+  .lede{font-size:16.5px; line-height:1.7; color:var(--fg-dim); max-width:640px; margin-top:22px;}
+
+  /* ---- 01 espelho ---- */
+  .mirror-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; margin-top:56px;}
+  @media (max-width:860px){ .mirror-grid{grid-template-columns:1fr;} }
+  .mirror-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .mirror-list li{
+    padding:16px 0; border-bottom:1px solid var(--line);
+    font-size:15px; color:var(--fg-dim); display:flex; gap:14px;
+  }
+  .mirror-list li::before{content:'—'; color:var(--fg-dimmer); flex-shrink:0;}
+  .mirror-callout{
+    align-self:start; padding:30px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--ink-2);
+  }
+  .mirror-callout p{font-size:15px; line-height:1.7; color:var(--fg); margin:0;}
+  .mirror-callout .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; display:block;}
+
+  /* ---- 02 estrutura ---- */
+  .flow-wrap{margin-top:56px; display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:center;}
+  @media (max-width:760px){ .flow-wrap{grid-template-columns:1fr;} .flow-arrow-mid{display:none;} }
+  .flow-col{display:flex; flex-direction:column; gap:10px;}
+  .flow-item{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--fg-dim);
+    padding:12px 16px; border:1px solid var(--line); border-radius:var(--radius);
+  }
+  .flow-col.mid .flow-item{color:var(--signal); border-color:var(--signal-dim);}
+  .flow-arrow-mid{display:flex; justify-content:center; padding:0 24px; color:var(--fg-dimmer); font-size:20px;}
+  .flow-caption{margin-top:36px; font-size:14px; color:var(--fg-dim); max-width:600px;}
+
+  /* ---- 03 limita ---- */
+  .limita-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:56px;}
+  @media (max-width:760px){ .limita-grid{grid-template-columns:1fr;} }
+  .limita-box{padding:28px; border:1px solid var(--line); border-radius:var(--radius);}
+  .limita-box .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); text-transform:uppercase; letter-spacing:.08em; margin-bottom:16px; display:block;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .pill{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg); border:1px solid var(--line); padding:6px 12px; border-radius:20px;}
+  .limita-box ul{margin:0; padding-left:16px; color:var(--fg-dim); font-size:14.5px; line-height:1.8;}
+  .limita-punch{margin-top:36px; font-size:19px; color:var(--fg); max-width:640px; line-height:1.5;}
+  .limita-punch b{color:var(--signal); font-weight:600;}
+
+  /* ---- 04 quem é ---- */
+  .tech-band{
+    margin-top:40px; display:flex; flex-wrap:wrap; gap:0;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--fg-dim);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0;
+  }
+  .tech-band span:not(:last-child)::after{content:'·'; margin:0 12px; color:var(--fg-dimmer);}
+
+  /* ---- 05 metodo ---- */
+  .method-flow{display:flex; flex-wrap:wrap; margin-top:50px; font-family:'IBM Plex Mono',monospace; font-size:13px;}
+  .method-flow .step{color:var(--fg); padding:12px 0;}
+  .method-flow .arrow{color:var(--signal-dim); padding:0 16px;}
+
+  /* ---- 06 capacidades + evidencias ---- */
+  .cap-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:760px){ .cap-grid{grid-template-columns:1fr;} }
+  .cap-card{background:var(--ink); padding:30px; display:flex; flex-direction:column; gap:16px;}
+  .cap-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17.5px; line-height:1.3;}
+  .cap-how{display:flex; flex-wrap:wrap; gap:6px;}
+  .cap-how span{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--fg-dimmer); border:1px solid var(--line); padding:3px 8px; border-radius:12px;}
+  .cap-viz{height:74px; display:flex; align-items:center;}
+  .cap-evidence{
+    display:flex; justify-content:space-between; align-items:center; padding-top:14px;
+    border-top:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    flex-wrap:wrap; gap:8px;
+  }
+  .cap-evidence .src{color:var(--signal);}
+  .cap-evidence .link{color:var(--fg-dimmer); text-decoration:none;}
+  .cap-evidence .link:hover{color:var(--fg);}
+  .cap-links{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .cap-links a{color:var(--fg-dim); text-decoration:none; transition:color .15s;}
+  .cap-links a:hover{color:var(--signal);}
+  .cap-links .sep{color:var(--fg-dimmer);}
+
+  /* ---- 07 risco ---- */
+  .risk-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:900px){ .risk-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .risk-grid{grid-template-columns:1fr;} }
+  .risk-card{background:var(--ink); padding:26px;}
+  .risk-card .n{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+  .risk-card h3{font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; margin:12px 0 10px;}
+  .risk-card p{font-size:13.5px; color:var(--fg-dim); line-height:1.6; margin:0;}
+
+  /* ---- 08 aplicacoes ---- */
+  .app-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:860px){ .app-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .app-grid{grid-template-columns:1fr;} }
+  .app-card{background:var(--ink); padding:26px 24px; cursor:pointer; display:flex; flex-direction:column; gap:14px; min-height:168px; transition:background .18s;}
+  .app-card:hover{background:var(--ink-2);}
+  .app-card:hover .app-arrow{transform:translate(3px,-3px); color:var(--signal);}
+  .app-card.disabled{cursor:default; opacity:.42;}
+  .app-card.disabled:hover{background:var(--ink);}
+  .app-code{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+  .app-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:18px; line-height:1.25;}
+  .app-thesis{font-size:13px; color:var(--fg-dim); line-height:1.5; flex:1;}
+  .app-foot{display:flex; justify-content:space-between; align-items:center;}
+  .app-status{font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--fg-dimmer);}
+  .app-arrow{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--fg-dimmer); transition:transform .18s, color .18s;}
+  .app-note{margin-top:20px; font-size:13px; color:var(--fg-dimmer); max-width:560px;}
+
+  /* ---- 09 contato ---- */
+  .contact-row{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px; margin-top:50px;}
+  .contact-links{display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:13.5px;}
+  .contact-links a{text-decoration:none; color:var(--fg-dim); border-bottom:1px solid transparent;}
+  .contact-links a:hover{color:var(--signal); border-color:var(--signal-dim);}
+
+  footer{max-width:1180px; margin:0 auto; padding:34px 40px 60px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--fg-dimmer);}
+
+  /* ============ DETAIL OVERLAY ============ */
+  #detail{display:none; position:fixed; inset:0; z-index:100; background:var(--ink); overflow-y:auto;}
+  #detail.open{display:block;}
+  .detail-inner{max-width:880px; margin:0 auto; padding:100px 40px 100px;}
+  .back-btn{position:fixed; top:18px; left:40px; z-index:110; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-dim); background:rgba(10,20,18,.9); border:1px solid var(--line); padding:10px 16px; border-radius:var(--radius); cursor:pointer; display:flex; align-items:center; gap:8px; transition:border-color .15s, color .15s;}
+  .back-btn:hover{border-color:var(--signal); color:var(--fg);}
+  .detail-eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px;}
+  .detail-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:600; line-height:1.1; margin:0 0 8px; letter-spacing:-0.01em;}
+  .detail-url{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-dimmer); margin-bottom:36px;}
+  .detail-block{padding:28px 0; border-top:1px solid var(--line);}
+  .detail-block:first-of-type{border-top:none;}
+  .detail-block h3{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--fg-dimmer); margin:0 0 14px;}
+  .detail-block p{font-size:15.5px; line-height:1.7; color:var(--fg); margin:0;}
+  .detail-block p.dim{color:var(--fg-dim);}
+  .detail-block ul{margin:0; padding-left:18px; font-size:15px; line-height:1.7; color:var(--fg-dim);}
+  .detail-block li{margin-bottom:8px;}
+  .cta-block{margin-top:50px; padding-top:36px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .cta-block .cta-text{font-size:14px; color:var(--fg-dim); max-width:420px;}
+  .cta-link{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--signal); text-decoration:none; border-bottom:1px solid var(--signal-dim); padding-bottom:3px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">LUXVERSO</span>
+    <span class="brand-sub">RESEARCH &amp; TECH</span>
+  </div>
+  <div class="topbar-right">JORNADA SEBRAE · INOVAÇÃO ABERTA 2026</div>
+</header>
+
+<nav class="sidenav" id="sidenav">
+  <a href="#s1" data-i="0"><span>01 Espelho</span></a>
+  <a href="#s2" data-i="1"><span>02 Estrutura</span></a>
+  <a href="#s3" data-i="2"><span>03 O limite real</span></a>
+  <a href="#s4" data-i="3"><span>04 Quem somos</span></a>
+  <a href="#s5" data-i="4"><span>05 Método</span></a>
+  <a href="#s6" data-i="5"><span>06 Capacidades</span></a>
+  <a href="#s7" data-i="6"><span>07 Redução de risco</span></a>
+  <a href="#s8" data-i="7"><span>08 Aplicações</span></a>
+  <a href="#s9" data-i="8"><span>09 Contato</span></a>
+</nav>
+
+<main>
+
+  <!-- 01 ESPELHO -->
+  <section id="s1">
+    <h1>Sua organização possui dados, especialistas e tecnologia. <em>Então por que decisões importantes ainda demoram?</em></h1>
+    <div class="mirror-grid">
+      <ul class="mirror-list">
+        <li>Seus dados estão distribuídos entre diferentes sistemas e equipes?</li>
+        <li>Processos críticos ainda dependem de atividades excessivamente manuais?</li>
+        <li>É difícil antecipar riscos, demandas ou oportunidades com o que vocês têm hoje?</li>
+        <li>Sistemas importantes não se comunicam adequadamente entre si?</li>
+        <li>Existe muito dado disponível, mas pouca capacidade de transformá-lo em ação?</li>
+        <li>Decisões importantes ainda dependem de conhecimento concentrado em poucas pessoas?</li>
+        <li>Existe pressão constante por fazer mais, com menos recursos e menor risco?</li>
+      </ul>
+      <div class="mirror-callout">
+        <span class="tag">Se você respondeu sim a mais de uma</span>
+        <p>Esses desafios normalmente possuem a mesma origem: transformar informação distribuída em capacidade de agir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 ESTRUTURA -->
+  <section id="s2">
+    <h2>Problemas diferentes. <em>Estruturas semelhantes.</em></h2>
+    <div class="flow-wrap">
+      <div class="flow-col">
+        <div class="flow-item">Pessoas</div>
+        <div class="flow-item">Dados</div>
+        <div class="flow-item">Documentos</div>
+        <div class="flow-item">Processos</div>
+        <div class="flow-item">Território</div>
+        <div class="flow-item">Operações</div>
+      </div>
+      <div class="flow-arrow-mid">→</div>
+      <div class="flow-col mid">
+        <div class="flow-item">Integração</div>
+        <div class="flow-item">Compreensão</div>
+        <div class="flow-item">Antecipação</div>
+        <div class="flow-item">Automação</div>
+        <div class="flow-item">Apoio à decisão</div>
+      </div>
+    </div>
+    <p class="flow-caption">Independentemente do setor, organizações diferentes costumam compartilhar mecanismos semelhantes. Antes de propor qualquer solução, buscamos compreender essa estrutura — e construir arquiteturas reutilizáveis a partir dela.</p>
+  </section>
+
+  <!-- 03 O QUE LIMITA -->
+  <section id="s3">
+    <h2>O desafio raramente é <em>falta de tecnologia.</em></h2>
+    <div class="limita-grid">
+      <div class="limita-box">
+        <span class="tag">Sua organização provavelmente já possui</span>
+        <div class="pill-row">
+          <span class="pill">ERP</span><span class="pill">CRM</span><span class="pill">Dashboards</span>
+          <span class="pill">Especialistas</span><span class="pill">Dados</span><span class="pill">Inteligência Artificial</span>
+        </div>
+      </div>
+      <div class="limita-box">
+        <span class="tag">Mesmo assim</span>
+        <ul>
+          <li>Decisões continuam lentas</li>
+          <li>Informações permanecem fragmentadas</li>
+          <li>Retrabalho continua elevado</li>
+          <li>Oportunidades continuam sendo descobertas tarde</li>
+        </ul>
+      </div>
+    </div>
+    <p class="limita-punch">O diferencial competitivo não está em possuir mais tecnologia. Está em <b>conectar conhecimento, dados e processos</b> para reduzir a incerteza antes das decisões.</p>
+  </section>
+
+  <!-- 04 QUEM É -->
+  <section id="s4">
+    <h2>Projetamos sistemas inteligentes capazes de transformar <em>problemas complexos</em> em soluções executáveis.</h2>
+    <p class="lede">A LuxVerso combina pesquisa aplicada, engenharia e inteligência artificial para compreender problemas complexos, construir hipóteses testáveis e desenvolver soluções orientadas por evidências. Não desenvolvemos apenas software — construímos capacidades organizacionais que permanecem mesmo após a conclusão da PoC.</p>
+    <div class="tech-band">
+      <span>Machine Learning</span><span>LLMs</span><span>Sistemas Multiagentes</span><span>Grafos de Conhecimento</span>
+      <span>Engenharia de Dados</span><span>Visão Computacional</span><span>IDP</span><span>APIs</span><span>Sensoriamento Remoto</span><span>Analytics</span>
+    </div>
+  </section>
+
+  <!-- 05 METODO -->
+  <section id="s5">
+    <h2>Ciência aplicada transformada em <em>execução.</em></h2>
+    <div class="method-flow">
+      <span class="step">Compreender</span><span class="arrow">→</span>
+      <span class="step">Modelar</span><span class="arrow">→</span>
+      <span class="step">Formular hipóteses</span><span class="arrow">→</span>
+      <span class="step">Experimentar</span><span class="arrow">→</span>
+      <span class="step">Validar</span><span class="arrow">→</span>
+      <span class="step">Escalar</span>
+    </div>
+    <p class="lede" style="margin-top:34px;">Cada etapa reduz a incerteza da próxima decisão. Existe método — não improviso.</p>
+  </section>
+
+  <!-- 06 CAPACIDADES + EVIDENCIAS -->
+  <section id="s6">
+    <h2>Capacidades reutilizáveis, <em>com prova pública.</em></h2>
+    <p class="lede">Cada card abaixo é uma competência demonstrada em contexto real — não um produto isolado. A evidência existe para ser conferida, não apenas citada.</p>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-title">Detectar padrões invisíveis em grandes volumes de dados territoriais</div>
+        <div class="cap-how"><span>Sensoriamento Remoto</span><span>Foundation Models</span><span>Analytics</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polyline points="0,55 30,40 55,48 80,22 110,30 140,10 170,20 200,8 230,18 260,6 300,14" fill="none" stroke="#4fd6ac" stroke-width="1.6" stroke-opacity="0.85"/>
+            <circle cx="0" cy="55" r="2.5" fill="#4fd6ac"/><circle cx="140" cy="10" r="2.5" fill="#e8a33d"/><circle cx="300" cy="14" r="2.5" fill="#4fd6ac"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">GhostWorks · TTI Brazil 2017–2024</span><span class="cap-links"><a href="#">GitHub ↗</a><span class="sep">·</span><a href="#">Dashboard ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Construir instrumentos científicos e benchmarks reutilizáveis</div>
+        <div class="cap-how"><span>Avaliação de IA</span><span>Protocolos Replicáveis</span><span>Pesquisa Aplicada</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polygon points="150,6 210,30 185,64 115,64 90,30" fill="none" stroke="#1e332e" stroke-width="1"/>
+            <polygon points="150,18 190,34 175,54 125,54 108,34" fill="none" stroke="#4fd6ac" stroke-width="1.6" stroke-opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">MISB · CMOTP</span><span class="cap-links"><a href="#">Kaggle ↗</a><span class="sep">·</span><a href="#">GitHub ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Transformar sinal físico bruto em decisão automatizada</div>
+        <div class="cap-how"><span>Machine Learning</span><span>Espectroscopia</span><span>Interpretabilidade</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polyline points="0,50 40,50 55,50 62,10 68,50 100,50 140,50 150,26 158,50 190,50 220,50 226,42 232,50 300,48" fill="none" stroke="#e8a33d" stroke-width="1.4" stroke-opacity="0.9"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">LuxSense · 99,4% acurácia</span><span class="cap-links"><a href="#">Paper ↗</a><span class="sep">·</span><a href="#">Demo ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Integrar dados públicos fragmentados em infraestrutura analítica</div>
+        <div class="cap-how"><span>APIs</span><span>ETL</span><span>Engenharia de Dados</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <rect x="10" y="40" width="24" height="24" fill="none" stroke="#1e332e"/>
+            <rect x="60" y="24" width="24" height="40" fill="none" stroke="#1e332e"/>
+            <rect x="110" y="10" width="24" height="54" fill="none" stroke="#4fd6ac" stroke-opacity="0.85"/>
+            <rect x="160" y="30" width="24" height="34" fill="none" stroke="#1e332e"/>
+            <rect x="210" y="16" width="24" height="48" fill="none" stroke="#4fd6ac" stroke-opacity="0.85"/>
+            <rect x="260" y="36" width="24" height="28" fill="none" stroke="#1e332e"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">Gastos Reais BA · PNCP + IBGE + SICONFI</span><span class="cap-links"><a href="#">GitHub ↗</a><span class="sep">·</span><a href="#">Dashboard ↗</a></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 RISCO -->
+  <section id="s7">
+    <h2>Toda PoC deve produzir <em>evidências</em> para a próxima decisão.</h2>
+    <div class="risk-grid">
+      <div class="risk-card"><span class="n">01</span><h3>Escopo controlado</h3><p>Começamos pequeno, com fronteiras claras do que será testado.</p></div>
+      <div class="risk-card"><span class="n">02</span><h3>Hipóteses mensuráveis</h3><p>Critérios de sucesso definidos antes da implementação, não depois.</p></div>
+      <div class="risk-card"><span class="n">03</span><h3>Evidências antes de investir</h3><p>Redução de risco baseada em resultado observado, não em promessa.</p></div>
+      <div class="risk-card"><span class="n">04</span><h3>Evolução incremental</h3><p>Escalamos apenas aquilo que já foi validado em campo.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 APLICACOES -->
+  <section id="s8">
+    <h2>Antes desta submissão, <em>já estudamos</em> os desafios da Jornada.</h2>
+    <p class="lede">Não é um catálogo de soluções — é o resultado de um processo de leitura aplicado individualmente a cada desafio, antes de propor qualquer PoC. Encontre o desafio da sua empresa: o card abaixo não é um exemplo, é a leitura que já fizemos dele.</p>
+    <div class="app-grid" id="appGrid"></div>
+    <p class="app-note">Em produção, cada card abre em URL própria (ex: <span class="mono">luxverso.tech/desafios/afya</span>), permitindo indicar o link exato do desafio submetido no formulário do Sebrae.</p>
+  </section>
+
+  <!-- 09 CONTATO -->
+  <section id="s9">
+    <h2>A partir daqui, construímos <em>evidências</em> junto com sua equipe.</h2>
+    <p class="lede">Nosso objetivo não é propor uma solução pronta. É construir, com o time de vocês, evidências suficientes para decidir com segurança o que deve ser escalado.</p>
+    <div class="contact-row">
+      <div class="contact-links">
+        <a href="mailto:viniburilux@gmail.com">viniburilux@gmail.com</a>
+        <a href="#">github.com/viniburilux ↗</a>
+        <a href="#">ORCID 0009-0000-6006-1516 ↗</a>
+      </div>
+      <div class="contact-links">
+        <a href="#">Solicitar dossiê técnico completo ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>LuxVerso Research Initiative · Vinícius Buri · Salvador, Bahia</span>
+    <span>Protótipo de navegação — v0.2</span>
+  </footer>
+</main>
+
+<div id="detail">
+  <div class="back-btn" onclick="closeDetail()">← voltar</div>
+  <div class="detail-inner" id="detailContent"></div>
+</div>
+
+<script>
+const challenges = [
+  {
+    code:"2.1", company:"Afya", title:"Engajamento com Profissionais de Saúde", url:"/desafios/afya",
+    thesis:"Não é sobre canais de comunicação. É sobre a ausência de um loop de reconhecimento que transforme conhecimento tácito em capital institucional.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é \"baixo engajamento recorrente\". O sistema que falha é o modelo de relacionamento unidirecional: a Afya entrega conteúdo para o médico, mas não construiu um circuito onde o conhecimento tácito do médico retorna como ativo institucional. É um problema de arquitetura de valor assimétrica, não de comunicação.",
+    hipotese:"Se profissionais de saúde aumentam sua taxa de participação recorrente ao receber reconhecimento mensurável e rastreável pelas contribuições que fazem, a Afya reduz o custo de aquisição de conteúdo comunitário e aumenta o LTV de carreira do médico na plataforma.",
+    valorEstrategico:"Resolver isso com excelência transforma a Afya de fornecedora de conteúdo educacional em curadora de uma rede proprietária de conhecimento clínico — um ativo que concorrentes digitais puros não conseguem replicar, pois depende de relação de confiança acumulada, não de catálogo.",
+    capacidades:["LLMs / RAG — sintetizar e indexar conhecimento tácito compartilhado","Grafos — modelar relações entre especialidades, temas e contribuidores","Analytics comportamental — medir recorrência real vs. declarada"],
+    riscos:["Adoção: público de escassez de tempo extrema","Qualidade do conteúdo gerado sem curadoria","Governança/compliance com regras do CFM"],
+    proposta:"Piloto de 60–90 dias com um segmento definido de médicos: medir se contribuições reconhecidas de forma rastreável aumentam a recorrência, frente a um grupo sem esse mecanismo.",
+    porqueNos:[
+      "Já lemos o problema como assimetria de valor, não como falta de canal — isso muda o desenho da PoC desde o primeiro dia.",
+      "Temos histórico em modelar conhecimento distribuído em grafos e medir recorrência com dados de comportamento, não apenas pesquisa de satisfação.",
+      "Propomos validar a hipótese central antes de qualquer investimento em plataforma, reduzindo o risco de construir engajamento genérico.",
+      "O mesmo método já foi aplicado a outros contextos de conhecimento tácito disperso — é transferível, não um caso isolado."
+    ]
+  },
+  {
+    code:"2.2", company:"AP Projetos", title:"Verificação de Documentos de Engenharia", url:"/desafios/ap-projetos",
+    thesis:"O retrabalho não é sobre documentos. É sobre um padrão de qualidade que vive em pessoas, não em processo.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é retrabalho documental. O sistema que falha é a garantia de qualidade centrada em pessoas: a verificação depende da memória de indivíduos específicos, então cada rotatividade reseta o padrão a zero. Conhecimento tácito não codificado, travestido de problema de documentos.",
+    hipotese:"Se um checklist técnico automatizado identifica ao menos 80% das não conformidades hoje detectadas só por revisão manual experiente, a empresa desacopla qualidade de rotatividade de pessoal e reduz retrabalho medido em horas/projeto.",
+    valorEstrategico:"Resolver isso com excelência muda o modelo de negócio de \"consultoria dependente de talento individual\" para \"consultoria com padrão de qualidade institucionalizado e escalável\" — um pré-requisito para crescer sem herdar o mesmo risco de rotatividade em cada novo projeto.",
+    capacidades:["Engenharia de Dados — estruturar padrão de qualidade disperso em regras verificáveis","Inteligência Documental — leitura e checagem automatizada de plantas","Governança de Qualidade — processo replicável, não dependente de pessoa"],
+    riscos:["Padrão de qualidade real pode ser mais tácito e contextual do que parece","Resistência de engenheiros seniores a formalizar seu próprio julgamento"],
+    proposta:"Testar, num lote de projetos já revisados manualmente, se um checklist técnico automatizado captura ao menos 80% das não conformidades identificadas por revisores seniores — comparando contra o histórico humano.",
+    porqueNos:[
+      "Já identificamos que o problema é conhecimento tácito não codificado, não velocidade de revisão — isso evita construir a ferramenta errada.",
+      "Sabemos separar, de forma auditável, o que é padrão técnico do que é estilo pessoal de quem revisa.",
+      "Propomos medir a automação contra o julgamento humano existente antes de qualquer substituição de processo.",
+      "O ganho proposto é desacoplado de rotatividade de equipe — permanece mesmo quando pessoas mudam."
+    ]
+  },
+  {
+    code:"2.3", company:"Atitus Educação", title:"Gestão da Trilha de Empreendedorismo", url:"/desafios/atitus",
+    thesis:"Não é sobre conectar sistemas. É sobre a ausência de um modelo comum de maturidade de negócio que departamentos diferentes possam usar como linguagem compartilhada.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é falta de dados integrados. O sistema que falha é a governança de programa: não existe um modelo de \"estágios\" (gates) compartilhado entre departamentos, então cada área mede progresso com sua própria régua, e ninguém — nem o empreendedor nem o gestor — enxerga o funil real. É um problema de modelo de dados ausente, não de ferramenta ausente.",
+    hipotese:"Se um modelo padronizado de estágios (gates) aplicado retroativamente aos dados históricos da trilha prevê com precisão razoável quais negócios avançam versus estagnam, a Atitus pode intervir preventivamente e aumentar a taxa de sucesso mensurável dos empreendimentos.",
+    valorEstrategico:"Resolver isso com excelência transforma a Atitus de \"provedora de programa de empreendedorismo\" em instituição com capacidade preditiva sobre formação de empresas — um diferencial que atrai tanto alunos quanto investidores parceiros interessados em deal flow qualificado.",
+    capacidades:["APIs/integração — consolidar dados hoje dispersos entre sistemas acadêmicos e de aceleração","Analytics preditivo — identificar padrões de negócios que avançam vs. estagnam nos estágios","Grafos ou modelos relacionais — representar dependências entre marcos, já que um negócio pode pular ou regredir estágios"],
+    riscos:["Cultura: departamentos podem resistir a um modelo comum que exponha fragilidades da própria área","Qualidade dos dados: histórico de progresso pode estar registrado de forma inconsistente ou incompleta","Patrocínio executivo: sem apoio da reitoria/direção, a integração entre departamentos tende a travar em disputas de governança"],
+    proposta:"Aplicar o modelo de gates retroativamente aos dados históricos já existentes da trilha e verificar se ele teria identificado antecipadamente os negócios que de fato estagnaram — validação retroativa antes de qualquer institucionalização do modelo.",
+    porqueNos:[
+      "Já lemos o problema como ausência de um modelo de dados comum entre áreas, não como falta de dashboard — isso muda o que a PoC precisa provar primeiro.",
+      "Tratamos o modelo de estágios como hipótese testável, validada contra dados históricos reais, não como estrutura burocrática pronta.",
+      "Propomos uma validação retroativa com os próprios dados da Atitus antes de institucionalizar qualquer modelo de gates.",
+      "Sabemos desenhar taxonomias validadas estatisticamente, não apenas por consenso de comitê."
+    ]
+  },
+  {
+    code:"2.4", company:"Atvos", title:"Gestão de Provisões Contábeis com Automação", url:"/desafios/atvos",
+    thesis:"Não é sobre lançar provisões mais rápido. É sobre a ausência de um protocolo de confiança entre áreas que alimentam o mesmo número contábil.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é lentidão no fechamento contábil. O sistema que falha é o de coordenação entre áreas para um processo transversal: como múltiplas áreas alimentam a provisão sem um protocolo comum de validação, o gargalo não está na tecnologia de lançamento, mas na ausência de um \"contrato de dados\" entre áreas que gere confiança suficiente para automatizar.",
+    hipotese:"Se a extração e validação automatizada de documentos reduz divergências entre áreas antes do lançamento contábil, a Atvos reduz o tempo de fechamento sem aumentar o risco de inconsistência.",
+    valorEstrategico:"Resolver isso com excelência muda o papel da controladoria de \"conferência reativa\" para \"governança preventiva de dados financeiros\" — uma capacidade que se torna ainda mais crítica à medida que a empresa cresce em complexidade operacional.",
+    capacidades:["OCR/IDP — extração estruturada de documentos de provisão vindos de fontes variadas","APIs/WebADI com SAP — integração direta para eliminar reentrada manual","Motores de validação/regras de negócio — sinalizar inconsistências antes do lançamento, não depois"],
+    riscos:["Integração: SAP e sistemas legados podem ter customizações que dificultam a automação padrão","Resistência organizacional de equipes contábeis a perder controle percebido","Qualidade dos dados: se a origem já é inconsistente, automação apenas acelera a propagação do erro"],
+    proposta:"Medir a taxa de discordância real entre as áreas que alimentam a provisão hoje, e testar se a extração e validação automatizada de documentos reduz essas divergências antes do lançamento — começando por um subconjunto de contas de menor risco antes de escalar.",
+    porqueNos:[
+      "Já lemos o problema como ausência de protocolo de confiança entre áreas, não como lentidão de lançamento — isso muda o que o sistema precisa validar antes de automatizar.",
+      "Tratamos automação contábil com o mesmo rigor de auditoria que se exige de um humano, preservando a rastreabilidade do processo.",
+      "Propomos medir onde estão hoje as maiores fontes de divergência entre áreas, com dados, antes de qualquer automação total do lançamento.",
+      "O sistema é desenhado para sinalizar exceções, não decidir sozinho — essencial num processo contábil crítico."
+    ]
+  },
+  {
+    code:"2.5", company:"Banco BV", title:"Potencialização da Experiência Financeira", url:"/desafios/banco-bv",
+    thesis:"Não é sobre lançar um app melhor. É sobre a dependência estrutural de terceiros para conhecer o próprio cliente.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é falta de vínculo direto com o cliente final. O sistema que falha é o modelo de distribuição B2B2C: o banco otimizou para eficiência de canal (parceiros), não para relação com o usuário final, então qualquer tentativa de personalização esbarra na ausência de dados comportamentais próprios e ricos sobre o cliente.",
+    hipotese:"Se sinais de comportamento e ciclo de vida financeiro do cliente predizem oportunidades de cross-sell com precisão superior ao modelo de segmentação atual, o BV pode reduzir CAC e aumentar produtos por cliente em ciclos curtos, sem depender de reformulação total dos canais de parceiros.",
+    valorEstrategico:"Resolver isso com excelência permite ao BV competir com neobancos em personalização sem abandonar a eficiência de escala do modelo B2B2C — combinando o melhor dos dois modelos em vez de escolher entre eles.",
+    capacidades:["Modelos de propensão/analytics preditivo — identificar momentos de cross-sell e risco de churn","APIs plug-and-play — inserir inteligência sobre canais de parceiros sem reescrever a arquitetura legada","LLMs para personalização de atendimento — comunicação adaptativa em escala, respeitando o ciclo de vida do cliente"],
+    riscos:["Dependência tecnológica de legado: sistemas antigos podem limitar a granularidade dos dados disponíveis em tempo hábil","LGPD: enriquecimento de perfil do cliente final via dados de parceiros exige base legal clara","Governança de canal: parceiros podem resistir a iniciativas que aproximem o banco do cliente final"],
+    proposta:"Construir um modelo de propensão testável com os dados fragmentados já disponíveis hoje e medir o ganho incremental de precisão preditiva frente ao modelo de segmentação atual, dentro da janela de 6 meses — sem depender de reformulação da jornada ou dos sistemas legados.",
+    porqueNos:[
+      "Já lemos o problema como dependência estrutural de terceiros para conhecer o cliente, não como falta de app — isso define onde o ganho real está.",
+      "Sabemos construir modelos preditivos com dados fragmentados e incompletos, sem esperar por uma base de dados ideal.",
+      "Propomos medir ganho incremental real dentro da janela curta de 6 meses, não prometer uma jornada perfeita de longo prazo.",
+      "Desenhamos a solução para conviver com sistemas legados via integração leve, não para substituí-los."
+    ]
+  },
+  {
+    code:"2.6", company:"Binatural", title:"Otimização do Lead Time Logístico", url:"/desafios/binatural",
+    thesis:"Não é sobre caminhões esperando mais rápido. É sobre a ausência de um \"checkpoint digital\" antes da chegada física.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é fila de caminhões. O sistema que falha é a ausência de pré-validação digital antes da chegada física — o pátio está tentando resolver, em tempo real e manualmente, um problema que deveria ter sido resolvido antes do caminhão chegar. É um problema de sequenciamento de informação, não de capacidade física.",
+    hipotese:"Se a pré-validação digital de motoristas e veículos antes da chegada reduz o tempo médio de permanência no pátio, a Binatural pode aumentar o volume diário atendido sem investimento em expansão física.",
+    valorEstrategico:"Resolver isso com excelência transforma o pátio de um gargalo físico fixo em uma capacidade elástica — permitindo à Binatural absorver crescimento de volume sem CAPEX proporcional, o que muda a economia unitária da operação.",
+    capacidades:["OCR/Visão computacional — validação automática de documentos e placas na chegada","Sistema de agendamento inteligente — distribuir a demanda ao longo do dia e evitar picos","Orquestração digital com SLA — visibilidade em tempo real do status de cada caminhão no fluxo"],
+    riscos:["Adoção pelos motoristas: pré-agendamento percebido como burocracia extra pode gerar baixa adesão","Qualidade dos dados de entrada: cadastro incompleto ou desatualizado compromete a validação automática","Dependência de conectividade: soluções digitais em pátio exigem infraestrutura de rede estável no local"],
+    proposta:"Medir a linha de base real do tempo de permanência, decomposta por etapa (chegada, validação, liberação), e testar se a pré-validação digital reduz especificamente a etapa de maior gargalo — dentro da restrição orçamentária de R$ 40 mil da POC.",
+    porqueNos:[
+      "Já lemos o problema como sequenciamento de informação, não como capacidade física do pátio — isso muda onde a solução precisa atuar.",
+      "Propomos medir a linha de base real por etapa do processo antes de propor qualquer solução, evitando aplicar tecnologia elegante ao problema errado.",
+      "Sabemos operar dentro de restrições orçamentárias apertadas de POC, com iteração rápida em vez de solução definitiva.",
+      "O modelo, se validado na Bahia, é replicável para outras unidades sem redesenho do zero."
+    ]
+  },
+  {
+    code:"2.7", company:"Digix", title:"Avaliações Pedagógicas para Recomposição do Aprendizado", url:"/desafios/digix",
+    thesis:"Não é sobre digitalizar provas. É sobre a incapacidade do sistema público de transformar resultado de avaliação em ação pedagógica específica em tempo hábil.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é lentidão nas devolutivas pedagógicas. O sistema que falha é a desconexão entre aplicação da avaliação e ação pedagógica: dados de desempenho existem, mas não fluem automaticamente para decisões de sala de aula, então o ciclo de recomposição do aprendizado é reativo e genérico em vez de dirigido por evidência específica.",
+    hipotese:"Se o mapeamento automático de resultados por habilidade da BNCC gera planos de recomposição mais direcionados do que o processo manual atual, a Digix reduz o tempo entre avaliação e ação pedagógica efetiva, com impacto potencial em indicadores como o IDEB.",
+    valorEstrategico:"Resolver isso com excelência posiciona a Digix como parceira estratégica de política pública baseada em evidência — não apenas fornecedora de software, mas de infraestrutura de decisão pedagógica, um ativo político e comercial de longo prazo em contratos públicos.",
+    capacidades:["OCR/IDP — digitalizar avaliações aplicadas em papel, quando aplicável","APIs de integração — conectar com sistemas já existentes da Secretaria (SED/MS)","Dashboards analíticos por escola, turma, professor e habilidade — transformar dado em decisão visível","Controle de acesso por perfil — essencial dado o volume de dados sensíveis de menores"],
+    riscos:["LGPD: falha de anonimização ou controle de acesso a dados de menores gera risco legal grave","Adoção por professores: dashboards só geram valor se mudarem a prática em sala de aula","Qualidade dos dados: mapeamento incorreto de questões a habilidades da BNCC compromete toda a cadeia de decisão a jusante"],
+    proposta:"Testar a acurácia do mapeamento questão→habilidade BNCC contra a avaliação de especialistas humanos, medindo taxa de concordância, e validar em piloto controlado antes de qualquer escala estadual — com privacidade por design para dados de menores desde a arquitetura, não como camada de compliance posterior.",
+    porqueNos:[
+      "Já lemos o problema como desconexão entre avaliação e ação pedagógica, não como falta de digitalização — isso muda o que a PoC precisa provar.",
+      "Tratamos privacidade de dados de menores como restrição estrutural desde o desenho, não como checklist de compliance ao final.",
+      "Propomos validar o mapeamento questão-habilidade contra especialistas humanos antes de confiar nele em escala.",
+      "A infraestrutura de rastreabilidade e compliance construída aqui é reaproveitável em outros produtos educacionais e licitações públicas."
+    ]
+  },
+  {
+    code:"2.8", company:"Duas Rodas Aromas & Ingredientes", title:"Automação da Rotulagem de Alimentos", url:"/desafios/duas-rodas",
+    thesis:"Não é sobre revisar rótulos mais rápido. É sobre a ausência de uma camada de tradução entre legislação viva e prática operacional.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é não conformidade regulatória. O sistema que falha é a tradução de norma dinâmica em regra operacional estável: a legislação (RDC 429/2020, IN 75/2020) muda e é interpretável, mas o processo de revisão trata cada rótulo como caso novo, sem uma camada intermediária que traduza norma em regra verificável de forma consistente.",
+    hipotese:"Se um motor de regras regulatórias identifica não conformidades com precisão comparável (ou superior) à revisão manual especializada, a empresa pode reduzir o tempo de aprovação de rótulos e a taxa de não conformidade sem depender exclusivamente de especialistas regulatórios seniores.",
+    valorEstrategico:"Resolver isso com excelência transforma compliance regulatório de centro de custo reativo em capacidade de velocidade competitiva — acelerar o time-to-market com segurança regulatória é vantagem direta em mercados de consumo rápido e tendências voláteis.",
+    capacidades:["Motores de regras/sistemas especialistas — codificar normas regulatórias como lógica verificável e atualizável","IA/LLMs para interpretação normativa — apoiar a tradução de texto regulatório em regras, com supervisão humana","Integração com ERP e banco de formulações — checagem no fluxo real de criação de produto"],
+    riscos:["Volatilidade regulatória: um motor de regras desatualizado gera falsa sensação de segurança — pior que não ter automação","Responsabilidade legal: a decisão final sobre conformidade deve permanecer com humano habilitado","Qualidade dos dados de formulação: inconsistências no banco de ingredientes são herdadas pela checagem automática"],
+    proposta:"Testar o motor de regras regulatórias contra um lote de rótulos já revisados manualmente por especialistas, medindo taxa de concordância, e desenhar desde o início o processo de atualização do motor frente a mudanças normativas — não apenas a checagem inicial.",
+    porqueNos:[
+      "Já lemos o problema como ausência de camada de tradução entre norma viva e prática operacional, não como lentidão de revisão — isso define o que o motor precisa fazer além de checar.",
+      "Tratamos compliance regulatório como sistema vivo, com processo de atualização e teste de regressão a cada mudança normativa, não como produto entregue uma vez.",
+      "Priorizamos sistemas especialistas e regras verificáveis sobre IA generativa pura, dado o risco de alucinação em contexto regulatório.",
+      "Propomos medir a taxa de concordância entre checagem automatizada e revisão humana antes de qualquer promessa de redução de retrabalho."
+    ]
+  },
+  {
+    code:"2.9", company:"Duas Rodas + MBRF", title:"Inovação em Ingredientes Funcionais (GLP-1)", url:"/desafios/duas-rodas-mbrf",
+    thesis:"Não é sobre criar um novo ingrediente. É sobre a capacidade de comprimir o ciclo tradicional de P&D de alimentos para acompanhar a velocidade de uma mudança comportamental de mercado sem precedentes.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é ausência de produtos para o público usuário de GLP-1. O sistema que falha não é operacional, é de velocidade de tradução entre tendência de mercado emergente e capacidade científica de P&D: a demanda mudou mais rápido do que o pipeline tradicional de desenvolvimento de ingredientes consegue responder. Diferente dos demais desafios, este é um problema de ciência aplicada sob pressão de janela de mercado, não de dados/processo.",
+    hipotese:"Se, em protótipos de laboratório, uma combinação específica de fibras/peptídeos/moduladores do microbioma reduz efeitos adversos gastrointestinais e sustenta saciedade em testes controlados, a empresa pode acelerar o desenvolvimento de uma linha de ingredientes funcionais com evidência científica defensável antes da concorrência.",
+    valorEstrategico:"Resolver isso com excelência posiciona a empresa como pioneira científica em uma categoria nova de nutrição funcional — criando uma barreira de entrada baseada em evidência e patente, não apenas em marketing de tendência, algo raro e defensável em um mercado historicamente competitivo por preço.",
+    capacidades:["Modelagem de dados científicos/bioinformática — triagem de candidatos a ingredientes com base em literatura e dados de eficácia","Testes de estabilidade térmica/industrial — viabilizar candidatos em processos de escala, não só em laboratório","Analytics de tendência de consumo — calibrar continuamente o que o novo consumidor de fato demanda"],
+    riscos:["Validade científica: claims de eficácia mal fundamentados geram risco regulatório e reputacional sério (ANVISA e órgãos internacionais)","Janela de mercado: o fenômeno GLP-1 pode evoluir mais rápido que o ciclo de desenvolvimento do ingrediente","Escalabilidade industrial: ingredientes eficazes em laboratório podem não resistir a processos térmicos industriais"],
+    proposta:"Definir métricas objetivas de eficácia (redução de náusea, sustentação de saciedade, estabilidade térmica) antes dos testes, e validar candidatos a ingrediente contra elas de forma controlada em laboratório — tratando a tendência GLP-1 como motivação de mercado, não como substituto de evidência científica.",
+    porqueNos:[
+      "Já lemos o problema como ciência aplicada sob pressão de mercado, não como formulação de tendência — isso muda o padrão de evidência exigido.",
+      "Definimos métricas objetivas de eficácia antes dos testes, não depois, para separar validação científica de marketing oportunista.",
+      "Sabemos equilibrar velocidade de janela de mercado com rigor científico falsificável, sem sacrificar um pelo outro.",
+      "Tratamos escalabilidade industrial como critério de validação desde o laboratório, não como problema para depois."
+    ]
+  },
+  {
+    code:"2.10a", company:"Embracon — Relacionamento", title:"Relacionamento do Cliente", url:"/desafios/embracon-relacionamento",
+    thesis:"Não é sobre mandar mais mensagens. É sobre a incapacidade de sincronizar comunicação com o momento real da jornada financeira do cliente.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é cancelamento no 11º mês. O sistema que falha é a ausência de comunicação contextual ao longo de uma jornada não linear: consórcio é um produto de eventos esparsos e imprevisíveis (contemplação, lance, reajuste), mas a comunicação é tratada como um fluxo genérico e constante, então o cliente recebe ruído quando não precisa e silêncio quando mais precisa de orientação.",
+    hipotese:"Se uma régua de comunicação disparada por eventos (não por calendário fixo) reduz o cancelamento no período crítico em torno do 11º mês, a Embracon pode estabilizar fluxo de caixa e elevar o NPS sem aumentar volume de contatos.",
+    valorEstrategico:"Resolver isso com excelência transforma a comunicação de \"compliance de relacionamento\" em ferramenta ativa de retenção — reduzindo o custo de reversão de cancelamentos e aumentando o valor vitalício do contrato sem alterar o produto financeiro em si.",
+    capacidades:["Motores de régua de comunicação orientada a eventos — disparar mensagens certas no momento certo, não em cadência fixa","Modelos preditivos de risco de cancelamento — antecipar o momento crítico antes que ele aconteça","LLMs para personalização de linguagem — adaptar tom e complexidade ao nível de educação financeira do cliente"],
+    riscos:["LGPD: qualquer segmentação comportamental do cliente exige base legal e transparência adequadas","Fadiga de comunicação: mal calibrado, o sistema pode aumentar em vez de reduzir a sensação de ruído","Qualidade dos dados de evento: se a jornada não é registrada de forma consistente, o gatilho perde precisão"],
+    proposta:"Analisar os dados históricos de cancelamento para identificar os sinais precoces reais que antecedem o 11º mês, e testar a régua de comunicação orientada a evento com desenho experimental controlado (grupo controle vs. tratamento) antes de escalar.",
+    porqueNos:[
+      "Já lemos o problema como falta de sincronismo entre comunicação e jornada real, não como volume insuficiente de contato — isso muda o que a régua precisa disparar.",
+      "Tratamos o modelo de risco de cancelamento como hipótese a validar com dados históricos, não como suposição pronta.",
+      "Propomos um desenho experimental controlado (grupo controle vs. tratamento) antes de qualquer institucionalização da régua.",
+      "O mesmo modelo de comunicação orientada a evento é generalizável a outros produtos financeiros de ciclo longo da empresa."
+    ]
+  },
+  {
+    code:"2.10b", company:"Embracon — Comercial", title:"Comercial", url:"/desafios/embracon-comercial",
+    thesis:"Não é sobre treinar melhor o vendedor. É sobre a ausência de um mecanismo objetivo de comprovação de entendimento que desacople a conversão da compreensão real.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é cancelamento precoce pós-venda. O sistema que falha é a ausência de verificação de entendimento no momento da venda: a métrica de sucesso comercial é a conversão, não a compreensão, então o incentivo do vendedor está estruturalmente desalinhado com a retenção de longo prazo do cliente.",
+    hipotese:"Se um mecanismo de comprovação de entendimento no fechamento da venda reduz o cancelamento nos primeiros meses de contrato, a Embracon pode melhorar a qualidade do funil comercial sem reduzir a velocidade de conversão.",
+    valorEstrategico:"Resolver isso com excelência transforma o vendedor de \"fechador de contrato\" em \"consultor de decisão financeira\" — uma mudança de posicionamento que reduz custo de retenção a jusante e aumenta a percepção de valor da marca desde o primeiro contato.",
+    capacidades:["LLMs para verificação de compreensão — perguntas adaptativas que confirmam entendimento real, não apenas aceite formal","Analytics de funil comercial — correlacionar padrões de venda (script, tempo de explicação, canal) com cancelamento futuro","Sistemas de registro auditável — documentar a comprovação de entendimento de forma juridicamente defensável"],
+    riscos:["Resistência organizacional: vendedores sob pressão de meta podem tentar contornar a verificação de entendimento","Segurança jurídica: um mecanismo mal desenhado pode criar ônus probatório não previsto para a empresa","Qualidade da implementação: uma verificação superficial (checkbox) não resolve o problema real"],
+    proposta:"Desenhar um mecanismo de verificação de entendimento que distinga compreensão genuína de aceite formal, e testar sua correlação com cancelamento futuro contra dados históricos de venda antes de integrá-lo ao processo comercial padrão.",
+    porqueNos:[
+      "Já lemos o problema como desalinhamento entre incentivo de conversão e retenção real, não como falta de treinamento — isso muda o que o mecanismo precisa medir.",
+      "Propomos validar a correlação entre o mecanismo de verificação e a redução de cancelamento com dado real, não apresentá-lo como boa prática de UX.",
+      "Desenhamos o mecanismo para distinguir entendimento genuíno de concordância automática, com valor probatório juridicamente defensável.",
+      "Os dados gerados aqui alimentam o modelo de risco de cancelamento do desafio de Relacionamento (2.10a), fechando o ciclo entre venda e retenção."
+    ]
+  },
+  {
+    code:"2.11", company:"Globo", title:"Gestão de Estoque e Otimização de Espaços", url:"/desafios/globo",
+    thesis:"Não é sobre organizar estoque. É sobre a incompatibilidade estrutural entre um processo de planejamento estático e uma operação de produção inerentemente dinâmica.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é lentidão no planejamento de armazéns. O sistema que falha é o modelo de alocação reativo a mudanças de última hora: a produção audiovisual é inerentemente volátil, mas o processo de alocação de espaço foi desenhado para um cenário estável, então cada mudança de plano de produção obriga um replanejamento manual completo em vez de um ajuste incremental.",
+    hipotese:"Se um algoritmo de alocação automática reduz o tempo de replanejamento de horas para minutos em cenários reais de mudança de última hora, a Globo aumenta a taxa de ocupação útil dos armazéns e reduz custos emergenciais de logística sem expandir a área física.",
+    valorEstrategico:"Resolver isso com excelência libera a capacidade criativa das equipes de cenografia e arte de restrições logísticas, permitindo aumentar o throughput de produção audiovisual sem investimento em expansão física — uma vantagem direta de eficiência de capital em um dos maiores complexos audiovisuais do mundo.",
+    capacidades:["Otimização matemática (bin-packing / alocação combinatorial) — núcleo técnico do problema de alocação de espaço","APIs de integração — captar mudanças de plano de produção em tempo real","Analytics de ocupação histórica — calibrar o modelo com padrões reais de demanda por tipo de produção"],
+    riscos:["Qualidade dos dados de restrição: regras reais de alocação mal capturadas otimizam a coisa errada","Adoção pelas equipes de cenografia, que hoje fazem o \"Tetris\" manualmente","Integração com sistemas legados de gestão de produção em tempo real"],
+    proposta:"Formalizar as restrições reais de alocação a partir da observação do processo manual atual e testar o algoritmo contra casos históricos reais de replanejamento de última hora, medindo o ganho de tempo obtido frente ao processo manual — não estimando-o.",
+    porqueNos:[
+      "Já lemos o problema como incompatibilidade entre planejamento estático e operação dinâmica, não como falta de organização — isso muda o que o algoritmo precisa tratar como regra, não exceção.",
+      "Sabemos formalizar restrições reais extraídas da observação do processo manual, não apenas das regras documentadas.",
+      "Propomos validar o algoritmo contra casos históricos reais de replanejamento antes de qualquer promessa de ganho de tempo.",
+      "O mesmo tipo de problema de otimização combinatorial com restrições reais é transferível a outros recursos além de espaço físico."
+    ]
+  },
+  {
+    code:"2.12", company:"Grupo Interjato", title:"Inteligência Analítica em Videomonitoramento", url:"/desafios/interjato",
+    thesis:"Não é sobre monitorar vídeos. É sobre a incapacidade de transformar um ativo de infraestrutura física em um ativo de inteligência preditiva.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é vídeo assistido apenas reativamente. O sistema que falha é o modelo de monetização de infraestrutura: a empresa investiu em conectividade e hardware, mas nunca desenvolveu a camada de processamento que transforma fluxo de vídeo em sinal acionável — o ativo físico está subutilizado porque falta a capacidade analítica complementar, não porque falte câmera.",
+    hipotese:"Se módulos de visão computacional identificam eventos de risco relevantes (para escolas, hospitais ou mobilidade) com taxa de acerto suficiente para ação preventiva, a Interjato pode oferecer camadas de inteligência acionável sobre a infraestrutura já instalada, sem trocar hardware.",
+    valorEstrategico:"Resolver isso com excelência tira a Interjato da concorrência por preço de hardware e a posiciona como fornecedora de inteligência de segurança e mobilidade urbana — um mercado de margem estrutural muito superior, com barreira de entrada baseada em dado e algoritmo, não em custo de equipamento.",
+    capacidades:["Visão computacional — núcleo técnico central para detecção de eventos em fluxo de vídeo","APIs abertas — permitir que a camada de inteligência seja consumida pelos sistemas de gestão dos clientes finais","Edge computing — processar vídeo próximo à fonte, dado o volume e a exigência de tempo real"],
+    riscos:["Qualidade da imagem/hardware legado: câmeras já instaladas podem ter resolução ou posicionamento inadequados","LGPD e vigilância: monitoramento em escolas e hospitais exige tratamento rigoroso de dados de imagem","Falsos positivos/negativos: em contexto de segurança, o erro do algoritmo tem custo alto nos dois sentidos"],
+    proposta:"Medir primeiro os limites reais do hardware já instalado na unidade piloto do RN (resolução, ângulo, iluminação) antes de prometer qualquer taxa de detecção, e validar módulos de visão computacional com taxa de falso positivo/negativo explicitamente mensurada.",
+    porqueNos:[
+      "Já lemos o problema como ativo de infraestrutura sem camada analítica, não como falta de câmeras — isso muda o que a PoC precisa entregar.",
+      "Medimos primeiro os limites reais do hardware legado instalado antes de prometer qualquer taxa de detecção em laboratório.",
+      "Tratamos taxa de falso positivo/negativo como parâmetro de decisão operacional explícito, não como detalhe técnico posterior.",
+      "O modelo validado em um setor (educação) é desenhado para ser replicável, com adaptações mínimas, a outros verticais como saúde e mobilidade."
+    ]
+  },
+  {
+    code:"2.13", company:"Instituto Riachuelo", title:"Resiliência Hídrica e Produtividade Agroecológica", url:"/desafios/instituto-riachuelo",
+    thesis:"Não é sobre plantar mais algodão. É sobre infraestrutura compartilhada que desacople a viabilidade econômica do produtor da variabilidade climática.",
+    status:"dossiê completo", built:true,
+    leitura:"O sintoma é baixa lucratividade do pequeno agricultor. O sistema que falha é o acoplamento entre risco climático e viabilidade econômica individual: sem infraestrutura compartilhada, cada agricultor arca sozinho com um risco estrutural que deveria ser mitigado coletivamente.",
+    hipotese:"Se tecnologias de reúso de água cinza e mecanização aumentam a produtividade por hectare de forma consistente entre safras com pluviometria diferente, o Instituto pode escalar com confiança de que o ganho não depende de um ano de chuva favorável.",
+    valorEstrategico:"Resolver isso com excelência transforma uma área de risco climático crônico em um sistema produtivo resiliente e replicável — criando um modelo de ESG que gera valor real e mensurável (renda, retenção de jovens no campo), não apenas indicadores de comunicação institucional.",
+    capacidades:["Sensoriamento remoto — monitorar produtividade e estresse hídrico ao longo do tempo","IoT de baixo custo — umidade do solo e uso de água em tempo real","Ciência aplicada — validação hidrológica e agronômica no bioma da Caatinga"],
+    riscos:["Adoção sem evidência local visível","Escalabilidade econômica da infraestrutura hídrica","Dependência de parceria técnica externa (Embrapa)"],
+    proposta:"Selecionar um grupo piloto de agricultores do Seridó/RN e medir produtividade por hectare antes e depois da intervenção, isolando estatisticamente o efeito da tecnologia da variação pluviométrica entre safras.",
+    porqueNos:[
+      "Já lemos o problema como infraestrutura compartilhada ausente, não como falta de esforço do produtor — isso muda o que a PoC precisa provar.",
+      "Temos domínio de sensoriamento remoto para medir produtividade real ao longo do tempo, não apenas relatos.",
+      "Sabemos desenhar medição que separa efeito de tecnologia de efeito de clima — a diferença entre case e evidência.",
+      "O método é o mesmo aplicado em outros territórios brasileiros — replicável para além do Seridó/RN."
+    ]
+  },
+];
+
+const grid = document.getElementById('appGrid');
+challenges.forEach((c,i)=>{
+  const card = document.createElement('div');
+  card.className = 'app-card' + (c.built ? '' : ' disabled');
+  card.innerHTML = `
+    <div class="app-code mono">${c.code}</div>
+    <div class="app-name">${c.company}</div>
+    <div class="app-thesis">${c.built ? '“' + c.thesis + '”' : c.thesis}</div>
+    <div class="app-foot">
+      <span class="app-status">${c.built ? 'entender por quê' : c.status}</span>
+      <span class="app-arrow">${c.built ? '→' : '···'}</span>
+    </div>`;
+  if(c.built) card.addEventListener('click', ()=>openDetail(i));
+  grid.appendChild(card);
+});
+
+function openDetail(i){
+  const c = challenges[i];
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-eyebrow">${c.code} · ${c.company}</div>
+    <h1 class="detail-title">${c.title}</h1>
+    <div class="detail-url mono">luxverso.tech${c.url}</div>
+    <div class="detail-block"><h3>Nossa leitura sistêmica</h3><p>${c.leitura}</p></div>
+    <div class="detail-block"><h3>Hipótese central</h3><p class="dim">${c.hipotese}</p></div>
+    <div class="detail-block"><h3>Valor estratégico</h3><p class="dim">${c.valorEstrategico}</p></div>
+    <div class="detail-block"><h3>Riscos já identificados</h3><ul>${c.riscos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="detail-block"><h3>Proposta de validação (PoC)</h3><p class="dim">${c.proposta}</p></div>
+    <div class="detail-block"><h3>Capacidades técnicas relacionadas</h3><ul>${c.capacidades.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="detail-block"><h3>Por que acreditamos ser o parceiro adequado</h3><ul>${c.porqueNos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="cta-block">
+      <span class="cta-text">Esta leitura não é um fim em si — é a base da nossa proposta de PoC para este desafio específico.</span>
+      <a class="cta-link" href="#" onclick="return false">Solicitar dossiê completo ↗</a>
+    </div>`;
+  document.getElementById('detail').classList.add('open');
+  document.getElementById('detail').scrollTo(0,0);
+}
+function closeDetail(){ document.getElementById('detail').classList.remove('open'); }
+
+/* scroll spy for sidenav */
+const dots = [...document.querySelectorAll('.sidenav a')];
+const secs = [...document.querySelectorAll('main section')];
+const spy = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = secs.indexOf(e.target);
+      dots.forEach(d=>d.classList.remove('active'));
+      if(dots[idx]) dots[idx].classList.add('active');
+    }
+  });
+}, {threshold:0.5});
+secs.forEach(s=>spy.observe(s));
+</script>
+
+</body>
+</html>

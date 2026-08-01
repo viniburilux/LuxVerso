@@ -22,6 +22,9 @@
   .mono{font-family:'IBM Plex Mono',monospace;}
 
   /* ---- topbar ---- */
+
+  @media (max-width:520px){ .topbar-right{display:none;} }
+
   header.topbar{
     position:sticky; top:0; z-index:60;
     display:flex; align-items:center; justify-content:space-between;
@@ -353,7 +356,7 @@
             <polyline points="0,50 40,50 55,50 62,10 68,50 100,50 140,50 150,26 158,50 190,50 220,50 226,42 232,50 300,48" fill="none" stroke="#e8a33d" stroke-width="1.4" stroke-opacity="0.9"/>
           </svg>
         </div>
-        <div class="cap-evidence"><span class="src">LuxSense · 99,4% acurácia</span><span class="cap-links"><a href="#">Paper ↗</a><span class="sep">·</span><a href="#">Demo ↗</a></span></div>
+        <div class="cap-evidence"><span class="src">LuxSense · 99,4% acurácia</span><span class="cap-links"><a href="https://viniburilux.github.io/luxsense/" target="_blank">Paper ↗</a><span class="sep">·</span><a href="https://viniburilux.github.io/luxsense/" target="_blank">Demo ↗</a></span></div>
       </div>
 
       <div class="cap-card">
@@ -369,7 +372,7 @@
             <rect x="260" y="36" width="24" height="28" fill="none" stroke="#1e332e"/>
           </svg>
         </div>
-        <div class="cap-evidence"><span class="src">Gastos Reais BA · PNCP + IBGE + SICONFI</span><span class="cap-links"><a href="#">GitHub ↗</a><span class="sep">·</span><a href="#">Dashboard ↗</a></span></div>
+        <div class="cap-evidence"><span class="src">Gastos Reais BA · PNCP + IBGE + SICONFI</span><span class="cap-links"><a href="https://github.com/viniburilux/gastos-reais-ba" target="_blank">GitHub ↗</a><span class="sep">·</span><a href="https://github.com/viniburilux/explorador-dados-bahia" target="_blank">Dashboard ↗</a></span></div>
       </div>
     </div>
   </section>
@@ -388,7 +391,7 @@
   <!-- 08 APLICACOES -->
   <section id="s8">
     <h2>Antes desta submissão, <em>já estudamos</em> os desafios da Jornada.</h2>
-    <p class="lede">Não é um catálogo de soluções — é o resultado de um processo de leitura aplicado individualmente a cada desafio, antes de propor qualquer PoC. Encontre o desafio da sua empresa: o card abaixo não é um exemplo, é a leitura que já fizemos dele.</p>
+    <p class="lede">A maioria das PoCs falha porque tenta resolver o sintoma, não a causa raiz. Abaixo, desconstruímos os desafios das corporações sob a ótica de sistemas complexos e inteligência de dados. Selecione um card para visualizar a tese diagnóstica e o plano de validação em 60-90 dias.</p>
     <div class="app-grid" id="appGrid"></div>
     <p class="app-note">Em produção, cada card abre em URL própria (ex: <span class="mono">luxverso.tech/desafios/afya</span>), permitindo indicar o link exato do desafio submetido no formulário do Sebrae.</p>
   </section>
@@ -400,8 +403,8 @@
     <div class="contact-row">
       <div class="contact-links">
         <a href="mailto:viniburilux@gmail.com">viniburilux@gmail.com</a>
-        <a href="#">github.com/viniburilux ↗</a>
-        <a href="#">ORCID 0009-0000-6006-1516 ↗</a>
+        <a href="https://github.com/viniburilux" target="_blank">github.com/viniburilux ↗</a>
+        <a href="https://orcid.org/0009-0000-6006-1516" target="_blank">ORCID 0009-0000-6006-1516 ↗</a>
       </div>
       <div class="contact-links">
         <a href="#">Solicitar dossiê técnico completo ↗</a>
@@ -410,7 +413,7 @@
   </section>
 
   <footer>
-    <span>LuxVerso Research Initiative · Vinícius Buri · Salvador, Bahia</span>
+    <span>LuxVerso Research Initiative · <a href="https://github.com/viniburilux" target="_blank" style="text-decoration:none;">Vinícius Buri</a> · Salvador, Bahia</span>
     <span>Protótipo de navegação — v0.2</span>
   </footer>
 </main>
@@ -1213,12 +1216,11 @@ challenges.forEach((c,i)=>{
   const card = document.createElement('div');
   card.className = 'app-card' + (c.built ? '' : ' disabled');
   card.innerHTML = `
-    <div class="app-code mono">${c.code}</div>
-    <div class="app-name">${c.company}</div>
+    <div class="app-name">${c.company} · ${c.title}</div>
     <div class="app-thesis">${c.built ? '“' + c.thesis + '”' : c.thesis}</div>
     <div class="app-foot">
-      <span class="app-status">${c.built ? 'entender por quê' : c.status}</span>
-      <span class="app-arrow">${c.built ? '→' : '···'}</span>
+      <span class="app-status">${c.built ? 'Ver Tese Diagnóstica ↗' : c.status}</span>
+      <span class="app-arrow">${c.built ? '' : '···'}</span>
     </div>`;
   if(c.built) card.addEventListener('click', ()=>openDetail(i));
   grid.appendChild(card);

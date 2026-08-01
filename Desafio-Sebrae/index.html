@@ -393,7 +393,7 @@
   <!-- 08 APLICACOES -->
   <section id="s8">
     <h2>Antes desta submissão, <em>já estudamos</em> os desafios da Jornada.</h2>
-    <p class="lede">A maioria das PoCs falha porque tenta resolver o sintoma, não a causa raiz. Abaixo, desconstruímos os desafios das corporações sob a ótica de sistemas complexos e inteligência de dados. Selecione um card para visualizar a tese diagnóstica e o plano de validação em 60-90 dias.</p>
+    <p class="lede">A maioria das PoCs falha porque tenta resolver o sintoma, não a causa raiz. Abaixo, desconstruímos os desafios das corporações sob a ótica de sistemas complexos e inteligência de dados. Selecione um desafio para entender como chegamos à hipótese e como ela poderia ser validada em uma PoC.</p>
     <p class="lede">Problemas diferentes. Estruturas parecidas.<br>Os desafios abaixo pertencem a empresas de setores diferentes. Antes de pensar em tecnologia, buscamos compreender o problema de verdade. Cada análise mostra como chegamos às nossas hipóteses antes de construir qualquer solução.<br>Todas as análises foram produzidas antes de qualquer contato com as empresas. Não representam soluções prontas. Representam hipóteses estruturadas para reduzir a incerteza antes de uma futura PoC.</p>
     <div class="app-grid" id="appGrid"></div>
     <p class="app-note">Em produção, cada card abre em URL própria (ex: <span class="mono">luxverso.tech/desafios/afya</span>), permitindo indicar o link exato do desafio submetido no formulário do Sebrae.</p>
@@ -403,6 +403,7 @@
   <section id="s9">
     <h2>Ficou com alguma ideia lendo um desses desafios?</h2>
     <p class="lede">Talvez sua empresa esteja enfrentando um problema parecido. Se fizer sentido, vamos conversar.<br>Às vezes uma boa conversa vale mais do que começar construindo uma solução cedo demais.</p>
+    <p class="lede" style="color:var(--fg-dimmer); font-size:14.5px; margin-top:16px;">Nem toda boa conversa vira um projeto. Mas quase todo bom projeto começa com uma boa conversa.</p>
     <div class="contact-row">
       <div class="contact-links">
         <a href="https://wa.me/5585999798762?text=Olá,%20Vini!%20Estava%20navegando%20pelo%20LuxVerso%20e%20queria%20conversar%20sobre%20um%20problema%20parecido." target="_blank">Conversar pelo WhatsApp ↗</a>
@@ -1256,8 +1257,8 @@ function openDetail(i){
     <div class="detail-block"><h3>Capacidades técnicas relacionadas</h3><ul>${c.capacidades.map(x=>`<li>${x}</li>`).join('')}</ul></div>
     <div class="detail-block"><h3>Por que acreditamos ser o parceiro adequado</h3><ul>${c.porqueNos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
     <div class="cta-block">
-      <span class="cta-text">Esta leitura não é um fim em si — é a base da nossa proposta de PoC para este desafio específico.</span>
-      <a class="cta-link" href="#" onclick="return false">Solicitar dossiê completo ↗</a>
+      <span class="cta-text">Se esse desafio fez você pensar em um problema parecido, vamos conversar.</span>
+      <a class="cta-link" href="${'https://wa.me/5585999798762?text=' + encodeURIComponent('Olá, Vini! Li a análise do desafio da ' + c.company + ' no LuxVerso e queria conversar sobre essa hipótese. Acho que minha empresa enfrenta um problema parecido.')}" target="_blank">Conversar sobre este desafio ↗</a>
     </div>`;
   document.getElementById('detail').classList.add('open');
   document.getElementById('detail').scrollTo(0,0);

@@ -170,6 +170,8 @@
   .app-foot{display:flex; justify-content:space-between; align-items:center;}
   .app-status{font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--fg-dimmer);}
   .app-arrow{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--fg-dimmer); transition:transform .18s, color .18s;}
+  .app-wa{color:var(--fg-dimmer); text-decoration:none; display:flex; align-items:center; justify-content:center; width:28px; height:28px; border:1px solid var(--line); border-radius:var(--radius); transition:color .15s, border-color .15s; flex-shrink:0;}
+  .app-wa:hover{color:var(--signal); border-color:var(--signal-dim);}
   .app-note{margin-top:20px; font-size:13px; color:var(--fg-dimmer); max-width:560px;}
 
   /* ---- 09 contato ---- */
@@ -392,24 +394,25 @@
   <section id="s8">
     <h2>Antes desta submissão, <em>já estudamos</em> os desafios da Jornada.</h2>
     <p class="lede">A maioria das PoCs falha porque tenta resolver o sintoma, não a causa raiz. Abaixo, desconstruímos os desafios das corporações sob a ótica de sistemas complexos e inteligência de dados. Selecione um card para visualizar a tese diagnóstica e o plano de validação em 60-90 dias.</p>
+    <p class="lede">Problemas diferentes. Estruturas parecidas.<br>Os desafios abaixo pertencem a empresas de setores diferentes. Antes de pensar em tecnologia, buscamos compreender o problema de verdade. Cada análise mostra como chegamos às nossas hipóteses antes de construir qualquer solução.<br>Todas as análises foram produzidas antes de qualquer contato com as empresas. Não representam soluções prontas. Representam hipóteses estruturadas para reduzir a incerteza antes de uma futura PoC.</p>
     <div class="app-grid" id="appGrid"></div>
     <p class="app-note">Em produção, cada card abre em URL própria (ex: <span class="mono">luxverso.tech/desafios/afya</span>), permitindo indicar o link exato do desafio submetido no formulário do Sebrae.</p>
   </section>
 
   <!-- 09 CONTATO -->
   <section id="s9">
-    <h2>A partir daqui, construímos <em>evidências</em> junto com sua equipe.</h2>
-    <p class="lede">Nosso objetivo não é propor uma solução pronta. É construir, com o time de vocês, evidências suficientes para decidir com segurança o que deve ser escalado.</p>
+    <h2>Ficou com alguma ideia lendo um desses desafios?</h2>
+    <p class="lede">Talvez sua empresa esteja enfrentando um problema parecido. Se fizer sentido, vamos conversar.<br>Às vezes uma boa conversa vale mais do que começar construindo uma solução cedo demais.</p>
     <div class="contact-row">
       <div class="contact-links">
-        <a href="mailto:viniburilux@gmail.com">viniburilux@gmail.com</a>
-        <a href="https://github.com/viniburilux" target="_blank">github.com/viniburilux ↗</a>
-        <a href="https://orcid.org/0009-0000-6006-1516" target="_blank">ORCID 0009-0000-6006-1516 ↗</a>
-      </div>
-      <div class="contact-links">
-        <a href="#">Solicitar dossiê técnico completo ↗</a>
+        <a href="https://wa.me/5585999798762?text=Olá,%20Vini!%20Estava%20navegando%20pelo%20LuxVerso%20e%20queria%20conversar%20sobre%20um%20problema%20parecido." target="_blank">Conversar pelo WhatsApp ↗</a>
       </div>
     </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section id="s10">
+    <p class="lede">Esta página continua evoluindo.<br>Se alguma parte ficou confusa, se alguma ideia chamou sua atenção ou se você acredita que algo pode ser melhorado, me conta.<br>Todo feedback ajuda a construir versões melhores.</p>
   </section>
 
   <footer>
@@ -1211,16 +1214,29 @@ const challenges = [
 }
 ];
 
+const actionLabels = [
+  "Nossa leitura",
+  "Ver análise",
+  "Como pensamos este desafio",
+  "Explorar diagnóstico",
+  "Entender o problema",
+  "Ler hipótese"
+];
+
 const grid = document.getElementById('appGrid');
 challenges.forEach((c,i)=>{
   const card = document.createElement('div');
   card.className = 'app-card' + (c.built ? '' : ' disabled');
+  const label = c.built ? actionLabels[i % actionLabels.length] : c.status;
+  const whatsMsg = c.built ? encodeURIComponent('Olá, Vini! Estava navegando pelo LuxVerso e li a análise do desafio da ' + c.company + '. Gostaria de conversar sobre esse problema.') : '';
   card.innerHTML = `
     <div class="app-name">${c.company} · ${c.title}</div>
-    <div class="app-thesis">${c.built ? '“' + c.thesis + '”' : c.thesis}</div>
+    <div class="app-thesis">${c.built ? '"' + c.thesis + '"' : c.thesis}</div>
     <div class="app-foot">
-      <span class="app-status">${c.built ? 'Ver Tese Diagnóstica ↗' : c.status}</span>
-      <span class="app-arrow">${c.built ? '' : '···'}</span>
+      <span class="app-status">${c.built ? label + ' ↗' : c.status}</span>
+      <a class="app-wa" href="${c.built ? 'https://wa.me/5585999798762?text=' + whatsMsg : '#'}" target="_blank" onclick="${c.built ? 'event.stopPropagation()' : 'return false'}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </a>
     </div>`;
   if(c.built) card.addEventListener('click', ()=>openDetail(i));
   grid.appendChild(card);

@@ -422,7 +422,7 @@
 
 <script>
 const challenges = [
-  {
+{
     code:"2.1", company:"Afya", title:"Engajamento com Profissionais de Saúde", url:"/desafios/afya",
     thesis:"Não é sobre canais de comunicação. É sobre a ausência de um loop de reconhecimento que transforme conhecimento tácito em capital institucional.",
     status:"dossiê completo", built:true,
@@ -660,6 +660,552 @@ const challenges = [
       "O método é o mesmo aplicado em outros territórios brasileiros — replicável para além do Seridó/RN."
     ]
   },
+  {
+  "code": "3.1",
+  "company": "Kraft Heinz",
+  "title": "Sincronismo de Safra e Demanda Industrial",
+  "url": "/desafios/3-1",
+  "thesis": "Isto não é sobre entregar insumos mais rápido. É sobre um modelo de planejamento que trata variáveis climáticas como exceção, quando deveriam ser parâmetro central do modelo desde o desenho.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é descompasso entre chegada de insumos e necessidade da lavoura. O sistema que falha é o planejamento estático de safra: o plano original de plantio trata variabilidade climática como exceção, quando ela é, na prática, a condição normal de operação. Cada chuva ou variação de temperatura fora do previsto torna o plano imediatamente obsoleto, mas o processo de decisão não foi desenhado para se atualizar continuamente.",
+  "hipotese": "Se um modelo de replanejamento dinâmico, alimentado por dados de campo e clima, antecipa com uma semana de antecedência os ajustes necessários de entrega de insumos, a Kraft Heinz reduz perdas por deterioração e mantém a fábrica em capacidade máxima mesmo em safras com variabilidade climática relevante.",
+  "valorEstrategico": "Resolver isso com excelência transforma o planejamento de uma commodity logística refém do clima em vantagem de capacidade industrial plena — ganho direto de margem por tonelada processada, com metodologia replicável a outras culturas do portfólio da companhia.",
+  "capacidades": [
+    "Modelos preditivos climáticos + dados agronômicospara antecipar impacto de variação de clima no cronograma real.",
+    "Otimização de S&OP dinâmicopara revisar o plano de insumos continuamente, não apenas no início da safra.",
+    "Aplicativo mobile de reporte de campopara captar em tempo real o estado real da lavoura frente ao planejado."
+  ],
+  "riscos": [
+    "*Qualidade e frequência do reporte de campo*: o modelo depende de disciplina humana de registro, que pode falhar sob pressão de safra.",
+    "*Granularidade climática*: modelos regionais de clima podem não capturar variação suficientemente local para a decisão de uma semana.",
+    "*Resistência de técnicos de campo* a mudar a rotina de reporte manual."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **replanejamento sob incerteza**: mediria primeiro a variância real entre plano e execução em safras passadas, testando se o modelo de replanejamento teria antecipado corretamente os ajustes necessários antes de prometer precisão de uma semana de antecedência.",
+  "porqueNos": [
+    "Entregar validação retroativa com dados reais da própria safra da Kraft Heinz, não um modelo genérico de previsão climática — a diferenciação está na evidência empírica de sincronismo, não na sofisticação abstrata do modelo."
+  ]
+},
+  {
+  "code": "3.2",
+  "company": "Laticínio Novo Horizonte",
+  "title": "IA para Parâmetros Ideais de Fabricação em Tempo Real",
+  "url": "/desafios/3-2",
+  "thesis": "Isto não é sobre treinar melhor o operador. É sobre a ausência de instrumentação que transforme a variação diária da matéria-prima em parâmetro mensurável, não em intuição acumulada.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é inconsistência de rendimento e qualidade do queijo. O sistema que falha é a ausência de instrumentação que torne o processo observável: a decisão sobre o ponto ideal de fabricação hoje depende do julgamento subjetivo do operador porque não existe dado objetivo (opacidade, granulometria, pH) em tempo real. É um problema de falta de sensor, não de falta de talento.",
+  "hipotese": "Se sensores de opacidade, granulometria e pH captam a variação diária do leite e uma IA ajusta a receita com base nesses dados, o laticínio reduz a variabilidade de rendimento e qualidade hoje dependente do \"sentimento\" do operador.",
+  "valorEstrategico": "Resolver isso com excelência transforma o laticínio de uma operação dependente de \"operadores-chave\" em um processo padronizado e escalável — reduz o risco de continuidade que existe hoje (o que acontece quando o operador experiente sai) e viabiliza expansão sem herdar a mesma dependência de expertise individual.",
+  "capacidades": [
+    "Sensores de opacidade, pH e granulometria em tempo realnúcleo da instrumentação do processo.",
+    "Visão computacionalpara leitura automática de grãos durante a fabricação.",
+    "Modelo de IA treinado com histórico de receita vs. resultadopara sugerir ajustes automáticos por perfil de matéria-prima."
+  ],
+  "riscos": [
+    "*Custo de sensores especializados* pode não compensar em escala de produção pequena.",
+    "*Resistência de operadores experientes* a formalizar conhecimento tácito que hoje é seu diferencial pessoal.",
+    "*Qualidade do dado sensorial* em ambiente de produção real (sujeira, temperatura, vapor)."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **controle de processo em tempo real sob variável não observada**: instrumentaria a variável (matéria-prima) antes de tentar prever a receita ideal, testando se a correlação leite → receita é estatisticamente robusta antes de automatizar qualquer ajuste.",
+  "porqueNos": [
+    "Validar a correlação real leite → rendimento com dados da própria queijaria antes de prometer automação completa da receita — a diferenciação está em provar a correlação, não em vender sensor genérico."
+  ]
+},
+  {
+  "code": "3.3",
+  "company": "Portobello S.A",
+  "title": "Eficiência em Processos Operacionais de Compra",
+  "url": "/desafios/3-3",
+  "thesis": "Isto não é sobre automatizar tarefas isoladas. É sobre a ausência de uma camada de decisão unificada sobre dados hoje fragmentados entre ERP central e sistemas satélites.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é lentidão em cotações e requisições de compra. O sistema que falha é a fragmentação entre sistemas satélites (Coupa) e o ERP central (Oracle EBS): decisões tributárias e logísticas complexas ficam presas em análise manual porque a informação não está unificada em um único fluxo de decisão.",
+  "hipotese": "Se agentes de IA integrados nativamente ao ERP central automatizam cotações e comparações tributárias/logísticas hoje feitas manualmente, a Portobello reduz o lead time de requisições em 20% e automatiza 80% dos pedidos de matéria-prima, sem criar mais um sistema satélite.",
+  "valorEstrategico": "Resolver isso com excelência reduz a dependência de decisões tributárias e logísticas complexas do julgamento manual do comprador, liberando a equipe para decisões de maior valor agregado e reduzindo o risco de erro fiscal.",
+  "capacidades": [
+    "Agentes de IA nativos/integrados ao ERP Oracle EBSnúcleo da automação de cotação e requisição.",
+    "Motor de comparação tributária multi-estadopara lidar com a complexidade fiscal do processo de compra.",
+    "Automação de cotação com fornecedorespara reduzir a dependência de interações por e-mail."
+  ],
+  "riscos": [
+    "*LGPD e conformidade* com as alçadas de aprovação já estabelecidas internamente.",
+    "*Risco de criar \"mais um sistema satélite\"* se a integração com o ERP não for verdadeiramente nativa.",
+    "*Complexidade tributária* pode exceder a capacidade de regras puramente determinísticas."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **automação de decisão sob regras fiscais variáveis**: mapearia primeiro a lógica real de decisão tributária/logística do comprador experiente, testando se o agente reproduz essa decisão com precisão antes de automatizar o disparo da compra.",
+  "porqueNos": [
+    "Entregar automação nativa ao ERP central, evitando criar mais um sistema satélite — a diferenciação está em resolver a fragmentação existente, não em adicionar mais uma camada a ela."
+  ]
+},
+  {
+  "code": "3.4",
+  "company": "Schulz S/A",
+  "title": "Eliminação de Operações Manuais em Peças Fundidas Complexas",
+  "url": "/desafios/3-4",
+  "thesis": "Isto não é sobre substituir mão de obra por robôs tradicionais. É sobre a incompatibilidade entre automação programada rigidamente e um mix de produtos de altíssima variabilidade.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é acabamento manual de peças fundidas, insalubre e com escassez crescente de mão de obra. O sistema que falha é a automação convencional: robótica programada tradicionalmente se mostra inviável frente à alta variabilidade do mix (mais de 1.700 itens), porque o problema não é falta de robôs — é que a automação rígida não lida bem com variabilidade extrema.",
+  "hipotese": "Se tecnologias não convencionais (visão computacional combinada a laser ou corrente elétrica de precisão) conseguem se adaptar à variação geométrica das peças sem reprogramação individual por item, a Schulz reduz a dependência de mão de obra manual insalubre sem os custos proibitivos de gabaritos por peça.",
+  "valorEstrategico": "Resolver isso com excelência reduz o risco de continuidade operacional frente à escassez estrutural de mão de obra para funções insalubres, e libera talentos para atividades de maior valor agregado — uma vantagem competitiva estrutural, não pontual, frente aos desafios demográficos do setor.",
+  "capacidades": [
+    "Visão computacionalpara reconhecimento geométrico automático da peça, item a item.",
+    "Laser ou corrente elétrica de alta precisãopara rebarbação adaptativa sem gabarito fixo.",
+    "Gêmeos digitaispara otimizar a fabricação de moldes e entregar peças já próximas do acabamento final."
+  ],
+  "riscos": [
+    "*Maturidade tecnológica insuficiente*: laser e corrente elétrica de precisão podem não ter maturidade suficiente para o volume industrial real.",
+    "*Custo inicial elevado* mesmo sem os gabaritos por peça que a automação convencional exigiria.",
+    "*Segurança operacional* de tecnologias não convencionais em ambiente fabril já existente."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **automação adaptativa sob alta variabilidade**: mediria primeiro os limites reais de generalização das tecnologias candidatas contra uma amostra representativa do mix, antes de prometer eliminação total da intervenção manual.",
+  "porqueNos": [
+    "Testar contra uma amostra representativa da variabilidade real do mix, não contra os casos mais fáceis — a credibilidade vem de mostrar os limites reais da tecnologia, não só seus sucessos."
+  ]
+},
+  {
+  "code": "3.5",
+  "company": "SEBRAE/RN",
+  "title": "Radar de Convergência para Inovação Setorial",
+  "url": "/desafios/3-5",
+  "thesis": "Isto não é sobre fazer mais diagnósticos. É sobre a ausência de uma base de dados comum que transforme percepção subjetiva de gargalo setorial em evidência mensurável de potencial de ROI.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é diagnósticos setoriais superficiais e baseados em percepção subjetiva. O sistema que falha é a ausência de uma base de dados estruturada que permita medir o retorno sobre investimento (ROI) de projetos de inovação — sem evidência quantitativa, empresas âncora e governanças setoriais não se engajam.",
+  "hipotese": "Se uma plataforma de \"Radar de Convergência\" estrutura dados técnicos de gargalos comuns entre empresas de uma mesma cadeia (Moda, Turismo, Alimentos), o SEBRAE/RN consegue atrair mais empresas âncora e startups qualificadas para ciclos de inovação aberta, com evidência concreta de potencial de retorno.",
+  "valorEstrategico": "Resolver isso com excelência transforma o SEBRAE/RN de estruturador de diagnósticos pontuais em curador de inteligência setorial contínua — um ativo que atrai investimento e engajamento de forma recorrente, não a cada novo ciclo isolado.",
+  "capacidades": [
+    "Plataforma de coleta e estruturação de dados setoriaisnúcleo técnico do Radar de Convergência.",
+    "Analytics para padrões comuns entre empresassem expor dados individuais sensíveis.",
+    "Dashboards de gargalo técnico por cadeia produtivapara traduzir dado agregado em decisão de inovação."
+  ],
+  "riscos": [
+    "*Risco de violar confidencialidade individual* das empresas ao agregar dados da cadeia produtiva.",
+    "*Baixa adesão inicial* das empresas em compartilhar dados sensíveis, mesmo que agregados.",
+    "*Representatividade do dado*: risco de que os dados coletados não capturem de fato o gargalo setorial real."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **agregação de dados sob restrição de confidencialidade**: desenharia a arquitetura de dados já assumindo a restrição de não fundir dados individuais, testando se padrões agregados ainda geram evidência de ROI suficiente para engajar novos parceiros.",
+  "porqueNos": [
+    "Entregar uma arquitetura de dados que respeita confidencialidade individual desde o desenho, não como camada de compliance adicionada depois — essencial para conseguir adesão das empresas da cadeia produtiva."
+  ]
+},
+  {
+  "code": "3.6",
+  "company": "Sicredi Ouro Verde MT/PA",
+  "title": "Oferta Consultiva de Crédito por Subsegmento",
+  "url": "/desafios/3-6",
+  "thesis": "Isto não é sobre digitalizar o processo de crédito. É sobre tratar públicos com necessidades radicalmente diferentes — do Varejo à Alta Renda — com um único fluxo genérico e burocrático.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é uma jornada de crédito PF percebida como burocrática, lenta e impessoal — o segundo maior motivo de detração do NPS da cooperativa. O sistema que falha é o tratamento genérico de subsegmentos de renda muito diferentes com o mesmo processo, agravado por fragmentação sistêmica de portais e excesso de alçadas de aprovação.",
+  "hipotese": "Se um credit scoring inteligente reduz alçadas para Varejo/Média Renda, e uma ferramenta de apoio à decisão potencializa o Gerente de Negócios consultor para a Alta Renda, a Sicredi Ouro Verde aumenta a margem de contribuição e reduz a detração de NPS ligada a crédito, sem tratar todos os subsegmentos da mesma forma.",
+  "valorEstrategico": "Resolver isso com excelência permite à cooperativa competir simultaneamente contra fintechs (velocidade, no Varejo) e contra bancos privados de alta renda (personalização consultiva), sem forçar todos os subsegmentos pelo mesmo funil genérico.",
+  "capacidades": [
+    "Credit scoring com IApara Varejo e Média Renda, reduzindo alçadas manuais.",
+    "Contratação digital ponta a pontapara os subsegmentos de maior volume e menor complexidade.",
+    "Plataforma de apoio à decisão e hiperpersonalizaçãopara a Alta Renda, potencializando (não substituindo) o gerente consultor."
+  ],
+  "riscos": [
+    "*Fragmentação sistêmica de portais* pode limitar a granularidade dos dados disponíveis para o scoring.",
+    "*Resistência de Gerentes de Negócios* a delegar parte da decisão a um modelo de IA.",
+    "*Segurança e compliance* na análise automatizada de garantias."
+  ],
+  "proposta": "Uma deep tech trataria isso como **dois problemas distintos de decisão sob incerteza**: um de scoring automatizável (Varejo/Média Renda) e um de apoio à decisão humana (Alta Renda) — testando cada modelo separadamente contra o resultado real do subsegmento, não tratando crédito como um problema único.",
+  "porqueNos": [
+    "Tratar Varejo/Média Renda e Alta Renda como dois problemas de decisão distintos, com soluções tecnológicas diferentes para cada um — não uma solução genérica de \"crédito digital\"."
+  ]
+},
+  {
+  "code": "3.7",
+  "company": "TAESA",
+  "title": "Zerar Emissões do Escopo 2 na Transmissão de Energia",
+  "url": "/desafios/3-7",
+  "thesis": "Isto não é sobre reduzir consumo. É sobre a dissociação estrutural entre quem é responsabilizado pela emissão (a transmissora) e quem controla a variável real que a gera (o despacho definido pelo ONS).",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é a concentração de emissões no Escopo 2 por perdas elétricas na transmissão. O sistema que falha é a dissociação entre a responsabilidade regulatória pela emissão (a transmissora) e o controle operacional real da variável (o despacho é definido pelo ONS) — a empresa é responsabilizada por algo que não controla diretamente.",
+  "hipotese": "Se soluções de hardware que reduzem perdas físicas, ou de software preditivo que otimizam o despacho junto ao ONS, reduzem mensuravelmente as perdas do Escopo 2, a TAESA pode aderir a compromissos de descarbonização sem depender de mudança regulatória para ganhar a autonomia operacional que hoje não tem.",
+  "valorEstrategico": "Resolver isso com excelência posiciona a TAESA como pioneira em descarbonização estrutural do setor de transmissão — uma vantagem reputacional e de acesso a capital ESG num setor onde a maioria das soluções hoje é apenas incremental.",
+  "capacidades": [
+    "Hardware de redução de perdas físicaspara mitigar diretamente o efeito Joule nas linhas.",
+    "Modelos preditivos de otimização de despachopara subsidiar decisões do ONS com inteligência de dados.",
+    "Mecanismos de compensação/sandbox regulatóriopara viabilizar remuneração de esforços de descarbonização hoje não previstos na RAP."
+  ],
+  "riscos": [
+    "*Modelo de Receita Anual Permitida (RAP)* pode não remunerar investimentos em tecnologias não previstas.",
+    "*Dependência de aprovação do ONS/ANEEL* para qualquer mudança relevante de despacho.",
+    "*Pressão de investidores* por resultado rápido, incompatível com o ciclo regulatório real do setor."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **otimização física sob restrição regulatória**: mediria a fração real das perdas atribuível a fatores que a TAESA de fato controla (manutenção, tecnologia de linha) versus os que dependem do ONS, isolando o que é tecnicamente endereçável antes de propor qualquer solução de hardware ou regulatória.",
+  "porqueNos": [
+    "Decompor tecnicamente o problema entre o que é controlável e o que não é antes de propor solução — a honestidade estrutural sobre a dissociação regulatória é o que diferencia de uma proposta puramente incremental."
+  ]
+},
+  {
+  "code": "3.8",
+  "company": "Unifique",
+  "title": "Soluções Inovadoras com Potencial do 5G",
+  "url": "/desafios/3-8",
+  "thesis": "Isto não é sobre ter mais cobertura 5G. É sobre a ausência de casos de uso onde a tecnologia 5G seja estrutural — não apenas conveniente — para a proposta de valor.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é infraestrutura 5G disponível mas subutilizada. O sistema que falha é a ausência de casos de uso que traduzam a capacidade técnica (baixa latência, alta densidade de dispositivos) em valor de negócio real — a lacuna não é de infraestrutura instalada, é de aplicação.",
+  "hipotese": "Se pelo menos uma solução (IoT, visão computacional, drones ou robótica) demonstra que a baixa latência do 5G é indispensável — não apenas útil — para viabilizar o caso de uso, a Unifique valida um caso comercialmente replicável de monetização da infraestrutura já instalada.",
+  "valorEstrategico": "Resolver isso com excelência transforma a infraestrutura 5G de custo de capital ocioso em ativo de geração de receita recorrente — a diferenciação está em provar dependência técnica real da tecnologia, não em \"vestir\" um caso de uso genérico com o rótulo 5G.",
+  "capacidades": [
+    "IoT de baixa latênciapara aplicações que exigem resposta quase instantânea.",
+    "Visão computacional em tempo realpara monitoramento e automação críticos.",
+    "Automação industrial ou monitoramento remoto crítico dependente de 5Gnúcleo de validação da tese."
+  ],
+  "riscos": [
+    "*Risco de validar um caso de uso* onde o 5G é conveniente mas não indispensável, o que não sustenta a tese comercial.",
+    "*Escassez de hardware compatível* disponível no mercado.",
+    "*Baixo conhecimento do cliente final* sobre o potencial real da tecnologia, dificultando adoção."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **validação de dependência tecnológica real**: testaria explicitamente se o caso de uso falha ou degrada sem a baixa latência do 5G (removendo a variável), separando aplicações genuinamente 5G-dependentes de aplicações que apenas usam conectividade em geral.",
+  "porqueNos": [
+    "Provar tecnicamente a dependência real do 5G (não apenas o benefício) antes de qualquer promessa comercial — evita vender um caso de uso genérico com selo de \"5G\" sem sustentação técnica real."
+  ]
+},
+  {
+  "code": "3.9",
+  "company": "Unifique",
+  "title": "Sensores IoT para Atuação da Defesa Civil",
+  "url": "/desafios/3-9",
+  "thesis": "Isto não é sobre monitorar mais. É sobre a ausência de uma oferta integrada de sensores e análise preditiva que transforme dado ambiental disperso em decisão preventiva de Defesa Civil.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é gestão urbana reativa a eventos climáticos. O sistema que falha é a ausência de um portfólio integrado de sensores e dados que permita à gestão pública agir preventivamente — a decisão pública depende de monitoramento manual porque não existe uma oferta centralizada de sensoriamento.",
+  "hipotese": "Se sensores IoT de nível de rios, alagamento e movimentação de encostas, combinados com análise preditiva, antecipam eventos de risco com tempo hábil de resposta, a Defesa Civil municipal reduz prejuízos materiais e riscos à população, e a Unifique valida um novo portfólio comercial de Smart Cities.",
+  "valorEstrategico": "Resolver isso com excelência posiciona a Unifique como fornecedora de infraestrutura crítica de segurança pública, não apenas de conectividade — um ativo comercial replicável a múltiplos municípios com alto valor social associado.",
+  "capacidades": [
+    "Sensores IoT de nível de água/encosta/qualidade do arvia CAT-M, NB-IoT ou LoRaWAN.",
+    "IA preditiva para geração de alertastransformando dado bruto em ação preventiva.",
+    "Integração com sistemas de gestão pública já existentespara viabilizar resposta operacional real."
+  ],
+  "riscos": [
+    "*Incompatibilidade entre sistemas públicos legados* e novos sensores privados.",
+    "*Falso positivo/negativo em alertas de risco* tem custo alto nos dois sentidos (descrédito ou omissão).",
+    "*Dependência de conectividade estável* em áreas remotas justamente mais sujeitas a risco."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **detecção preditiva sob restrição de falso alarme**: mediria explicitamente a taxa de falso positivo/negativo do sistema de alerta antes de integrá-lo ao processo real de resposta da Defesa Civil, tratando o erro do modelo como parâmetro operacional crítico, não como detalhe técnico.",
+  "porqueNos": [
+    "Validar taxa real de falso positivo/negativo com dados de eventos históricos reais antes de comercializar o portfólio — a credibilidade vem de honestidade sobre limitações do sistema de alerta, não de uma demo genérica de IoT."
+  ]
+},
+  {
+  "code": "3.10",
+  "company": "Unimed",
+  "title": "Solicitação e Validação de OPME com Governança",
+  "url": "/desafios/3-10",
+  "thesis": "Isto não é sobre auditar mais rápido. É sobre a ausência de um catálogo inteligente que apresente ao médico, no momento da decisão, as alternativas homologadas — sem isso, toda solicitação nasce sujeita a retrabalho.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é solicitação médica de OPME por campo aberto, sem padronização. O sistema que falha é a ausência de um catálogo inteligente vinculado a procedimento — a decisão do médico não tem apoio de dado estruturado sobre o que está homologado, então cada solicitação nasce sujeita a retrabalho de auditoria.",
+  "hipotese": "Se um catálogo inteligente de OPME por procedimento apresenta ao médico as alternativas homologadas e sinaliza automaticamente solicitações fora do padrão, a Unimed reduz o custo total com OPME entre 3% e 7% até 2027, sem exigir integração sistêmica completa na fase de PoC.",
+  "valorEstrategico": "Resolver isso com excelência transforma a gestão de OPME de auditoria reativa pós-fato para apoio à decisão clínica no momento da solicitação — reduz custo assistencial e desgaste na relação médico-cooperativa simultaneamente.",
+  "capacidades": [
+    "Catálogo inteligente vinculado a procedimentonúcleo técnico da solução.",
+    "Motor de triagem/alertas automáticospara sinalizar solicitações fora do padrão em tempo real.",
+    "Painel de gestão de pendências e riscospara as equipes internas acompanharem o fluxo."
+  ],
+  "riscos": [
+    "*Catálogo desatualizado* gera falsa sensação de segurança pior do que a ausência de catálogo.",
+    "*Resistência médica* a qualquer restrição percebida sobre a autonomia de prescrição.",
+    "*Qualidade dos dados de homologação*, hoje dispersos entre áreas diferentes."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **apoio à decisão sob incerteza clínica**: testaria se o catálogo inteligente realmente reduz solicitações fora de padrão comparado ao processo atual, antes de prometer redução de custo, desenhando o sistema para sinalizar — não decidir sozinho.",
+  "porqueNos": [
+    "Validar o catálogo contra um lote real de solicitações históricas antes de prometer redução de custo — a diferenciação está em provar precisão da triagem, não em vender um catálogo genérico de materiais."
+  ]
+},
+  {
+  "code": "3.11",
+  "company": "Unimed",
+  "title": "Integração e Acompanhamento da Jornada Oncológica",
+  "url": "/desafios/3-11",
+  "thesis": "Isto não é sobre monitorar mais guias. É sobre a ausência de uma visão sistêmica que conecte autorização, ciclo de tratamento e resposta clínica em um único fluxo — hoje cada etapa vive isolada em um prestador diferente.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é o acompanhamento reativo do paciente oncológico, limitado a marcos administrativos. O sistema que falha é a desconexão entre autorização, auditoria, agendamento e registro clínico — informação vital sobre o tratamento fica presa nos prestadores, então a operadora só reage depois que o problema já aconteceu.",
+  "hipotese": "Se uma plataforma de gestão da jornada oncológica registra as etapas (solicitação, ciclo realizado, intercorrência) e gera alertas inteligentes sobre atrasos, a Unimed reduz a perda de timing terapêutico e o risco de abandono de tratamento, validando isso primeiro num prestador-piloto, sem integração sistêmica completa.",
+  "valorEstrategico": "Resolver isso com excelência transforma a operadora de pagadora reativa em gestora ativa da jornada terapêutica — reduz risco regulatório, judicialização e abandono de tratamento, com impacto direto em desfecho clínico e custo assistencial de longo prazo.",
+  "capacidades": [
+    "Plataforma de registro de jornada com alertasde atraso ou vencimento de guias.",
+    "Integração leve com prestador-pilotosem exigir reforma sistêmica completa.",
+    "Dashboard multidisciplinar de acompanhamentopara dar visibilidade única ao caso."
+  ],
+  "riscos": [
+    "*Dependência de registro consistente pelos prestadores*, fora do controle direto da operadora.",
+    "*Risco regulatório* se a jornada não capturar corretamente os prazos legais aplicáveis.",
+    "*Sobrecarga da equipe assistencial* se o sistema gerar excesso de alertas pouco priorizados."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **rastreamento de eventos ao longo do tempo sob dados incompletos de terceiros**: desenharia o sistema já assumindo que nem todo prestador registrará tudo, priorizando os eventos mais críticos para o timing terapêutico, testando em um recorte controlado antes de qualquer integração sistêmica ampla.",
+  "porqueNos": [
+    "Validar o sistema num recorte controlado e real (prestador-piloto) antes de prometer integração sistêmica ampla — a diferenciação está em provar redução real de atraso, não em entregar mais um painel de acompanhamento."
+  ]
+},
+  {
+  "code": "3.12",
+  "company": "WEG Transformadores",
+  "title": "IA para Leitura Técnica e Elaboração de Orçamentos",
+  "url": "/desafios/3-12",
+  "thesis": "Isto não é sobre orçar mais rápido. É sobre a ausência de uma camada de extração estruturada que transforme documentos técnicos heterogêneos (formato, idioma) em dados prontos para precificação.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é orçamento técnico lento e sujeito a erro. O sistema que falha é a dependência de leitura manual de documentos técnicos não padronizados (formato e idioma variáveis) por engenheiros — cada orçamento reinicia o trabalho de extração do zero.",
+  "hipotese": "Se uma IA extrai automaticamente características elétricas e acessórios de construção de documentos técnicos variados, alimentando SAP/SharePoint, a WEG reduz o lead time de orçamento e libera os engenheiros para validar apenas os projetos complexos.",
+  "valorEstrategico": "Resolver isso com excelência transforma dados de orçamentos passados, hoje desestruturados e subutilizados, em ativo reutilizável para precificação e análise técnica — reduz o tempo de resposta comercial e recupera conhecimento que hoje se perde a cada novo projeto.",
+  "capacidades": [
+    "IA/LLMs para extração de dados técnicos multi-formato e multi-idiomanúcleo da automação.",
+    "Integração com SAP e SharePointpara que o dado extraído alimente diretamente o fluxo de precificação.",
+    "Motor de estruturação de dados históricos de orçamentaçãopara reaproveitar conhecimento acumulado."
+  ],
+  "riscos": [
+    "*Limitar demais o escopo de extração* para garantir precisão pode reduzir o ganho real de tempo.",
+    "*Documentos de baixa qualidade ou formato muito atípico* podem exigir intervenção manual mesmo com IA.",
+    "*Risco de erro técnico na extração* comprometer a qualidade do equipamento ofertado."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **extração estruturada sob alta variabilidade de formato**: mediria a taxa de precisão da extração automática contra a leitura manual de engenheiros, num lote real e representativo de documentos, antes de integrar ao fluxo de precificação.",
+  "porqueNos": [
+    "Limitar deliberadamente o escopo de extração para garantir precisão técnica desde o início, em vez de prometer extração total e genérica — a credibilidade vem do rigor técnico, não da amplitude da promessa."
+  ]
+},
+  {
+  "code": "3.13",
+  "company": "Empresa Âncora 1",
+  "title": "Otimização dos Processos Jurídicos e de Suprimentos",
+  "url": "/desafios/3-13",
+  "thesis": "Isto não é sobre acelerar aprovações. É sobre aplicar o mesmo trâmite de aquisição convencional a um tipo de contratação (startup/ICT) que exige um modelo próprio, mais leve e pré-validado.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é contratação de startups/ICTs levando de 3 a 6 meses. O sistema que falha é o fluxo de contratação: trata inovação com o mesmo processo de uma aquisição convencional — múltiplas aprovações, negociação extensa, ausência de modelos pré-aprovados — quando o objeto contratado (startup nascente) tem características muito diferentes de um fornecedor tradicional.",
+  "hipotese": "Se fluxos digitais com IA e modelos contratuais pré-validados juridicamente reduzem etapas de negociação e análise de conformidade, a Empresa Âncora reduz o tempo de contratação de startups pela metade, sem comprometer a governança jurídica.",
+  "valorEstrategico": "Resolver isso com excelência recupera a credibilidade e a agilidade do pilar de inovação dentro da empresa, permitindo que o orçamento de inovação de fato se traduza em projetos executados no tempo relevante para o mercado — hoje a lentidão do processo drena tanto tempo quanto orçamento.",
+  "capacidades": [
+    "IA para triagem e validação de conformidade documentalnúcleo da agilização do fluxo.",
+    "Integração com plataformas já usadasAriba, ServiceNow, Netlex.",
+    "Antecipação da validação de minutas contratuaispara eliminar a etapa de retrabalho jurídico tardio."
+  ],
+  "riscos": [
+    "*Resistência do Jurídico*: um fluxo \"mais leve\" pode ser percebido como redução de controle.",
+    "*Cobertura insuficiente dos modelos pré-aprovados* frente à diversidade real de arranjos contratuais com startups.",
+    "*Dependência de que Ariba, ServiceNow e Netlex* permitam a integração pretendida."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **redesenho de processo sob restrição de governança**: mediria exatamente onde o tempo é gasto no fluxo atual (etapa por etapa) antes de propor qualquer automação, testando se o novo fluxo mantém o nível de conformidade jurídica exigido.",
+  "porqueNos": [
+    "Decompor o tempo real de contratação por etapa antes de propor a solução, mostrando exatamente onde o ganho de 50% viria — não uma promessa genérica de \"digitalização\" do processo."
+  ]
+},
+  {
+  "code": "3.14",
+  "company": "Empresa Âncora (não identificada com confiança)",
+  "title": "Inspeção de Chapas",
+  "url": "/desafios/3-14",
+  "thesis": "Isto não é sobre inspecionar mais chapas. É sobre a ausência de medição contínua e automática que substitua a amostragem manual por controle de 100% da produção em tempo real.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é inspeção dimensional/superficial manual e amostral em linha de chapas. O sistema que falha é a ausência de infraestrutura de sensoriamento dedicada — o processo depende de amostragem humana, então desvios fora de especificação avançam na linha antes de serem detectados.",
+  "hipotese": "Se um sistema de visão computacional ou laser mede continuamente a conformidade dimensional (±2mm) na velocidade nominal das máquinas STAN e YUNGHUA, a empresa detecta desvios instantaneamente, em vez de só percebê-los depois que um grande volume já foi produzido fora do padrão.",
+  "valorEstrategico": "Resolver isso com excelência transforma o controle de qualidade de amostragem reativa em garantia de conformidade contínua e rastreável — reduz sucata, retrabalho e logística reversa, com impacto direto na qualidade percebida pelo setor automotivo, cliente final da linha.",
+  "capacidades": [
+    "Visão computacional ou laser de alta precisãoresistente a ambiente industrial adverso.",
+    "Integração com sistemas de automação de Nível 1/2 já existentessem substituição de infraestrutura.",
+    "Rastreabilidade por bobina, lote e ordem de produçãopara gerar relatórios de conformidade automáticos."
+  ],
+  "riscos": [
+    "*Ambiente industrial adverso* (poeira, óleo, vibração) pode degradar a confiabilidade de sensores ópticos/laser ao longo do tempo.",
+    "*Restrição de espaço físico na linha* pode limitar as opções de instalação.",
+    "*Baixo custo exigido* pode limitar a robustez tecnológica disponível para a solução."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **medição contínua sob restrição de ambiente adverso e baixo custo**: testaria a robustez real do sensor de visão/laser sob condições de poeira, óleo e vibração antes de prometer precisão de ±2mm em produção contínua, priorizando confiabilidade de dado sobre sofisticação de sensor.",
+  "porqueNos": [
+    "Testar a robustez real do sensor sob as condições adversas específicas da linha antes de prometer precisão de ±2mm — a credibilidade vem de validar sob condição real de fábrica, não sob condição ideal de laboratório."
+  ]
+},
+  {
+  "code": "3.15",
+  "company": "Empresa Âncora 2",
+  "title": "Integração Omnichannel no Varejo de Vizinhança",
+  "url": "/desafios/3-15",
+  "thesis": "Isto não é sobre unificar sistemas. É sobre a ausência de uma visão 360° do cliente que permita ao vendedor consultivo transformar dado disperso em recomendação assertiva no momento da venda.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é canais online e offline operando isolados. O sistema que falha é a baixa maturidade analítica organizacional — decisões comerciais são tomadas por experiência, não por dado, porque os sistemas de cada canal não se conectam, então o vendedor não enxerga o comportamento digital do cliente.",
+  "hipotese": "Se a integração de dados de canais online (app, WhatsApp, marketplace) e offline (vendedores) gera modelos preditivos que sugerem o \"pacote completo\" ao cliente em cada interação, a empresa aumenta conversão, ticket médio e recorrência, sem depender apenas da experiência individual do vendedor.",
+  "valorEstrategico": "Resolver isso com excelência transforma a força de vendas de \"tomadora de pedido\" em consultora apoiada por dado — um diferencial competitivo direto em ticket médio e recorrência num varejo de vizinhança de altíssimo volume de pontos de venda.",
+  "capacidades": [
+    "Modelo preditivo de recomendação de \"pacote completo\"núcleo técnico da proposta de valor.",
+    "Integração de dados entre app, WhatsApp, marketplace e vendas externas.",
+    "Dashboard de visão 360° do clientepara uso direto do vendedor em campo."
+  ],
+  "riscos": [
+    "*Baixa maturidade analítica* pode significar dados de qualidade inconsistente entre os canais.",
+    "*Resistência da força de vendas* a adotar recomendação baseada em dado em vez de julgamento próprio.",
+    "*Escala de 140 mil pontos de venda* exige que a solução funcione sem depender de curadoria manual."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **recomendação sob dados fragmentados e heterogêneos**: testaria se o modelo de \"pacote completo\" realmente aumenta conversão frente à recomendação por experiência do vendedor, num piloto controlado, antes de escalar para os 140 mil pontos de venda.",
+  "porqueNos": [
+    "Validar o modelo preditivo num piloto controlado e comparável antes de qualquer promessa de escala para os 140 mil pontos — a diferenciação está na disciplina de validação incremental, não na ambição do dashboard omnichannel completo."
+  ]
+},
+  {
+  "code": "3.16",
+  "company": "Empresa Âncora 3",
+  "title": "Automação e Coleta de Dados de Produção em Tempo Real",
+  "url": "/desafios/3-16",
+  "thesis": "Isto não é sobre medir mais indicadores. É sobre a ausência de integração entre o dado que os equipamentos já geram nativamente e os sistemas de gestão — o apontamento manual existe porque o dado nativo nunca foi conectado.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é medição de eficiência inconsistente, dependente de apontamento manual. O sistema que falha é o baixo aproveitamento dos dados que os próprios equipamentos já geram nativamente — a empresa mantém um processo manual paralelo em vez de captar o que a máquina já sabe.",
+  "hipotese": "Se a coleta de dados nativos dos equipamentos é integrada automaticamente aos sistemas supervisórios, sem depender de apontamento manual, a empresa ganha visibilidade em tempo real da eficiência de toda a linha — não apenas do gargalo — e reduz mão de obra alocada a registro.",
+  "valorEstrategico": "Resolver isso com excelência transforma a gestão de eficiência de uma visão parcial (apenas o gargalo) para uma visão sistêmica de toda a linha — permite identificar oportunidades de melhoria que hoje ficam invisíveis fora do equipamento mais monitorado.",
+  "capacidades": [
+    "Integração nativa com sensores/controladores já existentesnos equipamentos.",
+    "Armazenamento em nuvem local (Brasil)com capacidade de operação offline.",
+    "Dashboards de eficiência de linha completanão apenas do equipamento-gargalo."
+  ],
+  "riscos": [
+    "*Equipamentos legados sem interface de dados nativa acessível*, exigindo retrofit.",
+    "*Exigência de operação offline* em instabilidade de conexão aumenta a complexidade técnica da solução.",
+    "*Resistência de equipes* acostumadas ao apontamento manual como forma de controle."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **integração de dados nativos sob restrição de conectividade**: mapearia primeiro quais equipamentos já expõem dado nativo utilizável, testando a confiabilidade dessa captação frente ao apontamento manual atual, antes de prometer eliminação total do registro humano.",
+  "porqueNos": [
+    "Mapear e validar a confiabilidade do dado nativo já existente antes de propor a substituição total do apontamento manual — evita prometer automação onde a infraestrutura real ainda não suporta."
+  ]
+},
+  {
+  "code": "3.17",
+  "company": "Empresa Âncora 4",
+  "title": "Acordos Comerciais em Regras Executáveis Automaticamente",
+  "url": "/desafios/3-17",
+  "thesis": "Isto não é sobre conciliar mais rápido. É sobre a ausência de uma camada que traduza cláusulas contratuais complexas e condicionais em regras executáveis automaticamente — sem isso, cada acordo comercial reinterpreta a regra manualmente após o fechamento.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é divergências frequentes entre o negociado e o efetivamente pago em acordos comerciais B2B. O sistema que falha é que os ERPs atuais não foram desenhados para lidar com a complexidade de regras condicionais e promoções comerciais — a interpretação de cláusulas contratuais permanece subjetiva e manual.",
+  "hipotese": "Se acordos comerciais são convertidos em regras condicionais executáveis automaticamente, atuando como camada independente sobre os ERPs legados, a empresa elimina mais de 95% da conciliação manual e ganha previsibilidade financeira sem substituir os sistemas existentes.",
+  "valorEstrategico": "Resolver isso com excelência transforma acordos comerciais de fonte recorrente de conflito e incerteza financeira em ativo de rastreabilidade e previsibilidade — reduz risco fiscal, provisões por incerteza e desgaste na relação com parceiros comerciais.",
+  "capacidades": [
+    "Motor de regras de negóciopara acordos condicionais (rebates, promoções, escalonamentos).",
+    "Camada de integração independente sobre ERPs legados, sem substituí-los.",
+    "Sistema de monitoramento e conciliação automáticade performance contratual."
+  ],
+  "riscos": [
+    "*Complexidade real das regras condicionais* pode exceder o que é praticamente codificável sem ambiguidade.",
+    "*Resistência de áreas comerciais* a formalizar regras hoje negociadas de forma flexível.",
+    "*Regulamentações fiscais e contábeis variáveis* entre diferentes empresas da cooperativa."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **tradução de linguagem contratual em lógica executável**: mapearia primeiro os tipos de cláusula condicional mais comuns, testando se a tradução automática produz o mesmo resultado que a conciliação manual atual, antes de prometer eliminação de 95% do trabalho manual.",
+  "porqueNos": [
+    "Validar o motor de regras contra acordos comerciais reais já fechados, reproduzindo as mesmas divergências que a conciliação manual identificou — a diferenciação está em provar equivalência com o processo humano antes de automatizá-lo totalmente."
+  ]
+},
+  {
+  "code": "3.18",
+  "company": "Empresa Âncora 5",
+  "title": "Soluções Terapêuticas para Substituição da Fosfomicina na Avicultura",
+  "url": "/desafios/3-18",
+  "thesis": "Isto não é sobre banir um antibiótico. É sobre a ausência, no portfólio da empresa, de uma alternativa terapêutica com evidência já validada, antes que a decisão regulatória force uma resposta reativa e apressada.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é dependência estratégica de um único antibiótico (fosfomicina) sob pressão regulatória crescente. O sistema que falha é a ausência de alternativa tecnológica com eficácia e custo-benefício equivalentes — a indústria avícola trata o antibiótico profilático como única opção viável para produção intensiva em larga escala.",
+  "hipotese": "Se uma ou mais tecnologias emergentes (peptídeos antimicrobianos, fagos, probióticos, pós-bióticos, nanotecnologia) demonstram eficácia comparável contra doenças bacterianas em estudos in vitro ou de campo já existentes, a empresa pode antecipar uma transição regulatória antes que ela seja imposta, mantendo competitividade na avicultura.",
+  "valorEstrategico": "Resolver isso com excelência transforma um risco estratégico existencial (perda de licença para operar com fosfomicina) em vantagem de pioneirismo em sanidade animal sustentável — um posicionamento defensável frente à pressão global por redução de antibióticos.",
+  "capacidades": [
+    "Triagem de candidatos terapêuticos com evidência preliminar(in vitro, modelo animal, dados de campo).",
+    "Validação de eficácia contra doenças bacterianasespecíficas da produção avícola.",
+    "Análise de viabilidade de registro regulatório e escala de custo."
+  ],
+  "riscos": [
+    "*Escala industrial*: tecnologias emergentes podem não escalar com o mesmo custo-benefício do antibiótico convencional em produção intensiva.",
+    "*Inviabilidade operacional do tratamento individual*: aves em grandes lotes restringem as soluções viáveis a abordagens profiláticas coletivas.",
+    "*Prazo de registro regulatório* de nova solução pode ser mais longo que a janela real de pressão sobre a fosfomicina."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **triagem científica sob restrição de escala industrial**: avaliaria candidatos não apenas pela eficácia em laboratório, mas pela viabilidade real de aplicação em produção intensiva (custo, logística de lotes grandes), descartando alternativas cientificamente promissoras mas operacionalmente inviáveis antes de investir em validação profunda.",
+  "porqueNos": [
+    "Avaliar candidatos pela viabilidade real em produção intensiva, não apenas pela eficácia em laboratório — a diferenciação está em filtrar cedo o que não escala, evitando investir em ciência promissora mas operacionalmente inviável."
+  ]
+},
+  {
+  "code": "3.19",
+  "company": "Empresa Âncora 8",
+  "title": "Prevenção a Fraudes",
+  "url": "/desafios/3-19",
+  "thesis": "Isto não é sobre detectar mais transações suspeitas. É sobre a incapacidade das abordagens atuais de conectar sinais transacionais, cadastrais, comportamentais e relacionais dispersos em uma análise de rede coerente e explicável.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é a necessidade de identificar padrões de lavagem de dinheiro em ecossistemas financeiros cada vez mais digitais e instantâneos. O sistema que falha é que as abordagens atuais de prevenção não acompanham a velocidade e diversidade de novos arranjos financeiros (pagamentos instantâneos, carteiras digitais, ativos virtuais) — o volume e a velocidade da transação superam a capacidade de análise humana tradicional.",
+  "hipotese": "Se uma abordagem complementar de análise de redes e vínculos identifica padrões pouco visíveis de lavagem de dinheiro com resultados explicáveis e acionáveis, a empresa reduz falsos positivos e esforço manual de investigação, sem comprometer a taxa de detecção real.",
+  "valorEstrategico": "Resolver isso com excelência transforma a prevenção à lavagem de dinheiro de um centro de custo reativo (analisando alertas após o fato) em uma capacidade proativa de identificação de padrões emergentes — uma vantagem defensável frente à velocidade crescente de novos arranjos financeiros digitais.",
+  "capacidades": [
+    "Análise de redes e vínculosentre entidades como núcleo técnico da solução.",
+    "Modelos de priorização de alertas e casospara direcionar esforço investigativo.",
+    "Motores de explicabilidade(não apenas classificação \"caixa-preta\") para apoiar a investigação humana."
+  ],
+  "riscos": [
+    "*Segurança, privacidade e governança*: exigências rigorosas sob risco regulatório sério para qualquer solução de análise comportamental.",
+    "*Excesso de falsos positivos* pode sobrecarregar a equipe de investigação tanto quanto a ausência de detecção.",
+    "*Explicabilidade insuficiente* pode inviabilizar o uso do modelo em contexto regulatório que exige justificativa de decisão."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **detecção de padrão em rede sob restrição de explicabilidade regulatória**: priorizaria modelos que produzem justificativa auditável da decisão sobre modelos de caixa-preta com melhor acurácia bruta, testando a redução real de falsos positivos e esforço manual num ambiente de experimentação controlado antes de qualquer integração operacional.",
+  "porqueNos": [
+    "Priorizar explicabilidade e redução de falso positivo sobre acurácia bruta de detecção — a diferenciação está em produzir resultado acionável e auditável, não apenas mais uma pontuação de risco."
+  ]
+},
+  {
+  "code": "3.20",
+  "company": "Empresa Âncora 6",
+  "title": "Transformação de Dados Agrícolas em Previsões e Insights",
+  "url": "/desafios/3-20",
+  "thesis": "Isto não é sobre ter mais dashboards. É sobre a ausência de uma camada preditiva que correlacione clima, solo, variedade de cana e logística em cenários acionáveis — dado disperso e descritivo não é o mesmo que inteligência preditiva.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é a dificuldade de correlacionar clima, solo, variedade e logística de forma automatizada, mesmo usando BI e planilhas. O sistema que falha é a ausência de uma camada analítica preditiva sobre dados agrícolas dispersos em sistemas não integrados — BI e planilhas descrevem o passado, mas não preveem cenários futuros de forma acionável.",
+  "hipotese": "Se modelos de analytics avançado e IA correlacionam eventos e variáveis agrícolas históricas para estimar produtividade, eficiência e desvios em tempo real, a usina reduz retrabalho de validação de dados e antecipa ofensores de custo antes que impactem o resultado da safra.",
+  "valorEstrategico": "Resolver isso com excelência transforma a usina de operação orientada por análise retrospectiva (BI descritivo) para uma operação orientada por inteligência preditiva — permite decisões antecipadas de safra em vez de ajustes emergenciais reativos, com impacto direto em rentabilidade operacional.",
+  "capacidades": [
+    "Modelos de analytics avançado e IApara correlação de variáveis agroclimáticas.",
+    "Integração de dados dispersos entre sistemas de diferentes polos.",
+    "Dashboards preditivos de produtividade, custo e eficiência."
+  ],
+  "riscos": [
+    "*Heterogeneidade entre polos*: a complexidade do cenário agrícola pode limitar a generalização de um único modelo preditivo entre unidades.",
+    "*Qualidade e consistência dos dados históricos* pode variar significativamente por polo.",
+    "*Dependência de validação manual de dados de campo*, mesmo após automação parcial."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **modelagem preditiva sob heterogeneidade entre polos**: validaria primeiro o modelo num único polo (Alagoas) com dados históricos reais, antes de prometer generalização para outros polos com calendários e condições diferentes, medindo explicitamente o ganho de precisão preditiva frente ao processo atual baseado em BI e planilhas.",
+  "porqueNos": [
+    "Validar o modelo preditivo retroativamente com dados reais de um polo antes de prometer generalização — a diferenciação está em provar ganho de precisão mensurável, não em entregar mais um dashboard descritivo de BI."
+  ]
+},
+  {
+  "code": "3.21",
+  "company": "Empresa Âncora 7",
+  "title": "Reaproveitamento de Subproduto da Produção de Tintas",
+  "url": "/desafios/3-21",
+  "thesis": "Isto não é sobre reciclar mais resíduo. É sobre a ausência de um processo de estabilização que transforme um fluxo heterogêneo de resíduo em matéria-prima com qualidade constante o suficiente para reinserção produtiva ou comercial.",
+  "status": "dossiê completo",
+  "built": true,
+  "leitura": "O sintoma é resíduos heterogêneos da limpeza de extrusoras sem padronização para reaproveitamento. O sistema que falha é a variabilidade qualitativa do resíduo, que impede a reinserção consistente na cadeia produtiva — tentativas anteriores de reaproveitamento falharam por falta de estabilização do material, não por falta de intenção.",
+  "hipotese": "Se um processo técnico de padronização/estabilização consegue tornar o resíduo de limpeza de extrusoras consistente o suficiente para reinserção na cadeia produtiva própria (ou de terceiros) sem comprometer a performance das tintas, a empresa elimina o envio a aterro e gera receita com um material hoje tratado como custo.",
+  "valorEstrategico": "Resolver isso com excelência transforma um passivo operacional recorrente (custo de descarte, risco ambiental) em ativo rentável — sustenta a meta de \"resíduo zero\" com receita real, não apenas indicador de sustentabilidade, o que reforça tanto o compromisso ESG quanto o resultado financeiro.",
+  "capacidades": [
+    "Processos de estabilização/padronização de resíduo heterogêneonúcleo técnico da solução.",
+    "Monitoramento contínuo de parâmetros ambientais e de conformidade.",
+    "Testes de performance do material recicladonas tintas finais."
+  ],
+  "riscos": [
+    "*Causas múltiplas da variabilidade qualitativa do resíduo*, nem todas totalmente controláveis no processo de limpeza.",
+    "*Conformidade com normas globais* (RoHS, REACH) é inegociável e pode limitar as rotas técnicas viáveis.",
+    "*Performance das tintas finais* não pode ser comprometida pela reinserção do material reciclado, exigindo validação rigorosa antes de qualquer escala."
+  ],
+  "proposta": "Uma deep tech trataria isso como um problema de **estabilização de material sob restrição regulatória rígida**: caracterizaria primeiro a variabilidade real do resíduo (composição, origem, consistência) antes de propor qualquer rota de processamento, testando se o material estabilizado atende simultaneamente aos padrões de qualidade da tinta e à conformidade RoHS/REACH.",
+  "porqueNos": [
+    "Caracterizar tecnicamente a variabilidade real do resíduo antes de propor qualquer rota de estabilização — a credibilidade vem de entender a causa raiz da inconsistência do material, não de aplicar uma tecnologia genérica de reciclagem."
+  ]
+}
 ];
 
 const grid = document.getElementById('appGrid');

@@ -190,7 +190,9 @@
   .back-btn:hover{border-color:var(--signal); color:var(--fg);}
   .detail-eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px;}
   .detail-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:600; line-height:1.1; margin:0 0 8px; letter-spacing:-0.01em;}
-  .detail-url{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-dimmer); margin-bottom:36px;}
+  .detail-url{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-dimmer); margin-bottom:12px;}
+  .detail-source{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); margin-bottom:32px; opacity:0.6; transition:opacity .2s;}
+  .detail-source:hover{opacity:1; color:var(--fg-dim);}
   .detail-block{padding:28px 0; border-top:1px solid var(--line);}
   .detail-block:first-of-type{border-top:none;}
   .detail-block h3{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--fg-dimmer); margin:0 0 14px;}
@@ -430,7 +432,7 @@
 <script>
 const challenges = [
 {
-    code:"2.1", company:"Afya", title:"Engajamento com Profissionais de Saúde", url:"/desafios/afya",
+    code:"2.1", company:"Afya", title:"Engajamento com Profissionais de Saúde", url:"/desafios/afya", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/afya-participacoes-as-afya-limited/",
     thesis:"Não é sobre canais de comunicação. É sobre a ausência de um loop de reconhecimento que transforme conhecimento tácito em capital institucional.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é \"baixo engajamento recorrente\". O sistema que falha é o modelo de relacionamento unidirecional: a Afya entrega conteúdo para o médico, mas não construiu um circuito onde o conhecimento tácito do médico retorna como ativo institucional. É um problema de arquitetura de valor assimétrica, não de comunicação.",
@@ -447,7 +449,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.2", company:"AP Projetos", title:"Verificação de Documentos de Engenharia", url:"/desafios/ap-projetos",
+    code:"2.2", company:"AP Projetos", title:"Verificação de Documentos de Engenharia", url:"/desafios/ap-projetos", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/ap-projetos/",
     thesis:"O retrabalho não é sobre documentos. É sobre um padrão de qualidade que vive em pessoas, não em processo.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é retrabalho documental. O sistema que falha é a garantia de qualidade centrada em pessoas: a verificação depende da memória de indivíduos específicos, então cada rotatividade reseta o padrão a zero. Conhecimento tácito não codificado, travestido de problema de documentos.",
@@ -464,7 +466,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.3", company:"Atitus Educação", title:"Gestão da Trilha de Empreendedorismo", url:"/desafios/atitus",
+    code:"2.3", company:"Atitus Educação", title:"Gestão da Trilha de Empreendedorismo", url:"/desafios/atitus", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/atitus-educacao-s-a/",
     thesis:"Não é sobre conectar sistemas. É sobre a ausência de um modelo comum de maturidade de negócio que departamentos diferentes possam usar como linguagem compartilhada.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é falta de dados integrados. O sistema que falha é a governança de programa: não existe um modelo de \"estágios\" (gates) compartilhado entre departamentos, então cada área mede progresso com sua própria régua, e ninguém — nem o empreendedor nem o gestor — enxerga o funil real. É um problema de modelo de dados ausente, não de ferramenta ausente.",
@@ -481,7 +483,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.4", company:"Atvos", title:"Gestão de Provisões Contábeis com Automação", url:"/desafios/atvos",
+    code:"2.4", company:"Atvos", title:"Gestão de Provisões Contábeis com Automação", url:"/desafios/atvos", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/atvos/",
     thesis:"Não é sobre lançar provisões mais rápido. É sobre a ausência de um protocolo de confiança entre áreas que alimentam o mesmo número contábil.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é lentidão no fechamento contábil. O sistema que falha é o de coordenação entre áreas para um processo transversal: como múltiplas áreas alimentam a provisão sem um protocolo comum de validação, o gargalo não está na tecnologia de lançamento, mas na ausência de um \"contrato de dados\" entre áreas que gere confiança suficiente para automatizar.",
@@ -498,7 +500,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.5", company:"Banco BV", title:"Potencialização da Experiência Financeira", url:"/desafios/banco-bv",
+    code:"2.5", company:"Banco BV", title:"Potencialização da Experiência Financeira", url:"/desafios/banco-bv", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/banco-bv/",
     thesis:"Não é sobre lançar um app melhor. É sobre a dependência estrutural de terceiros para conhecer o próprio cliente.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é falta de vínculo direto com o cliente final. O sistema que falha é o modelo de distribuição B2B2C: o banco otimizou para eficiência de canal (parceiros), não para relação com o usuário final, então qualquer tentativa de personalização esbarra na ausência de dados comportamentais próprios e ricos sobre o cliente.",
@@ -515,7 +517,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.6", company:"Binatural", title:"Otimização do Lead Time Logístico", url:"/desafios/binatural",
+    code:"2.6", company:"Binatural", title:"Otimização do Lead Time Logístico", url:"/desafios/binatural", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/binatural/",
     thesis:"Não é sobre caminhões esperando mais rápido. É sobre a ausência de um \"checkpoint digital\" antes da chegada física.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é fila de caminhões. O sistema que falha é a ausência de pré-validação digital antes da chegada física — o pátio está tentando resolver, em tempo real e manualmente, um problema que deveria ter sido resolvido antes do caminhão chegar. É um problema de sequenciamento de informação, não de capacidade física.",
@@ -532,7 +534,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.7", company:"Digix", title:"Avaliações Pedagógicas para Recomposição do Aprendizado", url:"/desafios/digix",
+    code:"2.7", company:"Digix", title:"Avaliações Pedagógicas para Recomposição do Aprendizado", url:"/desafios/digix", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/digix-digithobrasil-solucoes-em-software-ltda/",
     thesis:"Não é sobre digitalizar provas. É sobre a incapacidade do sistema público de transformar resultado de avaliação em ação pedagógica específica em tempo hábil.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é lentidão nas devolutivas pedagógicas. O sistema que falha é a desconexão entre aplicação da avaliação e ação pedagógica: dados de desempenho existem, mas não fluem automaticamente para decisões de sala de aula, então o ciclo de recomposição do aprendizado é reativo e genérico em vez de dirigido por evidência específica.",
@@ -549,7 +551,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.8", company:"Duas Rodas Aromas & Ingredientes", title:"Automação da Rotulagem de Alimentos", url:"/desafios/duas-rodas",
+    code:"2.8", company:"Duas Rodas Aromas & Ingredientes", title:"Automação da Rotulagem de Alimentos", url:"/desafios/duas-rodas", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/duas-rodas-aromas-ingredientes-1/",
     thesis:"Não é sobre revisar rótulos mais rápido. É sobre a ausência de uma camada de tradução entre legislação viva e prática operacional.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é não conformidade regulatória. O sistema que falha é a tradução de norma dinâmica em regra operacional estável: a legislação (RDC 429/2020, IN 75/2020) muda e é interpretável, mas o processo de revisão trata cada rótulo como caso novo, sem uma camada intermediária que traduza norma em regra verificável de forma consistente.",
@@ -566,7 +568,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.9", company:"Duas Rodas + MBRF", title:"Inovação em Ingredientes Funcionais (GLP-1)", url:"/desafios/duas-rodas-mbrf",
+    code:"2.9", company:"Duas Rodas + MBRF", title:"Inovação em Ingredientes Funcionais (GLP-1)", url:"/desafios/duas-rodas-mbrf", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/duas-rodas-aromas-ingredientes-2-mbrf/",
     thesis:"Não é sobre criar um novo ingrediente. É sobre a capacidade de comprimir o ciclo tradicional de P&D de alimentos para acompanhar a velocidade de uma mudança comportamental de mercado sem precedentes.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é ausência de produtos para o público usuário de GLP-1. O sistema que falha não é operacional, é de velocidade de tradução entre tendência de mercado emergente e capacidade científica de P&D: a demanda mudou mais rápido do que o pipeline tradicional de desenvolvimento de ingredientes consegue responder. Diferente dos demais desafios, este é um problema de ciência aplicada sob pressão de janela de mercado, não de dados/processo.",
@@ -583,7 +585,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.10a", company:"Embracon — Relacionamento", title:"Relacionamento do Cliente", url:"/desafios/embracon-relacionamento",
+    code:"2.10a", company:"Embracon — Relacionamento", title:"Relacionamento do Cliente", url:"/desafios/embracon-relacionamento", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/embracon-administradora-de-consorcio-ltda-1/",
     thesis:"Não é sobre mandar mais mensagens. É sobre a incapacidade de sincronizar comunicação com o momento real da jornada financeira do cliente.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é cancelamento no 11º mês. O sistema que falha é a ausência de comunicação contextual ao longo de uma jornada não linear: consórcio é um produto de eventos esparsos e imprevisíveis (contemplação, lance, reajuste), mas a comunicação é tratada como um fluxo genérico e constante, então o cliente recebe ruído quando não precisa e silêncio quando mais precisa de orientação.",
@@ -600,7 +602,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.10b", company:"Embracon — Comercial", title:"Comercial", url:"/desafios/embracon-comercial",
+    code:"2.10b", company:"Embracon — Comercial", title:"Comercial", url:"/desafios/embracon-comercial", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/embracon-administradora-de-consorcio-ltda-2/",
     thesis:"Não é sobre treinar melhor o vendedor. É sobre a ausência de um mecanismo objetivo de comprovação de entendimento que desacople a conversão da compreensão real.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é cancelamento precoce pós-venda. O sistema que falha é a ausência de verificação de entendimento no momento da venda: a métrica de sucesso comercial é a conversão, não a compreensão, então o incentivo do vendedor está estruturalmente desalinhado com a retenção de longo prazo do cliente.",
@@ -617,7 +619,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.11", company:"Globo", title:"Gestão de Estoque e Otimização de Espaços", url:"/desafios/globo",
+    code:"2.11", company:"Globo", title:"Gestão de Estoque e Otimização de Espaços", url:"/desafios/globo", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/globo/",
     thesis:"Não é sobre organizar estoque. É sobre a incompatibilidade estrutural entre um processo de planejamento estático e uma operação de produção inerentemente dinâmica.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é lentidão no planejamento de armazéns. O sistema que falha é o modelo de alocação reativo a mudanças de última hora: a produção audiovisual é inerentemente volátil, mas o processo de alocação de espaço foi desenhado para um cenário estável, então cada mudança de plano de produção obriga um replanejamento manual completo em vez de um ajuste incremental.",
@@ -634,7 +636,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.12", company:"Grupo Interjato", title:"Inteligência Analítica em Videomonitoramento", url:"/desafios/interjato",
+    code:"2.12", company:"Grupo Interjato", title:"Inteligência Analítica em Videomonitoramento", url:"/desafios/interjato", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/grupo-interjato/",
     thesis:"Não é sobre monitorar vídeos. É sobre a incapacidade de transformar um ativo de infraestrutura física em um ativo de inteligência preditiva.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é vídeo assistido apenas reativamente. O sistema que falha é o modelo de monetização de infraestrutura: a empresa investiu em conectividade e hardware, mas nunca desenvolveu a camada de processamento que transforma fluxo de vídeo em sinal acionável — o ativo físico está subutilizado porque falta a capacidade analítica complementar, não porque falte câmera.",
@@ -651,7 +653,7 @@ const challenges = [
     ]
   },
   {
-    code:"2.13", company:"Instituto Riachuelo", title:"Resiliência Hídrica e Produtividade Agroecológica", url:"/desafios/instituto-riachuelo",
+    code:"2.13", company:"Instituto Riachuelo", title:"Resiliência Hídrica e Produtividade Agroecológica", url:"/desafios/instituto-riachuelo", fonte:"https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/instituto-riachuelo/",
     thesis:"Não é sobre plantar mais algodão. É sobre infraestrutura compartilhada que desacople a viabilidade econômica do produtor da variabilidade climática.",
     status:"dossiê completo", built:true,
     leitura:"O sintoma é baixa lucratividade do pequeno agricultor. O sistema que falha é o acoplamento entre risco climático e viabilidade econômica individual: sem infraestrutura compartilhada, cada agricultor arca sozinho com um risco estrutural que deveria ser mitigado coletivamente.",
@@ -672,6 +674,7 @@ const challenges = [
   "company": "Kraft Heinz",
   "title": "Sincronismo de Safra e Demanda Industrial",
   "url": "/desafios/3-1",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/kraft-heinz/",
   "thesis": "Isto não é sobre entregar insumos mais rápido. É sobre um modelo de planejamento que trata variáveis climáticas como exceção, quando deveriam ser parâmetro central do modelo desde o desenho.",
   "status": "dossiê completo",
   "built": true,
@@ -698,6 +701,7 @@ const challenges = [
   "company": "Laticínio Novo Horizonte",
   "title": "IA para Parâmetros Ideais de Fabricação em Tempo Real",
   "url": "/desafios/3-2",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/laticinio-novo-horizonte/",
   "thesis": "Isto não é sobre treinar melhor o operador. É sobre a ausência de instrumentação que transforme a variação diária da matéria-prima em parâmetro mensurável, não em intuição acumulada.",
   "status": "dossiê completo",
   "built": true,
@@ -724,6 +728,7 @@ const challenges = [
   "company": "Portobello S.A",
   "title": "Eficiência em Processos Operacionais de Compra",
   "url": "/desafios/3-3",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/portobello-s-a/",
   "thesis": "Isto não é sobre automatizar tarefas isoladas. É sobre a ausência de uma camada de decisão unificada sobre dados hoje fragmentados entre ERP central e sistemas satélites.",
   "status": "dossiê completo",
   "built": true,
@@ -750,6 +755,7 @@ const challenges = [
   "company": "Schulz S/A",
   "title": "Eliminação de Operações Manuais em Peças Fundidas Complexas",
   "url": "/desafios/3-4",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/schulz-sa/",
   "thesis": "Isto não é sobre substituir mão de obra por robôs tradicionais. É sobre a incompatibilidade entre automação programada rigidamente e um mix de produtos de altíssima variabilidade.",
   "status": "dossiê completo",
   "built": true,
@@ -776,6 +782,7 @@ const challenges = [
   "company": "SEBRAE/RN",
   "title": "Radar de Convergência para Inovação Setorial",
   "url": "/desafios/3-5",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/sebrae-rn/",
   "thesis": "Isto não é sobre fazer mais diagnósticos. É sobre a ausência de uma base de dados comum que transforme percepção subjetiva de gargalo setorial em evidência mensurável de potencial de ROI.",
   "status": "dossiê completo",
   "built": true,
@@ -802,6 +809,7 @@ const challenges = [
   "company": "Sicredi Ouro Verde MT/PA",
   "title": "Oferta Consultiva de Crédito por Subsegmento",
   "url": "/desafios/3-6",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/sicredi-ouro-verde-mt-pa/",
   "thesis": "Isto não é sobre digitalizar o processo de crédito. É sobre tratar públicos com necessidades radicalmente diferentes — do Varejo à Alta Renda — com um único fluxo genérico e burocrático.",
   "status": "dossiê completo",
   "built": true,
@@ -828,6 +836,7 @@ const challenges = [
   "company": "TAESA",
   "title": "Zerar Emissões do Escopo 2 na Transmissão de Energia",
   "url": "/desafios/3-7",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/taesa/",
   "thesis": "Isto não é sobre reduzir consumo. É sobre a dissociação estrutural entre quem é responsabilizado pela emissão (a transmissora) e quem controla a variável real que a gera (o despacho definido pelo ONS).",
   "status": "dossiê completo",
   "built": true,
@@ -854,6 +863,7 @@ const challenges = [
   "company": "Unifique",
   "title": "Soluções Inovadoras com Potencial do 5G",
   "url": "/desafios/3-8",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unifique-telecomunicacoes-s-a-1/",
   "thesis": "Isto não é sobre ter mais cobertura 5G. É sobre a ausência de casos de uso onde a tecnologia 5G seja estrutural — não apenas conveniente — para a proposta de valor.",
   "status": "dossiê completo",
   "built": true,
@@ -880,6 +890,7 @@ const challenges = [
   "company": "Unifique",
   "title": "Sensores IoT para Atuação da Defesa Civil",
   "url": "/desafios/3-9",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unifique-telecomunicacoes-s-a-2/",
   "thesis": "Isto não é sobre monitorar mais. É sobre a ausência de uma oferta integrada de sensores e análise preditiva que transforme dado ambiental disperso em decisão preventiva de Defesa Civil.",
   "status": "dossiê completo",
   "built": true,
@@ -906,6 +917,7 @@ const challenges = [
   "company": "Unimed",
   "title": "Solicitação e Validação de OPME com Governança",
   "url": "/desafios/3-10",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unimed-campo-grande-1/",
   "thesis": "Isto não é sobre auditar mais rápido. É sobre a ausência de um catálogo inteligente que apresente ao médico, no momento da decisão, as alternativas homologadas — sem isso, toda solicitação nasce sujeita a retrabalho.",
   "status": "dossiê completo",
   "built": true,
@@ -932,6 +944,7 @@ const challenges = [
   "company": "Unimed",
   "title": "Integração e Acompanhamento da Jornada Oncológica",
   "url": "/desafios/3-11",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unimed-campo-grande-2/",
   "thesis": "Isto não é sobre monitorar mais guias. É sobre a ausência de uma visão sistêmica que conecte autorização, ciclo de tratamento e resposta clínica em um único fluxo — hoje cada etapa vive isolada em um prestador diferente.",
   "status": "dossiê completo",
   "built": true,
@@ -958,6 +971,7 @@ const challenges = [
   "company": "WEG Transformadores",
   "title": "IA para Leitura Técnica e Elaboração de Orçamentos",
   "url": "/desafios/3-12",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/weg-transformadores/",
   "thesis": "Isto não é sobre orçar mais rápido. É sobre a ausência de uma camada de extração estruturada que transforme documentos técnicos heterogêneos (formato, idioma) em dados prontos para precificação.",
   "status": "dossiê completo",
   "built": true,
@@ -984,6 +998,7 @@ const challenges = [
   "company": "Empresa Âncora 1",
   "title": "Otimização dos Processos Jurídicos e de Suprimentos",
   "url": "/desafios/3-13",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-1/",
   "thesis": "Isto não é sobre acelerar aprovações. É sobre aplicar o mesmo trâmite de aquisição convencional a um tipo de contratação (startup/ICT) que exige um modelo próprio, mais leve e pré-validado.",
   "status": "dossiê completo",
   "built": true,
@@ -1010,6 +1025,7 @@ const challenges = [
   "company": "Empresa Âncora (não identificada com confiança)",
   "title": "Inspeção de Chapas",
   "url": "/desafios/3-14",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-2/",
   "thesis": "Isto não é sobre inspecionar mais chapas. É sobre a ausência de medição contínua e automática que substitua a amostragem manual por controle de 100% da produção em tempo real.",
   "status": "dossiê completo",
   "built": true,
@@ -1036,6 +1052,7 @@ const challenges = [
   "company": "Empresa Âncora 2",
   "title": "Integração Omnichannel no Varejo de Vizinhança",
   "url": "/desafios/3-15",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-3/",
   "thesis": "Isto não é sobre unificar sistemas. É sobre a ausência de uma visão 360° do cliente que permita ao vendedor consultivo transformar dado disperso em recomendação assertiva no momento da venda.",
   "status": "dossiê completo",
   "built": true,
@@ -1062,6 +1079,7 @@ const challenges = [
   "company": "Empresa Âncora 3",
   "title": "Automação e Coleta de Dados de Produção em Tempo Real",
   "url": "/desafios/3-16",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-4/",
   "thesis": "Isto não é sobre medir mais indicadores. É sobre a ausência de integração entre o dado que os equipamentos já geram nativamente e os sistemas de gestão — o apontamento manual existe porque o dado nativo nunca foi conectado.",
   "status": "dossiê completo",
   "built": true,
@@ -1088,6 +1106,7 @@ const challenges = [
   "company": "Empresa Âncora 4",
   "title": "Acordos Comerciais em Regras Executáveis Automaticamente",
   "url": "/desafios/3-17",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-5/",
   "thesis": "Isto não é sobre conciliar mais rápido. É sobre a ausência de uma camada que traduza cláusulas contratuais complexas e condicionais em regras executáveis automaticamente — sem isso, cada acordo comercial reinterpreta a regra manualmente após o fechamento.",
   "status": "dossiê completo",
   "built": true,
@@ -1114,6 +1133,7 @@ const challenges = [
   "company": "Empresa Âncora 5",
   "title": "Soluções Terapêuticas para Substituição da Fosfomicina na Avicultura",
   "url": "/desafios/3-18",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-6/",
   "thesis": "Isto não é sobre banir um antibiótico. É sobre a ausência, no portfólio da empresa, de uma alternativa terapêutica com evidência já validada, antes que a decisão regulatória force uma resposta reativa e apressada.",
   "status": "dossiê completo",
   "built": true,
@@ -1140,6 +1160,7 @@ const challenges = [
   "company": "Empresa Âncora 8",
   "title": "Prevenção a Fraudes",
   "url": "/desafios/3-19",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-10/",
   "thesis": "Isto não é sobre detectar mais transações suspeitas. É sobre a incapacidade das abordagens atuais de conectar sinais transacionais, cadastrais, comportamentais e relacionais dispersos em uma análise de rede coerente e explicável.",
   "status": "dossiê completo",
   "built": true,
@@ -1166,6 +1187,7 @@ const challenges = [
   "company": "Empresa Âncora 6",
   "title": "Transformação de Dados Agrícolas em Previsões e Insights",
   "url": "/desafios/3-20",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-7/",
   "thesis": "Isto não é sobre ter mais dashboards. É sobre a ausência de uma camada preditiva que correlacione clima, solo, variedade de cana e logística em cenários acionáveis — dado disperso e descritivo não é o mesmo que inteligência preditiva.",
   "status": "dossiê completo",
   "built": true,
@@ -1192,6 +1214,7 @@ const challenges = [
   "company": "Empresa Âncora 7",
   "title": "Reaproveitamento de Subproduto da Produção de Tintas",
   "url": "/desafios/3-21",
+  "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-8/",
   "thesis": "Isto não é sobre reciclar mais resíduo. É sobre a ausência de um processo de estabilização que transforme um fluxo heterogêneo de resíduo em matéria-prima com qualidade constante o suficiente para reinserção produtiva ou comercial.",
   "status": "dossiê completo",
   "built": true,
@@ -1249,6 +1272,7 @@ function openDetail(i){
     <div class="detail-eyebrow">${c.code} · ${c.company}</div>
     <h1 class="detail-title">${c.title}</h1>
     <div class="detail-url mono">luxverso.tech${c.url}</div>
+    <a class="detail-source" href="${c.fonte}" target="_blank" rel="noopener">Ver desafio original ↗</a>
     <div class="detail-block"><h3>Nossa leitura sistêmica</h3><p>${c.leitura}</p></div>
     <div class="detail-block"><h3>Hipótese central</h3><p class="dim">${c.hipotese}</p></div>
     <div class="detail-block"><h3>Valor estratégico</h3><p class="dim">${c.valorEstrategico}</p></div>

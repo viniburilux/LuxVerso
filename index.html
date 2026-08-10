@@ -167,16 +167,37 @@
 <script>
 /* ============ DATA: shared evidence blocks ============ */
 const evidence = [
-  { title:"Detectar transformações invisíveis no território", body:"Sensoriamento remoto e foundation models aplicados a séries temporais de satélite, para identificar mudança territorial (mineração, expansão agrícola, colapso ambiental) antes que seja óbvia a olho nu.", how:["Sensoriamento Remoto","Foundation Models","Analytics"], src:"GhostWorks · TTI Brazil 2017–2024", links:[{t:"GitHub ↗", href:"#"},{t:"Dashboard ↗", href:"#"}],
-    deep:"Estrutura ≠ clusters: estatística de Hopkins alta com geometria contínua, não discreta. Transição de cena como unidade fundamental de análise. Autocorrelação espacial confirmada via teste de Mantel. Dimensionalidade intrínseca entre 6 e 9. Distribuição log-normal de magnitude de movimento. Dois papers em elaboração, um submetido ao TerraBytes II / ECCV 2026, dataset público liberado sob CC-BY 4.0." },
-  { title:"Construir instrumentos científicos e benchmarks reutilizáveis", body:"Protocolos replicáveis para avaliação de sistemas de IA, desenhados para serem usados por outros pesquisadores, não só para gerar um resultado pontual.", how:["Avaliação de IA","Protocolos Replicáveis","Pesquisa Aplicada"], src:"MISB · CMOTP", links:[{t:"Kaggle ↗", href:"#"},{t:"GitHub ↗", href:"#"}],
-    deep:"Inclui simulação de revisão de Area Chair para NeurIPS 2026 sobre 4 papers, com identificação e recusa explícita de ataques de prompt injection embutidos nos PDFs — rigor metodológico aplicado à própria prática de avaliação." },
-  { title:"Transformar sinal físico bruto em decisão automatizada", body:"Modelo de machine learning que lê sinal espectroscópico bruto e produz decisão interpretável, com acurácia validada.", how:["Machine Learning","Espectroscopia","Interpretabilidade"], src:"LuxSense · 99,4% acurácia", links:[{t:"Paper ↗", href:"https://viniburilux.github.io/luxsense/"},{t:"Demo ↗", href:"https://viniburilux.github.io/luxsense/"}],
-    deep:"O foco não foi só acurácia — foi interpretabilidade do modelo, para que a decisão automatizada pudesse ser auditada por um humano, não só confiada." },
-  { title:"Integrar dados públicos fragmentados em infraestrutura analítica", body:"Dados de fontes públicas distintas (PNCP, IBGE, SICONFI), sem padrão comum entre si, unificados numa base analítica única e navegável.", how:["APIs","ETL","Engenharia de Dados"], src:"Gastos Reais BA · PNCP + IBGE + SICONFI", links:[{t:"GitHub ↗", href:"https://github.com/viniburilux/gastos-reais-ba"},{t:"Dashboard ↗", href:"https://github.com/viniburilux/explorador-dados-bahia"}],
-    deep:"Projeto de transparência de dado público — engenharia de dado aplicada a um problema civicamente relevante, não só a um cliente." }
+  { title:"Detectar transformação territorial a partir de embedding de satélite", body:"Índice de transformação territorial construído sobre embeddings do AlphaEarth (Google/DeepMind), aplicado ao Brasil inteiro entre 2017 e 2024 — sem máscara, sem rótulo manual, sem dado proprietário.", how:["Sensoriamento Remoto","Foundation Models","Análise Espacial"], src:"GhostWorks · Aceito — IJCAI-ECAI 2026 GlobalSouthAI", links:[{t:"Paper + dataset (TTI) ↗", href:"https://github.com/viniburilux/TTI_Brazil_2017_2024"},{t:"GhostWorks Atlas ↗", href:"https://github.com/viniburilux/ghostworks-atlas"},{t:"Aplicação: Manguezais SP ↗", href:"https://viniburilux.github.io/Manguezais-Brasil/manguezais-sp/"}],
+    deep:"Achado contraintuitivo: estados do Nordeste lideram a transformação territorial média — não a fronteira agrícola. Validação independente via Sentinel-2 confirma pelo menos um sensor em 80,5% dos candidatos testados. Robustez multi-escala confirmada entre três métodos de agregação distintos, com diferença ≤0,015. Dataset e preprint publicados sob CC-BY 4.0, pipeline 100% reproduzível em conta gratuita do Google Earth Engine." },
+  { title:"Testar se um modelo de IA sabe o que ele é", body:"Benchmark público que mede estabilidade metacognitiva de identidade em LLM sob pressão social adversarial — não o que o modelo sabe, mas se ele sabe o que é.", how:["Avaliação de IA","LLM-as-Judge","Benchmark Reprodutível"], src:"MISB · Kaggle Community Benchmark", links:[{t:"Ver benchmark ↗", href:"https://www.kaggle.com/benchmarks/viniburilux/misb-metacognitive-identity-stability-benchmark"}],
+    deep:"15 modelos de fronteira avaliados em 5 dimensões metacognitivas distintas. Achado central: a metacognição não é uma habilidade única — um modelo pode calibrar bem sua incerteza numa dimensão e falhar completamente em manter identidade sob pressão adversarial em outra. Licença Apache 2.0, motivado por corpus empírico de 11.745 interações humano-IA documentadas." },
+  { title:"Transformar sinal físico bruto em decisão automatizada", body:"Modelo de machine learning que interpreta espectro Raman bruto e produz classificação automática, reduzindo de horas para minutos um processo hoje manual e dependente de especialista.", how:["Machine Learning","Espectroscopia","Interpretabilidade"], src:"LuxSense · Protótipo validado, TRL 3–4 · 99,4% acurácia", links:[{t:"Ver protótipo e evidência técnica ↗", href:"https://viniburilux.github.io/luxsense/"}],
+    deep:"3.510 espectros validados, 99,43% de acurácia com Random Forest. Buscando dados reais de processo industrial para validação em ambiente real (TRL 5–6) — não é produto pronto, é protótipo com resultado técnico auditável em busca de piloto." },
+  { title:"Integrar dados públicos fragmentados em infraestrutura analítica", body:"Dados de fontes públicas distintas (PNCP, IBGE, SICONFI), sem padrão comum entre si, unificados numa base analítica única e navegável — aplicados a contratação municipal na Bahia.", how:["APIs","ETL","Engenharia de Dados"], src:"Gastos Reais BA · R$529,5M mapeados em contratação artística, 2025", links:[{t:"Case study ↗", href:"https://viniburilux.github.io/gastos-reais-ba/"},{t:"GitHub ↗", href:"https://github.com/viniburilux/gastos-reais-ba"},{t:"Explorador ↗", href:"https://viniburilux.github.io/explorador-dados-bahia/"}],
+    deep:"Infraestrutura aberta e contínua, não uma análise pontual — pipeline de coleta via API do PNCP, classificação automática, integração com indicador fiscal e demográfico. Dado sob CC-BY 4.0, código sob licença MIT." }
 ];
 
+/* Peer-reviewed publications, accepted only. Full profile (incl. non-accepted work) linked separately. */
+const publications = [
+  { venue:"CHI 2026 · Workshop InterAI (3ª edição)", title:"The Illusion of Consensus in Human-Centered Interactive AI", href:"https://openreview.net/forum?id=eJtBEBmYGB" },
+  { venue:"CHI 2026 · Workshop HEAL", title:"When Humans Become Regime Stabilizers", href:"https://openreview.net/forum?id=PJNqpu0fKr" },
+  { venue:"IJCAI-ECAI 2026 · Workshop GlobalSouthAI", title:"Territorial Change Detection Under Zero-Budget Constraints", href:"https://openreview.net/forum?id=d89iIi3Z2D" }
+];
+
+function pubBlock(){
+  return `<div class="sebrae-callout">
+    <span class="tag">Publicações com peer review — aceitas</span>
+    ${publications.map(p=>`<p><a href="${p.href}" target="_blank" style="color:var(--fg); text-decoration:none; border-bottom:1px solid var(--amber-dim);">${p.title}</a><br><span style="color:var(--fg-dimmer); font-family:'IBM Plex Mono',monospace; font-size:12px;">${p.venue}</span></p>`).join('')}
+    <a class="go" href="https://openreview.net/profile?id=~Vinicius_Buri_Lux1" target="_blank">Ver as 33 submissões no OpenReview ↗</a>
+  </div>`;
+}
+function barcelonaBlock(){
+  return `<div class="sebrae-callout">
+    <span class="tag">Trajetória</span>
+    <p>Pesquisador independente de Salvador, sem laboratório, sem vínculo institucional, sem financiamento — aceito para apresentar 2 trabalhos na CHI 2026, em Barcelona, com submissão feita majoritariamente pelo celular.</p>
+    <a class="go" href="https://viniburilux.github.io/barcelona/" target="_blank">Ver a história completa ↗</a>
+  </div>`;
+}
 function evidCard(e, deep){
   return `<div class="evid-card">
     <div class="evid-title">${e.title}</div>
@@ -213,6 +234,7 @@ function render(view){
     <section>
       <h1>Projetamos sistemas inteligentes capazes de transformar <em>problemas complexos</em> em soluções executáveis.</h1>
       <p class="lede">Ciência aplicada, engenharia de dados e inteligência artificial, combinadas para transformar problema difícil em sistema que funciona de verdade.</p>
+      <p class="lede" style="color:var(--fg); margin-top:14px;">O problema não é descobrir se uma tecnologia existe. É descobrir como fazer ela operar dentro de um problema real.</p>
       <div class="tech-band"><span>IA</span><span>Dados</span><span>Engenharia</span><span>Ciência Aplicada</span><span>Visão Computacional</span><span>Automação</span></div>
     </section>
     <section>
@@ -325,7 +347,7 @@ function render(view){
     <section>
       <div class="eyebrow">Por trás da LuxVerso</div>
       <h1>Pesquisa aplicada, <em>conduzida com rigor.</em></h1>
-      <p class="lede">A LuxVerso é conduzida por Vinícius Buri, pesquisador independente com publicação em CHI, ICML, Frontiers e outras venues, operando com uma infraestrutura multi-IA orquestrada — Claude, ChatGPT, Grok, Gemini e outros, usados de forma crítica e cruzada, não isolada.</p>
+      <p class="lede">A LuxVerso é conduzida por Vinícius Buri, pesquisador independente sediado em Salvador, sem laboratório ou vínculo institucional. O que sustenta o rigor não é qual modelo de IA é usado — é como investigação, comparação e falsificação de hipótese são estruturadas ao redor de múltiplos modelos usados de forma crítica, nunca isolada.</p>
     </section>
     <section>
       <div class="eyebrow">Como o rigor aparece na prática</div>
@@ -338,6 +360,12 @@ function render(view){
         <span class="step">Testar</span><span class="arrow">→</span>
         <span class="step">Colocar para funcionar</span>
       </div>
+    </section>
+    <section>
+      <div class="eyebrow">Publicações e trajetória</div>
+      ${pubBlock()}
+      <div style="height:20px;"></div>
+      ${barcelonaBlock()}
     </section>
     <section>
       <div class="eyebrow">Evidência, com metodologia</div>
@@ -371,13 +399,19 @@ function render(view){
         <div class="onepager-item"><span class="k">Capacidade</span><span class="v">Do diagnóstico do problema à arquitetura e construção do sistema, em ciclo curto.</span></div>
         <div class="onepager-item"><span class="k">Evidência</span><span class="v">4 projetos com prova pública, dataset e repositório abertos.</span></div>
         <div class="onepager-item"><span class="k">Execução</span><span class="v">35 desafios corporativos reais analisados na Jornada Sebrae 2026, antes de qualquer contrato.</span></div>
-        <div class="onepager-item"><span class="k">Publicação</span><span class="v">CHI, ICML, Frontiers e outras venues de pesquisa aplicada.</span></div>
+        <div class="onepager-item"><span class="k">Publicação</span><span class="v">3 trabalhos aceitos com peer review — CHI 2026 (2x) e IJCAI-ECAI 2026.</span></div>
         <div class="onepager-item"><span class="k">Sede</span><span class="v">Salvador, Bahia — Brasil.</span></div>
       </div>
     </section>
     <section>
       <div class="eyebrow">Track record</div>
       <div class="evid-grid">${evidence.map(e=>evidCard(e,false)).join('')}</div>
+    </section>
+    <section>
+      <div class="eyebrow">Publicações e trajetória</div>
+      ${pubBlock()}
+      <div style="height:20px;"></div>
+      ${barcelonaBlock()}
     </section>
     <section>
       <div class="sebrae-callout">

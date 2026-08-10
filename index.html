@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxVerso Research & Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a08; --ink-2:#141410; --line:#2a2620;
+    --fg:#f2efe9; --fg-dim:#a8a196; --fg-dimmer:#635d52;
+    --amber:#f0b429; --amber-dim:#7a5c1a;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--ink); color:var(--fg); font-family:'IBM Plex Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ===== GATE ===== */
+  #gate{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:40px; text-align:center; position:relative;
+  }
+  .gate-brand{display:flex; align-items:baseline; gap:10px; margin-bottom:60px;}
+  .gate-mark{width:9px; height:9px; background:var(--amber); box-shadow:0 0 14px var(--amber);}
+  .gate-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; letter-spacing:.02em;}
+  .gate-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
+  .gate-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:600; max-width:620px; line-height:1.25; margin-bottom:50px;}
+  .gate-title em{font-style:normal; color:var(--amber);}
+  .gate-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); max-width:760px; width:100%;}
+  @media (max-width:640px){ .gate-grid{grid-template-columns:1fr;} }
+  .gate-card{
+    background:var(--ink); padding:30px 26px; text-align:left; cursor:pointer;
+    display:flex; flex-direction:column; gap:8px; transition:background .18s;
+  }
+  .gate-card:hover{background:var(--ink-2);}
+  .gate-card:hover .gate-icon{color:var(--amber);}
+  .gate-icon{font-size:20px; color:var(--fg-dim); transition:color .18s;}
+  .gate-card-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;}
+  .gate-card-desc{font-size:13px; color:var(--fg-dim); line-height:1.5;}
+  .gate-direct{margin-top:36px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--fg-dimmer); text-decoration:none; border-bottom:1px solid transparent; cursor:pointer;}
+  .gate-direct:hover{color:var(--fg-dim); border-color:var(--fg-dimmer);}
+
+  /* ===== APP SHELL ===== */
+  #app{display:none;}
+  #app.open{display:block;}
+  header.topbar{
+    position:sticky; top:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; background:rgba(10,10,8,0.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:baseline; gap:10px;}
+  .brand-mark{width:9px; height:9px; background:var(--amber); box-shadow:0 0 12px var(--amber);}
+  .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
+  .switch-perspective{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--fg-dim); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px; cursor:pointer; transition:color .15s, border-color .15s;}
+  .switch-perspective:hover{color:var(--amber); border-color:var(--amber-dim);}
+
+  main{position:relative; z-index:1;}
+  section{max-width:1100px; margin:0 auto; padding:90px 40px; border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  h1,h2{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; margin:0;}
+  h1{font-size:clamp(28px,4.4vw,48px); line-height:1.14;}
+  h2{font-size:clamp(23px,3.2vw,34px); line-height:1.2;}
+  h1 em, h2 em{font-style:normal; color:var(--amber);}
+  .lede{font-size:16px; line-height:1.7; color:var(--fg-dim); max-width:660px; margin-top:20px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--amber); letter-spacing:.1em; text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:''; width:20px; height:1px; background:var(--amber);}
+
+  .tech-band{margin-top:32px; display:flex; flex-wrap:wrap; gap:0; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--fg-dim); padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .tech-band span:not(:last-child)::after{content:'·'; margin:0 12px; color:var(--fg-dimmer);}
+
+  .mirror-list{list-style:none; margin:26px 0 0; padding:0; display:flex; flex-direction:column; max-width:680px;}
+  .mirror-list li{padding:14px 0; border-bottom:1px solid var(--line); font-size:15px; color:var(--fg-dim); display:flex; gap:12px;}
+  .mirror-list li::before{content:'—'; color:var(--amber-dim); flex-shrink:0;}
+  .mirror-list li b{color:var(--fg); font-weight:500;}
+
+  .evid-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:40px;}
+  @media (max-width:760px){ .evid-grid{grid-template-columns:1fr;} }
+  .evid-card{background:var(--ink); padding:26px; display:flex; flex-direction:column; gap:12px;}
+  .evid-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; line-height:1.3;}
+  .evid-body{font-size:13.5px; color:var(--fg-dim); line-height:1.6;}
+  .evid-how{display:flex; flex-wrap:wrap; gap:6px;}
+  .evid-how span{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--fg-dimmer); border:1px solid var(--line); padding:3px 8px; border-radius:12px;}
+  .evid-foot{display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:11.5px;}
+  .evid-src{color:var(--amber);}
+  .evid-links a{color:var(--fg-dim); text-decoration:none; margin-left:10px;}
+  .evid-links a:hover{color:var(--amber);}
+
+  .method-flow{display:flex; flex-wrap:wrap; margin-top:36px; font-family:'IBM Plex Mono',monospace; font-size:13px;}
+  .method-flow .step{color:var(--fg); padding:10px 0;}
+  .method-flow .arrow{color:var(--amber-dim); padding:0 14px;}
+
+  .risk-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:40px;}
+  @media (max-width:860px){ .risk-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:480px){ .risk-grid{grid-template-columns:1fr;} }
+  .risk-card{background:var(--ink); padding:22px;}
+  .risk-card .n{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--fg-dimmer);}
+  .risk-card h3{font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; margin:10px 0 8px;}
+  .risk-card p{font-size:13px; color:var(--fg-dim); line-height:1.55; margin:0;}
+
+  .sebrae-callout{margin-top:36px; padding:30px 32px; border:1px solid var(--amber-dim); border-radius:var(--radius); background:var(--ink-2); max-width:760px;}
+  .sebrae-callout .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; display:block;}
+  .sebrae-callout p{font-size:15px; line-height:1.7; color:var(--fg); margin:0 0 10px;}
+  .sebrae-callout p:last-of-type{margin-bottom:0;}
+  .sebrae-callout .go{display:inline-block; margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--amber); text-decoration:none; border-bottom:1px solid var(--amber-dim); padding-bottom:2px;}
+  .sebrae-callout .go:hover{border-color:var(--amber);}
+
+  .onepager{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:40px;}
+  @media (max-width:760px){ .onepager{grid-template-columns:1fr 1fr;} }
+  @media (max-width:480px){ .onepager{grid-template-columns:1fr;} }
+  .onepager-item{background:var(--ink); padding:22px 20px;}
+  .onepager-item .k{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--fg-dimmer); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; display:block;}
+  .onepager-item .v{font-size:14px; color:var(--fg); line-height:1.5;}
+
+  .cta-row{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:26px; margin-top:44px;}
+  .cta-main{font-family:'IBM Plex Mono',monospace; font-size:14.5px; color:var(--amber); text-decoration:none; border-bottom:1px solid var(--amber-dim); padding-bottom:3px;}
+  .cta-main:hover{border-color:var(--amber);}
+  .cta-secondary{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--fg-dim); text-decoration:none; border-bottom:1px solid var(--line);}
+  .cta-secondary:hover{color:var(--fg);}
+
+  .perspective-nudge{margin-top:60px; padding:26px 0 0; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:16px; align-items:center;}
+  .perspective-nudge span{font-size:13px; color:var(--fg-dimmer); font-family:'IBM Plex Mono',monospace;}
+  .perspective-nudge a{font-size:13px; color:var(--fg-dim); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px;}
+  .perspective-nudge a:hover{color:var(--amber); border-color:var(--amber-dim);}
+
+  footer{max-width:1100px; margin:0 auto; padding:30px 40px 60px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="gate-brand">
+    <span class="gate-mark"></span>
+    <span class="gate-name">LUXVERSO</span>
+    <span class="gate-sub">RESEARCH &amp; TECH</span>
+  </div>
+  <div class="gate-title">O que você quer descobrir <em>sobre a LuxVerso?</em></div>
+  <div class="gate-grid" id="gateGrid"></div>
+  <a class="gate-direct" onclick="enter('rapido')">Entrar direto →</a>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">LUXVERSO</span>
+      <span class="brand-sub">RESEARCH &amp; TECH</span>
+    </div>
+    <a class="switch-perspective" onclick="showGate()">Mudar perspectiva</a>
+  </header>
+  <main id="mainContent"></main>
+  <footer>
+    <span>LuxVerso Research Initiative · <a href="https://github.com/viniburilux" target="_blank" style="text-decoration:none;">Vinícius Buri</a> · Salvador, Bahia</span>
+    <span><a href="./Desafio-Sebrae/" style="text-decoration:none; color:var(--fg-dim);">Ver os 35 desafios Sebrae ↗</a></span>
+  </footer>
+</div>
+
+<script>
+/* ============ DATA: shared evidence blocks ============ */
+const evidence = [
+  { title:"Detectar transformações invisíveis no território", body:"Sensoriamento remoto e foundation models aplicados a séries temporais de satélite, para identificar mudança territorial (mineração, expansão agrícola, colapso ambiental) antes que seja óbvia a olho nu.", how:["Sensoriamento Remoto","Foundation Models","Analytics"], src:"GhostWorks · TTI Brazil 2017–2024", links:[{t:"GitHub ↗", href:"#"},{t:"Dashboard ↗", href:"#"}],
+    deep:"Estrutura ≠ clusters: estatística de Hopkins alta com geometria contínua, não discreta. Transição de cena como unidade fundamental de análise. Autocorrelação espacial confirmada via teste de Mantel. Dimensionalidade intrínseca entre 6 e 9. Distribuição log-normal de magnitude de movimento. Dois papers em elaboração, um submetido ao TerraBytes II / ECCV 2026, dataset público liberado sob CC-BY 4.0." },
+  { title:"Construir instrumentos científicos e benchmarks reutilizáveis", body:"Protocolos replicáveis para avaliação de sistemas de IA, desenhados para serem usados por outros pesquisadores, não só para gerar um resultado pontual.", how:["Avaliação de IA","Protocolos Replicáveis","Pesquisa Aplicada"], src:"MISB · CMOTP", links:[{t:"Kaggle ↗", href:"#"},{t:"GitHub ↗", href:"#"}],
+    deep:"Inclui simulação de revisão de Area Chair para NeurIPS 2026 sobre 4 papers, com identificação e recusa explícita de ataques de prompt injection embutidos nos PDFs — rigor metodológico aplicado à própria prática de avaliação." },
+  { title:"Transformar sinal físico bruto em decisão automatizada", body:"Modelo de machine learning que lê sinal espectroscópico bruto e produz decisão interpretável, com acurácia validada.", how:["Machine Learning","Espectroscopia","Interpretabilidade"], src:"LuxSense · 99,4% acurácia", links:[{t:"Paper ↗", href:"https://viniburilux.github.io/luxsense/"},{t:"Demo ↗", href:"https://viniburilux.github.io/luxsense/"}],
+    deep:"O foco não foi só acurácia — foi interpretabilidade do modelo, para que a decisão automatizada pudesse ser auditada por um humano, não só confiada." },
+  { title:"Integrar dados públicos fragmentados em infraestrutura analítica", body:"Dados de fontes públicas distintas (PNCP, IBGE, SICONFI), sem padrão comum entre si, unificados numa base analítica única e navegável.", how:["APIs","ETL","Engenharia de Dados"], src:"Gastos Reais BA · PNCP + IBGE + SICONFI", links:[{t:"GitHub ↗", href:"https://github.com/viniburilux/gastos-reais-ba"},{t:"Dashboard ↗", href:"https://github.com/viniburilux/explorador-dados-bahia"}],
+    deep:"Projeto de transparência de dado público — engenharia de dado aplicada a um problema civicamente relevante, não só a um cliente." }
+];
+
+function evidCard(e, deep){
+  return `<div class="evid-card">
+    <div class="evid-title">${e.title}</div>
+    <div class="evid-body">${deep && e.deep ? e.deep : e.body}</div>
+    <div class="evid-how">${e.how.map(x=>`<span>${x}</span>`).join('')}</div>
+    <div class="evid-foot"><span class="evid-src">${e.src}</span><span class="evid-links">${e.links.map(l=>`<a href="${l.href}" target="_blank">${l.t}</a>`).join('')}</span></div>
+  </div>`;
+}
+
+/* ============ GATE OPTIONS ============ */
+const doors = [
+  { key:"rapido", icon:"⚡", title:"O que vocês fazem", desc:"Uma visão rápida e direta do que fazemos, tecnologias e resultados." },
+  { key:"tecnologia", icon:"🧠", title:"Como vocês resolvem problemas", desc:"Tecnologia, ciência aplicada e método, sem rodeio." },
+  { key:"empresa", icon:"🏢", title:"O que podem fazer pela minha empresa", desc:"Problemas, casos reais e caminhos concretos de solução." },
+  { key:"pesquisa", icon:"🔬", title:"O que existe por trás da LuxVerso", desc:"Projetos, pesquisa, metodologia e evidência." },
+  { key:"investidor", icon:"📈", title:"Quero avaliar a empresa", desc:"Visão institucional, capacidade, trajetória e evidência." }
+];
+
+const gateGrid = document.getElementById('gateGrid');
+doors.forEach(d=>{
+  const el = document.createElement('div');
+  el.className='gate-card';
+  el.onclick = ()=>enter(d.key);
+  el.innerHTML = `<div class="gate-icon">${d.icon}</div><div class="gate-card-title">${d.title}</div><div class="gate-card-desc">${d.desc}</div>`;
+  gateGrid.appendChild(el);
+});
+
+/* ============ PERSPECTIVE CONTENT ============ */
+function render(view){
+  const m = document.getElementById('mainContent');
+
+  if(view === 'rapido'){
+    m.innerHTML = `
+    <section>
+      <h1>Projetamos sistemas inteligentes capazes de transformar <em>problemas complexos</em> em soluções executáveis.</h1>
+      <p class="lede">Ciência aplicada, engenharia de dados e inteligência artificial, combinadas para transformar problema difícil em sistema que funciona de verdade.</p>
+      <div class="tech-band"><span>IA</span><span>Dados</span><span>Engenharia</span><span>Ciência Aplicada</span><span>Visão Computacional</span><span>Automação</span></div>
+    </section>
+    <section>
+      <div class="eyebrow">O que já construímos</div>
+      <div class="evid-grid">${evidence.slice(0,3).map(e=>evidCard(e,false)).join('')}</div>
+    </section>
+    <section>
+      <h2>Tem um problema difícil?</h2>
+      <p class="lede">A gente descobre o que pode ser construído.</p>
+      <div class="cta-row">
+        <a class="cta-main" href="https://wa.me/5585999798762?text=Ol%C3%A1%2C%20Vini!%20Quero%20entender%20melhor%20o%20que%20a%20LuxVerso%20faz." target="_blank">Quero explorar meu problema ↗</a>
+        <a class="cta-secondary" href="./Desafio-Sebrae/">Ver 35 desafios já analisados ↗</a>
+      </div>
+      <div class="perspective-nudge">
+        <span>Quer se aprofundar?</span>
+        <a onclick="enter('tecnologia')">Ver a tecnologia</a>
+        <a onclick="enter('empresa')">Resolver um problema</a>
+        <a onclick="enter('investidor')">Avaliar a empresa</a>
+      </div>
+    </section>`;
+  }
+
+  else if(view === 'tecnologia'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Como pensamos</div>
+      <h1>Da representação do problema à <em>arquitetura do sistema.</em></h1>
+      <p class="lede">Não começamos pela tecnologia. Começamos entendendo como o problema pode ser representado — quais dados importam, que estrutura existe, que modelo captura aquilo, que sistema opera aquilo. Só depois entra a construção.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Método</div>
+      <div class="method-flow">
+        <span class="step">Entender</span><span class="arrow">→</span>
+        <span class="step">Representar</span><span class="arrow">→</span>
+        <span class="step">Projetar</span><span class="arrow">→</span>
+        <span class="step">Construir</span><span class="arrow">→</span>
+        <span class="step">Testar</span><span class="arrow">→</span>
+        <span class="step">Colocar para funcionar</span>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Stack</div>
+      <p class="lede" style="margin-top:0;">Embeddings, visão computacional, grafos de conhecimento, sistemas multiagentes, LLMs, sensoriamento remoto, modelos preditivos, engenharia de dados — combinados quando o problema exige, não usados por moda.</p>
+      <div class="tech-band"><span>Embeddings</span><span>Visão Computacional</span><span>Grafos de Conhecimento</span><span>Sistemas Multiagentes</span><span>LLMs</span><span>Sensoriamento Remoto</span><span>Modelos Preditivos</span><span>Python / Prototipagem Rápida</span></div>
+    </section>
+    <section>
+      <div class="eyebrow">Evidência, com profundidade</div>
+      <div class="evid-grid">${evidence.map(e=>evidCard(e,true)).join('')}</div>
+    </section>
+    <section>
+      <h2>Quer entrar em mais detalhe técnico?</h2>
+      <div class="cta-row">
+        <a class="cta-main" href="https://viniburilux.github.io/luxsense/" target="_blank">Ver o paper do LuxSense ↗</a>
+        <a class="cta-secondary" href="https://github.com/viniburilux" target="_blank">Ver o GitHub ↗</a>
+      </div>
+      <div class="perspective-nudge">
+        <span>Outras portas:</span>
+        <a onclick="enter('empresa')">Resolver um problema</a>
+        <a onclick="enter('pesquisa')">O que existe por trás</a>
+      </div>
+    </section>`;
+  }
+
+  else if(view === 'empresa'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Para sua empresa</div>
+      <h1>Sua empresa já tem tecnologia. <em>Está tirando dela tudo que ela pode dar?</em></h1>
+      <ul class="mirror-list">
+        <li>Seus dados existem, mas <b>não chegam à decisão</b> na velocidade que deveriam?</li>
+        <li>Seu processo depende de gente que sabe fazer algo que <b>ninguém mais sabe reproduzir</b>?</li>
+        <li>Sua equipe tem tecnologia, mas <b>continua descobrindo problema tarde demais</b>?</li>
+        <li>Existe muita informação, mas pouca capacidade de <b>transformar isso em ação</b>?</li>
+      </ul>
+      <p class="lede">Não é falta de tecnologia disponível. É a distância entre a tecnologia existir e sua empresa saber operar ela.</p>
+    </section>
+    <section>
+      <div class="sebrae-callout">
+        <span class="tag">Prova de trabalho</span>
+        <p>Pediram para escolher alguns desafios da Jornada Sebrae 2026. A gente analisou os 35.</p>
+        <p>Mapeamos o problema, achamos a oportunidade técnica e estruturamos um caminho de solução para cada um — antes de qualquer contrato existir.</p>
+        <a class="go" href="./Desafio-Sebrae/">Explorar os 35 desafios ↗</a>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Como reduzimos risco</div>
+      <h2>Do problema à solução <em>sem apostar no escuro.</em></h2>
+      <div class="risk-grid">
+        <div class="risk-card"><span class="n">01</span><h3>Começamos pequeno</h3><p>Escopo controlado, fronteira clara do que será testado.</p></div>
+        <div class="risk-card"><span class="n">02</span><h3>Medimos o que importa</h3><p>Critério de sucesso definido antes de construir.</p></div>
+        <div class="risk-card"><span class="n">03</span><h3>Construímos rápido</h3><p>Testamos contra a realidade antes de qualquer decisão maior.</p></div>
+        <div class="risk-card"><span class="n">04</span><h3>Só ampliamos o que funciona</h3><p>Evidência antes de investimento maior.</p></div>
+      </div>
+    </section>
+    <section>
+      <h2>Você traz o problema. <em>A gente descobre o que pode ser construído.</em></h2>
+      <div class="cta-row">
+        <a class="cta-main" href="https://wa.me/5585999798762?text=Ol%C3%A1%2C%20Vini!%20Tenho%20um%20problema%20na%20minha%20empresa%20que%20quero%20explorar." target="_blank">Quero explorar meu problema ↗</a>
+      </div>
+      <div class="perspective-nudge">
+        <span>Outras portas:</span>
+        <a onclick="enter('tecnologia')">Ver a tecnologia</a>
+        <a onclick="enter('investidor')">Avaliar a empresa</a>
+      </div>
+    </section>`;
+  }
+
+  else if(view === 'pesquisa'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Por trás da LuxVerso</div>
+      <h1>Pesquisa aplicada, <em>conduzida com rigor.</em></h1>
+      <p class="lede">A LuxVerso é conduzida por Vinícius Buri, pesquisador independente com publicação em CHI, ICML, Frontiers e outras venues, operando com uma infraestrutura multi-IA orquestrada — Claude, ChatGPT, Grok, Gemini e outros, usados de forma crítica e cruzada, não isolada.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Como o rigor aparece na prática</div>
+      <p class="lede" style="margin-top:0;">Um princípio simples orienta o trabalho: falsificar antes de aceitar. Isso aparece tanto em pesquisa quanto em decisão de negócio — inclusive quando significa reconhecer explicitamente o limite de uma hipótese, não só seus acertos.</p>
+      <div class="method-flow">
+        <span class="step">Entender</span><span class="arrow">→</span>
+        <span class="step">Representar</span><span class="arrow">→</span>
+        <span class="step">Projetar</span><span class="arrow">→</span>
+        <span class="step">Construir</span><span class="arrow">→</span>
+        <span class="step">Testar</span><span class="arrow">→</span>
+        <span class="step">Colocar para funcionar</span>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Evidência, com metodologia</div>
+      <div class="evid-grid">${evidence.map(e=>evidCard(e,true)).join('')}</div>
+    </section>
+    <section>
+      <h2>Interessado em colaborar?</h2>
+      <p class="lede">Aberto a conversa sobre pesquisa aplicada, coautoria ou parceria científica.</p>
+      <div class="cta-row">
+        <a class="cta-main" href="https://wa.me/5585999798762?text=Ol%C3%A1%2C%20Vini!%20Quero%20conversar%20sobre%20pesquisa%20ou%20colabora%C3%A7%C3%A3o%20cient%C3%ADfica." target="_blank">Conversar sobre pesquisa ↗</a>
+        <a class="cta-secondary" href="https://github.com/viniburilux" target="_blank">Ver GitHub ↗</a>
+      </div>
+      <div class="perspective-nudge">
+        <span>Outras portas:</span>
+        <a onclick="enter('tecnologia')">Ver a tecnologia</a>
+        <a onclick="enter('investidor')">Avaliar a empresa</a>
+      </div>
+    </section>`;
+  }
+
+  else if(view === 'investidor'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Visão institucional</div>
+      <h1>LuxVerso é uma empresa de <em>tecnologia e ciência aplicada</em> dedicada a transformar problemas complexos em sistemas inteligentes executáveis.</h1>
+      <p class="lede">Operação independente, com produção científica publicada e infraestrutura de pesquisa multi-modelo, aplicada tanto a projetos próprios quanto a problemas corporativos reais.</p>
+    </section>
+    <section>
+      <div class="onepager">
+        <div class="onepager-item"><span class="k">Tecnologia</span><span class="v">IA, engenharia de dados, visão computacional, grafos, sensoriamento remoto, automação.</span></div>
+        <div class="onepager-item"><span class="k">Capacidade</span><span class="v">Do diagnóstico do problema à arquitetura e construção do sistema, em ciclo curto.</span></div>
+        <div class="onepager-item"><span class="k">Evidência</span><span class="v">4 projetos com prova pública, dataset e repositório abertos.</span></div>
+        <div class="onepager-item"><span class="k">Execução</span><span class="v">35 desafios corporativos reais analisados na Jornada Sebrae 2026, antes de qualquer contrato.</span></div>
+        <div class="onepager-item"><span class="k">Publicação</span><span class="v">CHI, ICML, Frontiers e outras venues de pesquisa aplicada.</span></div>
+        <div class="onepager-item"><span class="k">Sede</span><span class="v">Salvador, Bahia — Brasil.</span></div>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Track record</div>
+      <div class="evid-grid">${evidence.map(e=>evidCard(e,false)).join('')}</div>
+    </section>
+    <section>
+      <div class="sebrae-callout">
+        <span class="tag">Capacidade de execução em prazo</span>
+        <p>Na Jornada Sebrae de Inovação Aberta 2026, a empresa recebeu a possibilidade de submeter poucos desafios entre 35 disponíveis. Em vez de escolher a priori, analisou os 35 — diagnóstico, oportunidade técnica e caminho de solução para cada um — antes de decidir onde submeter.</p>
+        <a class="go" href="./Desafio-Sebrae/">Ver a análise completa ↗</a>
+      </div>
+    </section>
+    <section>
+      <h2>Avaliação institucional</h2>
+      <p class="lede">Disponível para apresentação formal, due diligence técnica ou conversa institucional.</p>
+      <div class="cta-row">
+        <a class="cta-main" href="https://wa.me/5585999798762?text=Ol%C3%A1%2C%20Vini!%20Represento%20uma%20institui%C3%A7%C3%A3o%20e%20gostaria%20de%20agendar%20uma%20conversa%20sobre%20a%20LuxVerso." target="_blank">Agendar conversa institucional ↗</a>
+      </div>
+      <div class="perspective-nudge">
+        <span>Outras portas:</span>
+        <a onclick="enter('pesquisa')">O que existe por trás</a>
+        <a onclick="enter('empresa')">Resolver um problema</a>
+      </div>
+    </section>`;
+  }
+}
+
+function enter(view){
+  localStorage.setItem('luxverso_perspective', view);
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').classList.add('open');
+  render(view);
+  window.scrollTo(0,0);
+}
+
+function showGate(){
+  document.getElementById('app').classList.remove('open');
+  document.getElementById('gate').style.display = 'flex';
+  window.scrollTo(0,0);
+}
+
+/* On load: if a perspective is remembered, could auto-enter; but we always show the gate
+   so the choice remains visible and intentional. Direct entry link uses 'rapido' as default. */
+</script>
+
+</body>
+</html>

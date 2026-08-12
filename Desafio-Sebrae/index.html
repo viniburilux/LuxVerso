@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxVerso Research & Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a1412; --ink-2:#0f1d1a; --line:#1e332e;
+    --fg:#e9efec; --fg-dim:#93a8a1; --fg-dimmer:#5f7770;
+    --signal:#4fd6ac; --signal-dim:#2c5c4c; --amber:#e8a33d;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--ink); color:var(--fg); font-family:'IBM Plex Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  header.topbar{
+    position:sticky; top:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; background:rgba(10,20,18,0.9); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:baseline; gap:10px;}
+  .brand-mark{width:9px; height:9px; background:var(--signal); box-shadow:0 0 12px var(--signal);}
+  .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;}
+  .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
+  .topbar-right{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+  @media (max-width:520px){ .topbar-loc{display:none;} }
+
+  .sidenav{
+    position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:55;
+    display:flex; flex-direction:column; gap:16px; align-items:center;
+  }
+  @media (max-width:900px){ .sidenav{display:none;} }
+  .sidenav a{
+    width:6px; height:6px; border-radius:50%; background:var(--line);
+    border:1px solid var(--fg-dimmer); transition:all .2s; position:relative;
+  }
+  .sidenav a.active{background:var(--signal); border-color:var(--signal); box-shadow:0 0 8px var(--signal);}
+  .sidenav a span{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--fg-dim);
+    white-space:nowrap; opacity:0; transition:opacity .2s; pointer-events:none;
+  }
+  .sidenav a:hover span{opacity:1;}
+
+  main{position:relative; z-index:1;}
+
+  section{
+    max-width:1180px; margin:0 auto; padding:110px 40px;
+    border-top:1px solid var(--line); position:relative;
+  }
+  section:first-of-type{border-top:none;}
+  .num{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal);
+    letter-spacing:.12em; text-transform:uppercase; display:flex; align-items:center; gap:10px; margin-bottom:26px;
+  }
+  .num::before{content:''; width:22px; height:1px; background:var(--signal);}
+  h1,h2{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em; margin:0;}
+  h1{font-size:clamp(30px,4.6vw,54px); line-height:1.12;}
+  h2{font-size:clamp(26px,3.6vw,40px); line-height:1.15;}
+  h1 em, h2 em{font-style:normal; color:var(--signal);}
+  .lede{font-size:16.5px; line-height:1.7; color:var(--fg-dim); max-width:680px; margin-top:22px;}
+
+  /* HERO */
+  .hero-tech{
+    margin-top:36px; display:flex; flex-wrap:wrap; gap:0;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--fg-dim);
+    padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .hero-tech span:not(:last-child)::after{content:'·'; margin:0 12px; color:var(--fg-dimmer);}
+  .hero-stats{
+    margin-top:24px; display:flex; flex-wrap:wrap; gap:0;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal);
+  }
+  .hero-stats span:not(:last-child)::after{content:'·'; margin:0 12px; color:var(--fg-dimmer);}
+
+  /* ESPELHO */
+  .mirror-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; margin-top:56px;}
+  @media (max-width:860px){ .mirror-grid{grid-template-columns:1fr;} }
+  .mirror-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column;}
+  .mirror-list li{
+    padding:16px 0; border-bottom:1px solid var(--line);
+    font-size:15px; color:var(--fg-dim); display:flex; gap:14px;
+  }
+  .mirror-list li::before{content:'—'; color:var(--fg-dimmer); flex-shrink:0;}
+  .mirror-list li b{color:var(--fg); font-weight:500;}
+  .mirror-callout{
+    align-self:start; padding:30px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--ink-2);
+  }
+  .mirror-callout p{font-size:16px; line-height:1.7; color:var(--fg); margin:0;}
+  .mirror-callout .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; display:block;}
+
+  /* PADRAO */
+  .pattern-grid{margin-top:50px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:760px){ .pattern-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:480px){ .pattern-grid{grid-template-columns:1fr;} }
+  .pattern-item{background:var(--ink); padding:22px 20px; font-family:'IBM Plex Mono',monospace; font-size:13px;}
+  .pattern-item .from{color:var(--fg-dim);}
+  .pattern-item .arrow{color:var(--fg-dimmer); margin:0 6px;}
+  .pattern-item .to{color:var(--signal);}
+
+  /* CAPACIDADE OPERACIONAL */
+  .capgap-punch{margin-top:36px; font-size:19px; color:var(--fg); max-width:680px; line-height:1.5;}
+  .capgap-punch b{color:var(--signal); font-weight:600;}
+
+  /* METODO */
+  .method-flow{display:flex; flex-wrap:wrap; margin-top:50px; font-family:'IBM Plex Mono',monospace; font-size:13px;}
+  .method-flow .step{color:var(--fg); padding:12px 0;}
+  .method-flow .arrow{color:var(--signal-dim); padding:0 16px;}
+
+  /* CAPACIDADES + EVIDENCIAS */
+  .cap-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:760px){ .cap-grid{grid-template-columns:1fr;} }
+  .cap-card{background:var(--ink); padding:30px; display:flex; flex-direction:column; gap:16px;}
+  .cap-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17.5px; line-height:1.3;}
+  .cap-how{display:flex; flex-wrap:wrap; gap:6px;}
+  .cap-how span{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--fg-dimmer); border:1px solid var(--line); padding:3px 8px; border-radius:12px;}
+  .cap-viz{height:74px; display:flex; align-items:center;}
+  .cap-evidence{
+    display:flex; justify-content:space-between; align-items:center; padding-top:14px;
+    border-top:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    flex-wrap:wrap; gap:8px;
+  }
+  .cap-evidence .src{color:var(--signal);}
+  .cap-links{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .cap-links a{color:var(--fg-dim); text-decoration:none; transition:color .15s;}
+  .cap-links a:hover{color:var(--signal);}
+  .cap-links .sep{color:var(--fg-dimmer);}
+  .cap-closer{margin-top:40px; font-size:17px; color:var(--fg); max-width:600px;}
+
+  /* RISCO */
+  .risk-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:900px){ .risk-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .risk-grid{grid-template-columns:1fr;} }
+  .risk-card{background:var(--ink); padding:26px;}
+  .risk-card .n{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+  .risk-card h3{font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; margin:12px 0 10px;}
+  .risk-card p{font-size:13.5px; color:var(--fg-dim); line-height:1.6; margin:0;}
+
+  /* CONTEXTO 35 */
+  .context-block{margin-top:30px; padding:28px 30px; border:1px solid var(--line); border-radius:var(--radius); background:var(--ink-2); max-width:760px;}
+  .context-block p{font-size:15.5px; line-height:1.75; color:var(--fg); margin:0 0 12px;}
+  .context-block p:last-child{margin-bottom:0;}
+  .context-block .highlight{color:var(--signal); font-weight:500;}
+
+  /* APLICACOES */
+  .app-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:50px;}
+  @media (max-width:860px){ .app-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .app-grid{grid-template-columns:1fr;} }
+  .app-card{background:var(--ink); padding:26px 24px; cursor:pointer; display:flex; flex-direction:column; gap:12px; min-height:158px; transition:background .18s;}
+  .app-card:hover{background:var(--ink-2);}
+  .app-card:hover .app-arrow{transform:translate(3px,0); color:var(--signal);}
+  .app-label{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--signal); letter-spacing:.08em; text-transform:uppercase;}
+  .app-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; line-height:1.3; color:var(--fg-dim);}
+  .app-question{font-size:14.5px; color:var(--fg); line-height:1.45; flex:1;}
+  .app-foot{display:flex; justify-content:space-between; align-items:center; padding-top:6px; border-top:1px solid var(--line);}
+  .app-status{font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--signal);}
+  .app-arrow{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--fg-dimmer); transition:transform .18s, color .18s;}
+
+  /* CONTATO */
+  .contact-row{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px; margin-top:50px;}
+  .contact-links{display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:14px;}
+  .contact-links a{text-decoration:none; color:var(--signal); border-bottom:1px solid var(--signal-dim); padding-bottom:2px;}
+  .contact-links a:hover{color:var(--fg);}
+
+  footer{max-width:1180px; margin:0 auto; padding:34px 40px 60px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--fg-dimmer);}
+
+  /* DETAIL OVERLAY */
+  #detail{display:none; position:fixed; inset:0; z-index:100; background:var(--ink); overflow-y:auto;}
+  #detail.open{display:block;}
+  .detail-inner{max-width:820px; margin:0 auto; padding:100px 40px 100px;}
+  .back-btn{position:fixed; top:18px; left:40px; z-index:110; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-dim); background:rgba(10,20,18,.9); border:1px solid var(--line); padding:10px 16px; border-radius:var(--radius); cursor:pointer; display:flex; align-items:center; gap:8px; transition:border-color .15s, color .15s;}
+  .back-btn:hover{border-color:var(--signal); color:var(--fg);}
+  .detail-eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--signal); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px;}
+  .detail-question{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.6vw,38px); font-weight:600; line-height:1.2; margin:0 0 18px; letter-spacing:-0.01em;}
+  .detail-reframe{font-size:17px; line-height:1.6; color:var(--signal); margin:0 0 36px; max-width:640px;}
+  .detail-source{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); margin-bottom:32px; opacity:0.6; text-decoration:none; display:inline-block; transition:opacity .2s;}
+  .detail-source:hover{opacity:1; color:var(--fg-dim);}
+  .detail-block{padding:28px 0; border-top:1px solid var(--line);}
+  .detail-block h3{font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--fg-dimmer); margin:0 0 14px;}
+  .detail-block p{font-size:15.5px; line-height:1.7; color:var(--fg); margin:0;}
+  .detail-block p.dim{color:var(--fg-dim);}
+  .detail-block ul{margin:0; padding-left:18px; font-size:15px; line-height:1.7; color:var(--fg-dim);}
+  .detail-block li{margin-bottom:8px;}
+  .detail-chain{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--signal); line-height:1.9;}
+  .cta-block{margin-top:50px; padding-top:36px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .cta-block .cta-text{font-size:14px; color:var(--fg-dim); max-width:420px;}
+  .cta-link{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--signal); text-decoration:none; border-bottom:1px solid var(--signal-dim); padding-bottom:3px;}
+/* ---- LANG TOGGLE ---- */
+  .lang-toggle{cursor:pointer; border:1px solid var(--line); padding:4px 10px; border-radius:var(--radius); transition:border-color .15s, color .15s; user-select:none;}
+  .lang-toggle:hover{border-color:var(--signal); color:var(--fg);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">LUXVERSO</span>
+    <span class="brand-sub">RESEARCH &amp; TECH</span>
+  </div>
+  <div class="topbar-right"><span class="topbar-loc">SALVADOR · BAHIA</span> <span class="lang-toggle" id="langToggle" title="Switch to English">EN</span></div>
+</header>
+
+<nav class="sidenav" id="sidenav">
+  <a href="#s1" data-i="0"><span>01 Hero</span></a>
+  <a href="#s2" data-i="1"><span>02 Espelho</span></a>
+  <a href="#s3" data-i="2"><span>03 O padrão</span></a>
+  <a href="#s4" data-i="3"><span>04 O gap real</span></a>
+  <a href="#s5" data-i="4"><span>05 Método</span></a>
+  <a href="#s6" data-i="5"><span>06 Capacidades</span></a>
+  <a href="#s7" data-i="6"><span>07 Como reduzimos risco</span></a>
+  <a href="#s8" data-i="7"><span>08 35 desafios</span></a>
+  <a href="#s9" data-i="8"><span>09 Contato</span></a>
+</nav>
+
+<main>
+
+  <!-- 01 HERO -->
+  <section id="s1">
+    <h1>Projetamos sistemas inteligentes capazes de transformar <em>problemas complexos</em> em soluções executáveis.</h1>
+    <p class="lede">Combinamos ciência aplicada, engenharia de dados e inteligência artificial para transformar problema difícil em sistema que pode ser construído, testado e colocado para funcionar de verdade.</p>
+    <div class="hero-tech">
+      <span>Inteligência Artificial</span><span>Engenharia de Dados</span><span>Machine Learning</span><span>LLMs</span><span>Sistemas Multiagentes</span><span>Visão Computacional</span><span>Grafos de Conhecimento</span><span>Sensoriamento Remoto</span><span>Automação</span>
+    </div>
+    <div class="hero-stats">
+      <span>35 desafios</span><span>9 setores</span><span>35 caminhos de solução</span><span>evidências públicas</span>
+    </div>
+  </section>
+
+  <!-- 02 ESPELHO -->
+  <section id="s2">
+    <h2>Sua empresa já tem tecnologia. Mas está tirando dela <em>tudo que ela pode dar?</em></h2>
+    <div class="mirror-grid">
+      <ul class="mirror-list">
+        <li>Seus dados existem, mas <b>não chegam à decisão</b> na velocidade que deveriam?</li>
+        <li>Sua empresa tem milhares de documento, mas <b>a informação que importa continua presa</b> dentro deles?</li>
+        <li>Seu processo depende de gente que sabe fazer algo que <b>ninguém mais sabe reproduzir</b>?</li>
+        <li>Sua equipe tem tecnologia, mas <b>continua descobrindo problema depois</b> que ele já aconteceu?</li>
+        <li>Existe muita informação, mas pouca capacidade de <b>transformar isso em ação</b>?</li>
+      </ul>
+      <div class="mirror-callout">
+        <span class="tag">E se</span>
+        <p>parte do que hoje exige mais gente, mais tempo ou mais infraestrutura pudesse ser resolvido com uma arquitetura tecnológica que sua empresa ainda não construiu?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 O PADRAO -->
+  <section id="s3">
+    <h2>O problema é <em>só o começo.</em></h2>
+    <p class="lede">35 desafios. 35 problemas diferentes. E, por trás deles, oportunidades que vão muito além da solução óbvia.</p>
+    <div class="pattern-grid">
+      <div class="pattern-item"><span class="from">DOCUMENTO</span><span class="arrow">→</span><span class="to">IA + IDP</span></div>
+      <div class="pattern-item"><span class="from">VÍDEO</span><span class="arrow">→</span><span class="to">VISÃO COMPUTACIONAL</span></div>
+      <div class="pattern-item"><span class="from">TERRITÓRIO</span><span class="arrow">→</span><span class="to">SENSORIAMENTO + EMBEDDINGS</span></div>
+      <div class="pattern-item"><span class="from">DADOS</span><span class="arrow">→</span><span class="to">INTEGRAÇÃO + ANALYTICS</span></div>
+      <div class="pattern-item"><span class="from">PROCESSO</span><span class="arrow">→</span><span class="to">AUTOMAÇÃO + AGENTES</span></div>
+      <div class="pattern-item"><span class="from">DECISÃO</span><span class="arrow">→</span><span class="to">MODELOS PREDITIVOS</span></div>
+    </div>
+  </section>
+
+  <!-- 04 O GAP REAL -->
+  <section id="s4">
+    <h2>Sua empresa não precisa esperar a próxima tecnologia. <em>Precisa saber o que fazer com a que já existe.</em></h2>
+    <p class="lede">Hoje já é possível trabalhar com embeddings, visão computacional, grafos, agentes, modelos preditivos, automação e grandes volumes de dados. O desafio é transformar essas possibilidades em sistemas que façam sentido para um problema real.</p>
+    <p class="capgap-punch">Não é sobre <b>ter</b> tecnologia. É sobre <b>saber operar</b> ela — do embedding ao grafo, do protótipo em Python ao sistema em produção.</p>
+  </section>
+
+  <!-- 05 METODO -->
+  <section id="s5">
+    <h2>Tecnologia sem método vira ferramenta solta. <em>Método sem tecnologia vira estudo que não sai do papel.</em></h2>
+    <div class="method-flow">
+      <span class="step">Entender</span><span class="arrow">→</span>
+      <span class="step">Representar</span><span class="arrow">→</span>
+      <span class="step">Projetar</span><span class="arrow">→</span>
+      <span class="step">Construir</span><span class="arrow">→</span>
+      <span class="step">Testar</span><span class="arrow">→</span>
+      <span class="step">Colocar para funcionar</span>
+    </div>
+    <p class="lede" style="margin-top:34px;">Ciência aplicada, engenharia e tecnologia trabalhando juntas para transformar uma ideia em algo que funciona no mundo real.</p>
+  </section>
+
+  <!-- 06 CAPACIDADES + EVIDENCIAS -->
+  <section id="s6">
+    <h2>O que conseguimos <em>construir.</em></h2>
+    <p class="lede">Não trabalhamos com uma tecnologia só. Combinamos diferentes camadas quando o problema exige.</p>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-title">Detectar padrões invisíveis em grandes volumes de dados territoriais</div>
+        <div class="cap-how"><span>Sensoriamento Remoto</span><span>Foundation Models</span><span>Analytics</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polyline points="0,55 30,40 55,48 80,22 110,30 140,10 170,20 200,8 230,18 260,6 300,14" fill="none" stroke="#4fd6ac" stroke-width="1.6" stroke-opacity="0.85"/>
+            <circle cx="0" cy="55" r="2.5" fill="#4fd6ac"/><circle cx="140" cy="10" r="2.5" fill="#e8a33d"/><circle cx="300" cy="14" r="2.5" fill="#4fd6ac"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">GhostWorks · TTI Brazil 2017–2024</span><span class="cap-links"><a href="#">GitHub ↗</a><span class="sep">·</span><a href="#">Dashboard ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Construir instrumentos científicos e benchmarks reutilizáveis</div>
+        <div class="cap-how"><span>Avaliação de IA</span><span>Protocolos Replicáveis</span><span>Pesquisa Aplicada</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polygon points="150,6 210,30 185,64 115,64 90,30" fill="none" stroke="#1e332e" stroke-width="1"/>
+            <polygon points="150,18 190,34 175,54 125,54 108,34" fill="none" stroke="#4fd6ac" stroke-width="1.6" stroke-opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">MISB · CMOTP</span><span class="cap-links"><a href="#">Kaggle ↗</a><span class="sep">·</span><a href="#">GitHub ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Transformar sinal físico bruto em decisão automatizada</div>
+        <div class="cap-how"><span>Machine Learning</span><span>Espectroscopia</span><span>Interpretabilidade</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <polyline points="0,50 40,50 55,50 62,10 68,50 100,50 140,50 150,26 158,50 190,50 220,50 226,42 232,50 300,48" fill="none" stroke="#e8a33d" stroke-width="1.4" stroke-opacity="0.9"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">LuxSense · 99,4% acurácia</span><span class="cap-links"><a href="https://viniburilux.github.io/luxsense/" target="_blank">Paper ↗</a><span class="sep">·</span><a href="https://viniburilux.github.io/luxsense/" target="_blank">Demo ↗</a></span></div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-title">Integrar dados públicos fragmentados em infraestrutura analítica</div>
+        <div class="cap-how"><span>APIs</span><span>ETL</span><span>Engenharia de Dados</span></div>
+        <div class="cap-viz">
+          <svg width="100%" height="70" viewBox="0 0 300 70">
+            <rect x="10" y="40" width="24" height="24" fill="none" stroke="#1e332e"/>
+            <rect x="60" y="24" width="24" height="40" fill="none" stroke="#1e332e"/>
+            <rect x="110" y="10" width="24" height="54" fill="none" stroke="#4fd6ac" stroke-opacity="0.85"/>
+            <rect x="160" y="30" width="24" height="34" fill="none" stroke="#1e332e"/>
+            <rect x="210" y="16" width="24" height="48" fill="none" stroke="#4fd6ac" stroke-opacity="0.85"/>
+            <rect x="260" y="36" width="24" height="28" fill="none" stroke="#1e332e"/>
+          </svg>
+        </div>
+        <div class="cap-evidence"><span class="src">Gastos Reais BA · PNCP + IBGE + SICONFI</span><span class="cap-links"><a href="https://github.com/viniburilux/gastos-reais-ba" target="_blank">GitHub ↗</a><span class="sep">·</span><a href="https://github.com/viniburilux/explorador-dados-bahia" target="_blank">Dashboard ↗</a></span></div>
+      </div>
+    </div>
+    <p class="cap-closer">Não estamos dizendo que sabemos fazer. Estamos <em style="color:var(--signal); font-style:normal;">mostrando onde fizemos</em>.</p>
+  </section>
+
+  <!-- 07 RISCO -->
+  <section id="s7">
+    <h2>Do problema à solução <em>sem apostar no escuro.</em></h2>
+    <div class="risk-grid">
+      <div class="risk-card"><span class="n">01</span><h3>Começamos pequeno</h3><p>Escopo controlado, com fronteiras claras do que será testado.</p></div>
+      <div class="risk-card"><span class="n">02</span><h3>Medimos o que importa</h3><p>Critério de sucesso definido antes de construir, não depois.</p></div>
+      <div class="risk-card"><span class="n">03</span><h3>Construímos rápido</h3><p>Testamos contra a realidade antes de qualquer decisão maior.</p></div>
+      <div class="risk-card"><span class="n">04</span><h3>Só ampliamos o que funciona</h3><p>Evidência antes de investimento maior, nunca depois.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 35 DESAFIOS -->
+  <section id="s8">
+    <h2>Antes de construir, <em>investigamos.</em></h2>
+    <div class="context-block">
+      <p>Pediram para escolher alguns desafios. A gente analisou os <span class="highlight">35</span>.</p>
+      <p>Mapeamos o problema, achamos a oportunidade técnica e transformamos cada um numa análise executável antes de qualquer contrato existir.</p>
+    </div>
+    <p class="lede" style="margin-top:40px;">Talvez o problema que sua empresa enfrenta hoje esteja aqui, com outro nome. Selecione um card para ver como pensamos.</p>
+    <div class="app-grid" id="appGrid"></div>
+  </section>
+
+  <!-- 09 CONTATO -->
+  <section id="s9">
+    <h2>Você traz o problema. <em>A gente descobre o que pode ser construído.</em></h2>
+    <p class="lede">Se você tem um problema difícil, dado espalhado, um processo que não escala ou uma oportunidade que ninguém ainda transformou em sistema, vamos olhar para ele.</p>
+    <div class="contact-row">
+      <div class="contact-links">
+        <a href="https://wa.me/5585999798762?text=Olá,%20Vini!%20Estava%20navegando%20pelo%20LuxVerso%20e%20quero%20explorar%20um%20problema%20parecido." target="_blank">Quero explorar meu problema ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>LuxVerso Research Initiative · <a href="https://github.com/viniburilux" target="_blank" style="text-decoration:none;">Vinícius Buri</a> · Salvador, Bahia</span>
+  </footer>
+</main>
+
+<div id="detail">
+  <div class="back-btn" onclick="closeDetail()">← voltar</div>
+  <div class="detail-inner" id="detailContent"></div>
+</div>
+
+<script>
+const challenges = [
+  {
+    "code": "2.1",
+    "etiqueta": "CONHECIMENTO MÉDICO",
+    "company": "Afya",
+    "title": "Engajamento com Profissionais de Saúde",
+    "url": "/desafios/afya",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/afya-participacoes-as-afya-limited/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Reciprocidade ausente",
+    "pergunta": "Os melhores profissionais da sua rede sabem coisas que a empresa nunca captura?",
+    "reformulacao": "E se o problema não fosse falta de canal de comunicação, mas o fato de contribuir não gerar nenhum retorno reconhecível?",
+    "oCaso": "A Afya entrega conteúdo e formação para o médico, mas nunca construiu um caminho de volta: o conhecimento que o próprio médico tem não retorna como algo reconhecido pela plataforma. É uma relação de mão única disfarçada de engajamento.",
+    "oQueFizemos": "Criar um circuito onde a contribuição do médico — um caso, uma prática, um insight clínico — é organizada, indexada e citável por outros profissionais, com reconhecimento visível e rastreável associado a quem contribuiu.",
+    "oQuePodeSerConstruido": "Contribuição de valor definida → conhecimento indexado → mapa de relações → reconhecimento rastreável",
+    "oQueMuda": "O médico passa a ver retorno concreto quando contribui, o que aumenta a recorrência de participação. A Afya ganha uma base de conhecimento clínico organizada que nenhum concorrente de conteúdo puro consegue replicar rapidamente.",
+    "porQueImporta": "Transforma a Afya de fornecedora de conteúdo educacional em curadora de uma rede proprietária de conhecimento clínico — um ativo que depende de confiança acumulada, não de catálogo, e por isso é difícil de copiar.",
+    "riscos": [
+      "Público de escassez de tempo extrema, difícil de engajar em qualquer novo hábito",
+      "Conteúdo gerado sem curadoria pode comprometer qualidade clínica",
+      "Governança e compliance com regras do CFM"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ausência de retorno para quem contribui, não como falta de canal — isso muda o que precisa ser construído primeiro",
+      "Sabemos organizar conhecimento disperso em estrutura buscável e relacionável",
+      "Medimos recorrência real de comportamento, não apenas satisfação declarada em pesquisa",
+      "O mesmo método já foi aplicado a outros contextos de conhecimento disperso entre muitas pessoas"
+    ]
+  },
+  {
+    "code": "2.2",
+    "etiqueta": "CONHECIMENTO TÉCNICO",
+    "company": "AP Projetos",
+    "title": "Verificação de Documentos de Engenharia",
+    "url": "/desafios/ap-projetos",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/ap-projetos/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Expertise concentrada",
+    "pergunta": "Sua empresa tem gente que sabe fazer, mas esse conhecimento ainda depende de poucas pessoas?",
+    "reformulacao": "E se o gargalo não fosse quantidade de documento a revisar, mas o fato de o padrão de qualidade nunca ter saído da cabeça de quem revisa?",
+    "oCaso": "O retrabalho na revisão de documentos existe porque a qualidade depende do que cada revisor sabe de cabeça. Quando uma pessoa experiente sai ou está ausente, o padrão de revisão cai junto — porque o critério nunca foi escrito, só vivido.",
+    "oQueFizemos": "Capturar, junto aos revisores mais experientes, os critérios que eles aplicam na prática. Transformar em regra clara o que é verificação objetiva, e manter como apoio contextual o que exige julgamento — devolvendo ao revisor só os pontos que realmente precisam da atenção dele.",
+    "oQuePodeSerConstruido": "Critério mapeado → regra verificável → apoio contextual → rastreabilidade",
+    "oQueMuda": "Boa parte da revisão hoje manual passa a ser estruturada e rastreável, sem tirar do engenheiro a palavra final. A qualidade para de depender de uma pessoa específica estar disponível.",
+    "porQueImporta": "Muda o modelo de negócio: de uma consultoria que depende do talento de poucas pessoas para uma consultoria com padrão de qualidade que pertence à empresa — um passo necessário para crescer sem herdar o mesmo risco de rotatividade em cada projeto novo.",
+    "riscos": [
+      "O padrão real pode ser mais dependente de contexto do que parece à primeira vista",
+      "Revisores seniores podem resistir a colocar no papel um julgamento que hoje é só deles"
+    ],
+    "porqueNos": [
+      "Enxergamos que o problema é conhecimento concentrado em pessoas, não lentidão de revisão — isso evita construir a ferramenta errada",
+      "Sabemos separar o que é critério técnico do que é estilo pessoal de quem revisa",
+      "Comparamos qualquer automação com o julgamento humano real antes de confiar nela",
+      "O ganho fica na empresa, não na pessoa: continua valendo mesmo quando a equipe muda"
+    ]
+  },
+  {
+    "code": "2.3",
+    "etiqueta": "GESTÃO DE ACELERAÇÃO",
+    "company": "Atitus Educação",
+    "title": "Gestão da Trilha de Empreendedorismo",
+    "url": "/desafios/atitus",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/atitus-educacao-s-a/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Critérios divergentes",
+    "pergunta": "Diferentes áreas da sua empresa enxergam o mesmo processo de formas diferentes?",
+    "reformulacao": "E se o problema não fosse falta de dado, mas a ausência de uma régua comum entre quem mede o progresso?",
+    "oCaso": "Cada área da Atitus mede o avanço de um negócio com sua própria régua, porque não existe um modelo comum de estágios entre elas. Qualquer painel construído sobre esse cenário mostra um funil bonito, mas incoerente entre quem o observa.",
+    "oQueFizemos": "Construir, junto às áreas envolvidas, um modelo mínimo de estágios de maturidade aceito por todas, e testá-lo contra os dados históricos da trilha para confirmar se ele realmente separa negócios que avançam dos que estagnam.",
+    "oQuePodeSerConstruido": "Modelo de estágios comum → validação com histórico real → ajuste do modelo → integração leve entre sistemas",
+    "oQueMuda": "Todas as áreas passam a enxergar o progresso de um negócio pela mesma régua, o que permite intervenção preventiva em vez de percepção tardia de estagnação.",
+    "porQueImporta": "Transforma a Atitus de provedora de programa de empreendedorismo em instituição com capacidade de antecipar o sucesso de um negócio — um diferencial que atrai tanto alunos quanto investidores interessados em deal flow qualificado.",
+    "riscos": [
+      "Departamentos podem resistir a um modelo comum que exponha fragilidades da própria área",
+      "Histórico de progresso pode estar registrado de forma inconsistente entre sistemas",
+      "Sem apoio da direção, a integração entre áreas tende a travar em disputa de governança"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ausência de modelo de dado comum entre áreas, não como falta de dashboard — isso muda o que precisa ser resolvido primeiro",
+      "Tratamos o modelo de estágios como algo a confirmar com dado real, não como estrutura pronta por consenso de comitê",
+      "Testamos o modelo contra o histórico da própria Atitus antes de torná-lo padrão institucional",
+      "Sabemos desenhar categorias validadas por evidência, não apenas por acordo entre departamentos"
+    ]
+  },
+  {
+    "code": "2.4",
+    "etiqueta": "FECHAMENTO CONTÁBIL",
+    "company": "Atvos",
+    "title": "Gestão de Provisões Contábeis com Automação",
+    "url": "/desafios/atvos",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/atvos/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Confiança tardia",
+    "pergunta": "Sua empresa só descobre divergência entre áreas quando o número já chegou no fechamento?",
+    "reformulacao": "E se o problema não fosse a velocidade do lançamento, mas o momento em que a informação é conferida?",
+    "oCaso": "Diferentes áreas alimentam a mesma provisão contábil, cada uma registrando e interpretando informação à sua maneira. Essa divergência só aparece tarde, na conferência manual que antecede o lançamento — quando já é caro corrigir.",
+    "oQueFizemos": "Construir uma camada de validação que confere a informação de origem — contratos, medições, notas — contra regras definidas com a equipe contábil, sinalizando divergência antes do lançamento, não durante a conferência final.",
+    "oQuePodeSerConstruido": "Documento de origem → regra de consistência → score de risco → integração com SAP",
+    "oQueMuda": "A divergência entre áreas é capturada antes do lançamento, não durante a correria do fechamento. O tempo de conferência cai e a confiabilidade da informação contábil sobe.",
+    "porQueImporta": "Muda o papel da controladoria de conferência reativa para governança preventiva de dado financeiro — uma capacidade que se torna mais crítica à medida que a empresa cresce em complexidade operacional.",
+    "riscos": [
+      "Sistemas legados e customizações do SAP podem dificultar a automação padrão",
+      "Equipes contábeis podem resistir por sensação de perda de controle",
+      "Se a origem já é inconsistente, a automação só acelera a propagação do erro"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ausência de confiança entre áreas antes do lançamento, não como lentidão — isso muda o que o sistema precisa validar",
+      "Tratamos automação contábil com o mesmo rigor de auditoria exigido de um humano, preservando rastreabilidade",
+      "Medimos onde estão hoje as maiores divergências entre áreas, com dado real, antes de propor qualquer automação",
+      "O sistema sinaliza exceção, não decide sozinho — essencial num processo contábil crítico"
+    ]
+  },
+  {
+    "code": "2.5",
+    "etiqueta": "INTELIGÊNCIA DE CLIENTE",
+    "company": "Banco BV",
+    "title": "Potencialização da Experiência Financeira",
+    "url": "/desafios/banco-bv",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/banco-bv/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Cliente invisível",
+    "pergunta": "Sua empresa vende através de parceiros e mal conhece quem de fato usa o produto?",
+    "reformulacao": "E se o problema não fosse falta de app ou de tecnologia, mas a ausência de vínculo direto com quem decide comprar?",
+    "oCaso": "No modelo B2B2C, o BV otimizou para eficiência de canal — os parceiros — não para relação com o cliente final. Qualquer tentativa de personalização esbarra na ausência de dado comportamental próprio e rico sobre quem de fato usa o crédito.",
+    "oQueFizemos": "Consolidar os sinais de comportamento que o banco já possui diretamente, mesmo que fragmentados, e usá-los para identificar o momento certo de oferecer o produto certo — sem depender de reformular a relação com os canais parceiros.",
+    "oQuePodeSerConstruido": "Dado comportamental consolidado → modelo de propensão → personalização por ciclo de vida → integração leve com legado",
+    "oQueMuda": "O banco passa a antecipar o momento certo de oferecer o produto certo mesmo com dado fragmentado, aumentando produtos por cliente sem depender de reformulação completa da jornada.",
+    "porQueImporta": "Permite ao BV competir com neobancos em personalização sem abrir mão da eficiência de escala do modelo B2B2C — combinando o melhor dos dois modelos em vez de escolher entre eles.",
+    "riscos": [
+      "Sistemas legados podem limitar a granularidade do dado disponível em tempo hábil",
+      "Enriquecer o perfil do cliente com dado de parceiro exige base legal clara sob LGPD",
+      "Parceiros podem resistir a iniciativas que aproximem o banco do cliente final"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como dependência estrutural de terceiros para conhecer o cliente, não como falta de app — isso define onde o ganho real está",
+      "Sabemos construir modelo preditivo com dado fragmentado e incompleto, sem esperar por uma base ideal",
+      "Medimos ganho incremental real dentro de uma janela curta, não prometemos jornada perfeita de longo prazo",
+      "Desenhamos a solução para conviver com sistema legado via integração leve, não para substituí-lo"
+    ]
+  },
+  {
+    "code": "2.6",
+    "etiqueta": "LOGÍSTICA",
+    "company": "Binatural",
+    "title": "Otimização do Lead Time Logístico",
+    "url": "/desafios/binatural",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/binatural/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Sequenciamento de informação",
+    "pergunta": "Sua operação perde tempo esperando caminhão no pátio?",
+    "reformulacao": "E se o problema não estivesse no tamanho do pátio, mas no momento em que a informação é checada?",
+    "oCaso": "Os caminhões enfrentam fila porque a validação de documentos e cadastro só acontece quando eles já estão no pátio. É um processo manual, feito em tempo real, para resolver algo que poderia ter sido resolvido antes da chegada.",
+    "oQueFizemos": "Uma camada de pré-validação que confirma cadastro, documentos e agendamento do caminhão antes da chegada física, transformando o pátio de posto de checagem em posto de confirmação — o motorista chega já liberado.",
+    "oQuePodeSerConstruido": "Cadastro digital → agendamento inteligente → checagem automática → status em tempo real",
+    "oQueMuda": "O tempo de permanência no pátio cai porque a etapa mais lenta do processo já foi resolvida antes de o caminhão chegar. A Binatural ganha capacidade de atender mais volume sem expandir a área física.",
+    "porQueImporta": "Transforma o pátio de um gargalo físico fixo em uma capacidade elástica: a Binatural passa a absorver crescimento de volume sem precisar investir em mais área ou infraestrutura.",
+    "riscos": [
+      "Motoristas podem enxergar o pré-agendamento como burocracia extra, o que reduziria a adesão",
+      "Cadastro incompleto ou desatualizado compromete a validação automática",
+      "A solução depende de conectividade estável dentro do pátio"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como sequência de informação, não como falta de espaço — isso muda onde a solução precisa atuar",
+      "Sabemos observar o processo manual real para descobrir as restrições verdadeiras, não só as regras escritas",
+      "Trabalhamos dentro de orçamento apertado, priorizando o que gera ganho mais rápido em vez de uma solução completa de uma vez",
+      "O modelo, uma vez funcionando numa unidade, se replica para outras sem precisar ser reconstruído do zero"
+    ]
+  },
+  {
+    "code": "2.7",
+    "etiqueta": "DECISÃO PEDAGÓGICA",
+    "company": "Digix",
+    "title": "Avaliações Pedagógicas para Recomposição do Aprendizado",
+    "url": "/desafios/digix",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/digix-digithobrasil-solucoes-em-software-ltda/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Evidência sem ação",
+    "pergunta": "Sua empresa gera relatório e avaliação, mas a ação sobre eles sempre chega tarde?",
+    "reformulacao": "E se o problema não fosse falta de dado, mas a distância entre o resultado e quem precisa agir sobre ele?",
+    "oCaso": "Aplicação, consolidação, análise e planejamento pedagógico permanecem desconectados na jornada da Digix. O dado de desempenho existe, mas não flui automaticamente até quem decide em sala de aula — e quando chega, muitas vezes já é histórico.",
+    "oQueFizemos": "Organizar automaticamente os resultados por habilidade, turma e período, e entregar a cada perfil — gestor de rede, diretor, coordenador — apenas a visão que ele precisa para agir, sem depender de consolidação manual.",
+    "oQuePodeSerConstruido": "Consolidação por habilidade e turma → digitalização quando necessário → visão priorizada de lacuna → entrega segmentada por perfil",
+    "oQueMuda": "O tempo entre o resultado da avaliação e a decisão pedagógica cai de forma mensurável, porque cada nível de gestão recebe exatamente a informação de que precisa, no momento certo.",
+    "porQueImporta": "Posiciona a Digix como parceira de política pública baseada em evidência, não apenas fornecedora de software — um ativo estratégico em contratos públicos de educação.",
+    "riscos": [
+      "Falha de anonimização ou controle de acesso a dado de menor gera risco legal grave",
+      "Dashboard só gera valor se de fato mudar a prática em sala de aula",
+      "Mapeamento incorreto de questão para habilidade compromete toda a cadeia de decisão"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como desconexão entre avaliação e ação, não como falta de digitalização — isso muda o que precisa ser resolvido primeiro",
+      "Tratamos privacidade de dado de menor como restrição de desenho desde o início, não como camada de compliance ao final",
+      "Confirmamos o mapeamento questão-habilidade contra especialistas humanos antes de confiar nele em escala",
+      "A infraestrutura de rastreabilidade construída aqui é reaproveitável em outros produtos educacionais"
+    ]
+  },
+  {
+    "code": "2.8",
+    "etiqueta": "COMPLIANCE REGULATÓRIO",
+    "company": "Duas Rodas Aromas & Ingredientes",
+    "title": "Automação da Rotulagem de Alimentos",
+    "url": "/desafios/duas-rodas",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/duas-rodas-aromas-ingredientes-1/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Norma não traduzida",
+    "pergunta": "Sua empresa revisa documento contra uma norma que muda com frequência, sempre do zero?",
+    "reformulacao": "E se o problema não fosse volume de revisão, mas a ausência de uma tradução estável entre a norma e a prática do dia a dia?",
+    "oCaso": "A legislação de rotulagem (RDC 429/2020, IN 75/2020) muda com frequência e admite interpretação. Sem uma camada que traduza norma em regra operacional estável, cada rótulo é revisado do zero — e em alto volume, o erro se torna estatisticamente inevitável.",
+    "oQueFizemos": "Traduzir, junto ao time regulatório, a norma vigente em regras verificáveis e versionadas, aplicá-las ao banco de formulações já existente, e desenhar desde o início o processo de atualização dessas regras quando a norma mudar.",
+    "oQuePodeSerConstruido": "Norma codificada em regra → checagem automática → processo de atualização → integração com o ERP",
+    "oQueMuda": "O tempo de aprovação de rótulos cai e a taxa de não conformidade diminui, porque a checagem deixa de depender exclusivamente de quem está disponível naquele momento.",
+    "porQueImporta": "Transforma compliance regulatório de centro de custo reativo em capacidade de velocidade competitiva — acelerar o time-to-market com segurança regulatória é vantagem direta num mercado de tendências voláteis.",
+    "riscos": [
+      "Um motor de regra desatualizado gera falsa sensação de segurança, pior do que não ter automação",
+      "A decisão final sobre conformidade deve continuar com humano habilitado",
+      "Inconsistência no banco de formulações se propaga para a checagem automática"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ausência de tradução entre norma viva e prática operacional, não como lentidão de revisão",
+      "Tratamos compliance como algo vivo, com processo de atualização a cada mudança normativa, não como entrega única",
+      "Priorizamos regra verificável sobre IA generativa pura, dado o risco de erro em contexto regulatório",
+      "Medimos a concordância entre checagem automática e revisão humana antes de qualquer promessa de redução de retrabalho"
+    ]
+  },
+  {
+    "code": "2.9",
+    "etiqueta": "CIÊNCIA DE PRODUTO",
+    "company": "Duas Rodas + MBRF",
+    "title": "Inovação em Ingredientes Funcionais (GLP-1)",
+    "url": "/desafios/duas-rodas-mbrf",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/duas-rodas-aromas-ingredientes-2-mbrf/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Ciência mais lenta que o mercado",
+    "pergunta": "O mercado mudou mais rápido do que sua área de P&D consegue responder?",
+    "reformulacao": "E se o problema não fosse falta de ideia, mas a ausência de critério objetivo para decidir rápido o que vale testar primeiro?",
+    "oCaso": "Diferente dos demais casos, este não é um problema de dado ou processo — é ciência aplicada sob pressão de janela de mercado. Quem resolver a ciência primeiro captura a categoria de ingredientes funcionais para esse público.",
+    "oQueFizemos": "Atuar como camada de suporte científico-analítico ao redor do núcleo de P&D conduzido pela empresa ou por parceiros de pesquisa, com métricas objetivas de sucesso definidas antes dos testes de laboratório, não depois.",
+    "oQuePodeSerConstruido": "Triagem de candidato por evidência → métrica de sucesso definida antes do teste → modelagem estatística → acompanhamento do comportamento do consumidor",
+    "oQueMuda": "A empresa entra nos testes de laboratório com candidatos priorizados por evidência e critério de sucesso já definido, em vez de responder à tendência de forma oportunista.",
+    "porQueImporta": "Posiciona a empresa como pioneira científica numa categoria nova de nutrição funcional, com barreira de entrada baseada em evidência e patente — mais defensável que marketing de tendência.",
+    "riscos": [
+      "Claim de eficácia mal fundamentado gera risco regulatório e reputacional sério",
+      "O fenômeno GLP-1 pode evoluir mais rápido que o ciclo de desenvolvimento do ingrediente",
+      "Ingrediente eficaz em laboratório pode não resistir a processo térmico industrial"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ciência sob pressão de mercado, não como formulação de tendência — isso muda o padrão de evidência exigido",
+      "Definimos métrica objetiva de eficácia antes dos testes, não depois, separando validação científica de marketing oportunista",
+      "Sabemos equilibrar velocidade de mercado com rigor científico, sem sacrificar um pelo outro",
+      "Tratamos escalabilidade industrial como critério de validação desde o laboratório, não como problema para depois"
+    ]
+  },
+  {
+    "code": "2.10a",
+    "etiqueta": "RETENÇÃO DE CLIENTE",
+    "company": "Embracon — Relacionamento",
+    "title": "Relacionamento do Cliente",
+    "url": "/desafios/embracon-relacionamento",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/embracon-administradora-de-consorcio-ltda-1/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Comunicação fora de tempo",
+    "pergunta": "Seu cliente cancela justamente no momento em que mais precisaria de orientação?",
+    "reformulacao": "E se o problema não fosse volume de contato, mas o fato de a comunicação não acompanhar o momento real da jornada dele?",
+    "oCaso": "O consórcio é um produto de eventos esparsos e imprevisíveis — contemplação, lance, reajuste. Mas a comunicação é tratada como fluxo genérico e constante, então o cliente recebe ruído quando não precisa e silêncio quando mais precisa de orientação.",
+    "oQueFizemos": "Substituir a régua de comunicação por calendário fixo por uma disparada pelos eventos reais da jornada — contemplação, lance, reajuste — com linguagem adaptada ao nível de compreensão financeira de cada cliente.",
+    "oQuePodeSerConstruido": "Evento real da jornada mapeado → sinal de risco identificado → régua orientada a evento → linguagem adaptada ao cliente",
+    "oQueMuda": "A comunicação passa a chegar no momento em que o cliente de fato precisa dela, reduzindo o cancelamento no período crítico sem aumentar o volume de contatos.",
+    "porQueImporta": "Transforma a comunicação de compliance de relacionamento em ferramenta ativa de retenção — reduz o custo de reverter cancelamento e eleva o NPS sem alterar o produto financeiro em si.",
+    "riscos": [
+      "Qualquer segmentação comportamental do cliente exige base legal e transparência sob LGPD",
+      "Mal calibrado, o sistema pode aumentar em vez de reduzir a sensação de ruído",
+      "Se o evento não é registrado de forma consistente, o gatilho perde precisão"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como falta de sincronismo entre comunicação e jornada real, não como volume insuficiente de contato",
+      "Tratamos o modelo de risco de cancelamento como algo a confirmar com dado histórico, não como suposição pronta",
+      "Comparamos grupo com a nova régua contra grupo sem ela, antes de qualquer escala",
+      "O modelo de comunicação orientada a evento é generalizável a outros produtos financeiros de ciclo longo"
+    ]
+  },
+  {
+    "code": "2.10b",
+    "etiqueta": "QUALIDADE DE VENDA",
+    "company": "Embracon — Comercial",
+    "title": "Comercial",
+    "url": "/desafios/embracon-comercial",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/embracon-administradora-de-consorcio-ltda-2/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Incentivo desalinhado",
+    "pergunta": "Sua equipe comercial é avaliada por fechar a venda, não por garantir que o cliente entendeu o que comprou?",
+    "reformulacao": "E se o cancelamento precoce não fosse falta de treinamento, mas o que a empresa está medindo como sucesso na venda?",
+    "oCaso": "A métrica de sucesso comercial hoje é fechar a venda, não garantir que o cliente entendeu o que está contratando. O incentivo do vendedor está estruturalmente desalinhado com a retenção de longo prazo.",
+    "oQueFizemos": "Introduzir um mecanismo de verificação de entendimento real no fechamento da venda — perguntas adaptativas que confirmam compreensão, não apenas um aceite formal — com registro auditável do que foi confirmado.",
+    "oQuePodeSerConstruido": "Correlação venda-cancelamento → verificação adaptativa de entendimento → registro auditável → aplicação piloto no funil",
+    "oQueMuda": "O cancelamento precoce cai porque o cliente chega ao contrato com entendimento real, não apenas aceite formal — e a empresa passa a ter um sinal de risco desde a venda, não só depois dela.",
+    "porQueImporta": "Transforma o vendedor de fechador de contrato em consultor de decisão financeira — reduz custo de retenção a jusante e eleva a percepção de valor da marca desde o primeiro contato.",
+    "riscos": [
+      "Vendedor sob pressão de meta pode tentar contornar a verificação de entendimento",
+      "Um mecanismo mal desenhado pode criar ônus probatório não previsto para a empresa",
+      "Verificação superficial (tipo checkbox) não resolve o problema real"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como desalinhamento entre incentivo de conversão e retenção real, não como falta de treinamento",
+      "Medimos a correlação entre o mecanismo de verificação e a redução de cancelamento com dado real, não como boa prática de UX",
+      "Desenhamos o mecanismo para distinguir entendimento genuíno de concordância automática, com valor probatório defensável",
+      "O sinal gerado aqui alimenta o modelo de risco de cancelamento do desafio de Relacionamento, fechando o ciclo entre venda e retenção"
+    ]
+  },
+  {
+    "code": "2.11",
+    "etiqueta": "OTIMIZAÇÃO DE ESPAÇO",
+    "company": "Globo",
+    "title": "Gestão de Estoque e Otimização de Espaços",
+    "url": "/desafios/globo",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/globo/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Planejamento estático",
+    "pergunta": "Seu planejamento quebra toda vez que a operação muda de última hora?",
+    "reformulacao": "E se o problema não fosse falta de espaço, mas um processo desenhado para um cenário que nunca fica parado?",
+    "oCaso": "Cada mudança de plano de produção obriga um replanejamento manual completo do armazém, em vez de um ajuste incremental — porque o processo de alocação de espaço nunca foi pensado para operar sob mudança constante.",
+    "oQueFizemos": "Formalizar as restrições reais de alocação — tipo de material, prazo, prioridade de produção — a partir da observação do processo manual atual, e construir sobre elas um algoritmo de alocação automática que responde a mudança em minutos, não horas.",
+    "oQuePodeSerConstruido": "Restrição real capturada → algoritmo de alocação → integração com gestão de produção → calibração com histórico",
+    "oQueMuda": "O replanejamento de armazém, que hoje leva horas, passa a levar minutos — aumentando a taxa de ocupação útil sem expandir a área física.",
+    "porQueImporta": "Libera a capacidade criativa das equipes de cenografia e arte de restrição logística, permitindo aumentar o volume de produção sem investir em expansão física.",
+    "riscos": [
+      "Restrição de alocação mal capturada otimiza a coisa errada",
+      "Equipes que hoje fazem esse ajuste manualmente podem resistir à mudança",
+      "Integração com sistema legado de gestão de produção em tempo real"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como incompatibilidade entre planejamento estático e operação dinâmica, não como falta de organização",
+      "Sabemos formalizar restrição real extraída da observação do processo manual, não só da regra documentada",
+      "Comparamos o algoritmo contra caso histórico real de replanejamento antes de qualquer promessa de ganho de tempo",
+      "O mesmo tipo de otimização com restrição real é transferível a outros recursos além de espaço físico"
+    ]
+  },
+  {
+    "code": "2.12",
+    "etiqueta": "VISÃO COMPUTACIONAL",
+    "company": "Grupo Interjato",
+    "title": "Inteligência Analítica em Videomonitoramento",
+    "url": "/desafios/interjato",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/grupo-interjato/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Infraestrutura subutilizada",
+    "pergunta": "Sua empresa já tem câmera ou sensor instalado, mas usa pouco do dado que eles geram?",
+    "reformulacao": "E se o problema não fosse falta de equipamento, mas o fato de ninguém interpretar esse dado em tempo real?",
+    "oCaso": "A empresa já investiu em câmeras e conectividade. Mas hoje o vídeo só é assistido depois que algo já aconteceu. O equipamento está lá, subutilizado — o que falta não é câmera, é a camada que transforma imagem em informação.",
+    "oQueFizemos": "Módulos de visão computacional rodando sobre a infraestrutura que já existe, reconhecendo os eventos que importam para cada cliente (escola, hospital, mobilidade) e entregando esse sinal direto para os sistemas de gestão que eles já usam.",
+    "oQuePodeSerConstruido": "Diagnóstico do hardware legado → módulo de visão computacional → processamento em borda → conexão com sistema de gestão",
+    "oQueMuda": "A infraestrutura que já existe passa a gerar informação útil, sem trocar equipamento. A Interjato deixa de vender câmera e passa a vender a inteligência que roda em cima dela.",
+    "porQueImporta": "Tira a empresa da briga por preço de hardware e a coloca num mercado de margem mais alta, com uma vantagem baseada em dado e algoritmo — mais difícil de copiar do que um catálogo de equipamento.",
+    "riscos": [
+      "Câmeras já instaladas podem ter resolução ou posicionamento que limitam o que dá para detectar",
+      "Monitoramento em escola e hospital exige cuidado redobrado com dado de imagem e LGPD",
+      "Um alarme errado tem custo alto nos dois sentidos: perder um evento real ou gerar alerta falso demais"
+    ],
+    "porqueNos": [
+      "Enxergamos isso como infraestrutura sem camada de inteligência, não como falta de câmera — isso muda o que a solução precisa entregar",
+      "Medimos primeiro o limite real do equipamento já instalado, antes de prometer qualquer taxa de acerto",
+      "Tratamos alerta falso e evento perdido como parte central da decisão, não como detalhe técnico",
+      "O que validamos num setor foi pensado para se adaptar a outros, sem recomeçar do zero"
+    ]
+  },
+  {
+    "code": "2.13",
+    "etiqueta": "RESILIÊNCIA HÍDRICA",
+    "company": "Instituto Riachuelo",
+    "title": "Resiliência Hídrica e Produtividade Agroecológica",
+    "url": "/desafios/instituto-riachuelo",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/instituto-riachuelo/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Risco individualizado",
+    "pergunta": "Pequenos produtores da sua rede enfrentam sozinhos um risco que poderia ser dividido?",
+    "reformulacao": "E se o problema não fosse falta de esforço individual, mas a ausência de infraestrutura compartilhada que reduza esse risco pra todo mundo?",
+    "oCaso": "Sem infraestrutura compartilhada de reúso de água e mecanização, cada agricultor do Seridó/RN arca individualmente com um risco estrutural — a seca — que poderia ser absorvido coletivamente. Aqui vale honestidade técnica: o núcleo da solução é hidrologia aplicada e agronomia, não engenharia de software.",
+    "oQueFizemos": "Medir, com sensoriamento remoto, produtividade e estresse hídrico antes e depois da introdução de tecnologia de reúso de água e mecanização — implementada por parceiros técnicos — isolando o efeito real da tecnologia da variação natural do clima entre safras.",
+    "oQuePodeSerConstruido": "Linha de base geoespacial → acompanhamento entre safras → isolamento estatístico do efeito → execução técnica com parceiro",
+    "oQueMuda": "Fica comprovado, com medição real, se o ganho de produtividade vem da tecnologia ou de um ano de chuva favorável — a diferença entre um caso de sucesso pontual e um modelo replicável.",
+    "porQueImporta": "Transforma uma área de risco climático crônico num sistema produtivo resiliente e replicável — um modelo de impacto social que gera renda mensurável, não apenas indicador de comunicação institucional.",
+    "riscos": [
+      "Adoção sem evidência local visível de resultado",
+      "Escalabilidade econômica da infraestrutura hídrica em outras regiões",
+      "Dependência de parceria técnica externa para a execução da tecnologia em si"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como infraestrutura compartilhada ausente, não como falta de esforço do produtor",
+      "Temos domínio de sensoriamento remoto para medir produtividade real ao longo do tempo, não apenas relatos",
+      "Sabemos desenhar medição que separa efeito de tecnologia de efeito de clima — a diferença entre case e evidência",
+      "O método é o mesmo aplicado em outros territórios brasileiros, replicável para além do Seridó/RN"
+    ]
+  },
+  {
+    "code": "3.1",
+    "etiqueta": "SINCRONISMO DE SAFRA",
+    "company": "Kraft Heinz",
+    "title": "Sincronismo de Safra e Demanda Industrial",
+    "url": "/desafios/3-1",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/kraft-heinz/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Planejamento rígido",
+    "pergunta": "Seu insumo chega fora de hora porque o plano não acompanha a mudança do clima?",
+    "reformulacao": "E se o problema não fosse falta de previsão climática, mas um plano que só é revisado nos marcos formais do calendário?",
+    "oCaso": "O plano de plantio é fixo num ambiente que muda o tempo todo. Chuva e temperatura variam, o plantio se desloca, e a demanda de insumo no campo muda — mas o plano original não se atualiza, gerando estoque em excesso ou falta.",
+    "oQueFizemos": "Revisar o plano de entrega de insumo continuamente, cruzando dado de clima, fase da planta reportada por técnico de campo e cronograma industrial, antecipando o ajuste necessário com pelo menos uma semana de antecedência.",
+    "oQuePodeSerConstruido": "Integração clima e campo → recomendação com antecedência → reporte simples de campo → comparação plano x execução",
+    "oQueMuda": "A divergência entre insumo disponível e necessidade real da lavoura cai, porque o plano passa a se atualizar junto com o clima, não apenas no início da safra.",
+    "porQueImporta": "Transforma o planejamento de uma logística refém do clima em vantagem de capacidade industrial plena — ganho direto de margem por tonelada processada, replicável a outras culturas do portfólio.",
+    "riscos": [
+      "O modelo depende de disciplina de registro no campo, que pode falhar sob pressão de safra",
+      "Modelo climático regional pode não capturar variação local suficiente para decisão de uma semana",
+      "Técnicos de campo podem resistir a mudar rotina de reporte manual"
+    ],
+    "porqueNos": [
+      "Medimos primeiro a divergência real entre plano e execução em safras passadas, antes de prometer qualquer precisão de antecipação",
+      "Validamos o modelo com dado real da própria safra, não com previsão climática genérica",
+      "A diferenciação está em evidência empírica de sincronismo, não em sofisticação abstrata de modelo"
+    ]
+  },
+  {
+    "code": "3.2",
+    "etiqueta": "QUALIDADE EM TEMPO REAL",
+    "company": "Laticínio Novo Horizonte",
+    "title": "IA para Parâmetros Ideais de Fabricação em Tempo Real",
+    "url": "/desafios/3-2",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/laticinio-novo-horizonte/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Variável não medida",
+    "pergunta": "O resultado do seu processo varia todo dia e o ajuste depende só da experiência de quem opera?",
+    "reformulacao": "E se o problema não fosse falta de talento do operador, mas a ausência de um dado objetivo que meça a variação da matéria-prima?",
+    "oCaso": "A queijaria opera com receita fixa, mas a matéria-prima varia diariamente em composição. A falta de instrumentação obriga a depender do julgamento do operador experiente — sempre reativo, nunca preventivo.",
+    "oQueFizemos": "Organizar o histórico de composição do leite, ajuste de receita e rendimento já existente, treinar um modelo que recomenda ajuste a partir de característica de entrada, e comparar essa recomendação com o que os operadores-chave de fato fizeram.",
+    "oQuePodeSerConstruido": "Histórico estruturado → modelo de recomendação → comparação com decisão real → sensor priorizado por retorno",
+    "oQueMuda": "A dependência do sentimento individual do operador cai, e fica claro qual sensor realmente vale o investimento antes de qualquer automação completa da linha.",
+    "porQueImporta": "Transforma o laticínio de uma operação dependente de operador-chave em processo padronizado e escalável — reduz o risco de continuidade que existe hoje quando esse operador sai.",
+    "riscos": [
+      "Custo de sensor especializado pode não compensar em escala de produção pequena",
+      "Operadores experientes podem resistir a formalizar o que hoje é diferencial pessoal deles",
+      "Qualidade do dado sensorial em ambiente real de produção (sujeira, temperatura, vapor)"
+    ],
+    "porqueNos": [
+      "Enxergamos o problema como ausência de instrumentação, não como falta de talento do operador",
+      "Validamos a correlação leite-rendimento com dado real da própria queijaria antes de prometer automação completa",
+      "A diferenciação está em provar a correlação, não em vender sensor genérico"
+    ]
+  },
+  {
+    "code": "3.3",
+    "etiqueta": "EFICIÊNCIA DE COMPRAS",
+    "company": "Portobello S.A",
+    "title": "Eficiência em Processos Operacionais de Compra",
+    "url": "/desafios/3-3",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/portobello-s-a/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Sistemas fragmentados",
+    "pergunta": "Sua equipe de compras perde tempo comparando informação que já está em algum sistema, só que espalhada?",
+    "reformulacao": "E se o problema não fosse falta de automação, mas o fato de o ERP central e os sistemas satélite não conversarem?",
+    "oCaso": "Decisões tributárias e logísticas complexas ficam presas em análise manual porque a informação não está unificada entre o ERP central (Oracle EBS) e sistemas satélite (Coupa) — o comprador gasta tempo comparando o que o sistema já sabe, mas não conecta.",
+    "oQueFizemos": "Automatizar cotação e comparação tributária/logística como camada nativa do ERP central, mapeando primeiro onde o tempo realmente se concentra hoje: preço, análise tributária entre regimes fiscais, ou custo logístico.",
+    "oQuePodeSerConstruido": "Mapeamento do gargalo real → motor de cotação automatizado → respeito à alçada existente → integração nativa ao ERP",
+    "oQueMuda": "O lead time de requisição cai e a carga manual da equipe de compras diminui, com meta de referência de 20% de redução de lead time e 80% de automação de pedido de matéria-prima definida pela própria Portobello.",
+    "porQueImporta": "Reduz a dependência de decisão tributária e logística complexa do julgamento manual do comprador, liberando a equipe para decisão de maior valor e reduzindo risco de erro fiscal.",
+    "riscos": [
+      "Conformidade com LGPD e com as alçadas de aprovação já estabelecidas",
+      "Risco de criar mais um sistema satélite se a integração não for verdadeiramente nativa",
+      "Complexidade tributária pode exceder o que regra determinística consegue cobrir"
+    ],
+    "porqueNos": [
+      "Mapeamos a lógica real de decisão tributária e logística do comprador experiente antes de automatizar qualquer disparo de compra",
+      "Entregamos automação nativa ao ERP central, evitando criar mais uma camada sobre a fragmentação existente",
+      "A diferenciação está em resolver a fragmentação, não em adicionar mais um sistema a ela"
+    ]
+  },
+  {
+    "code": "3.4",
+    "etiqueta": "AUTOMAÇÃO INDUSTRIAL",
+    "company": "Schulz S/A",
+    "title": "Eliminação de Operações Manuais em Peças Fundidas Complexas",
+    "url": "/desafios/3-4",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/schulz-sa/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Automação rígida",
+    "pergunta": "Sua empresa não consegue automatizar porque cada peça ou item é praticamente único?",
+    "reformulacao": "E se o problema não fosse falta de robô, mas o fato de a automação tradicional não lidar bem com tanta variação?",
+    "oCaso": "O acabamento de peça fundida é trabalho manual insalubre, com escassez crescente de mão de obra. A robotização convencional é inviável pelo custo de programação e gabarito por peça — o problema não é falta de robô, é que automação rígida não lida com variabilidade extrema. Vale honestidade técnica: o núcleo aqui é engenharia mecânica e automação industrial, a contribuição de dado é complementar.",
+    "oQueFizemos": "Usar visão computacional para reconhecer automaticamente a peça e seu padrão de acabamento necessário, alimentando uma tecnologia de corte não convencional (laser ou corrente de precisão), sem exigir gabarito ou programação por item.",
+    "oQuePodeSerConstruido": "Padrão geométrico caracterizado → visão computacional → otimização do molde → execução física com parceiro",
+    "oQueMuda": "A necessidade de programação individual por peça cai, viabilizando economicamente a automação do acabamento que hoje é inviável pelo custo de gabarito item a item.",
+    "porQueImporta": "Reduz o risco de continuidade operacional frente à escassez estrutural de mão de obra para função insalubre, e libera talento para atividade de maior valor — vantagem estrutural frente ao desafio demográfico do setor.",
+    "riscos": [
+      "Tecnologias como laser e corrente de precisão podem ainda não ter maturidade para o volume industrial real",
+      "Custo inicial elevado mesmo sem os gabaritos que a automação convencional exigiria",
+      "Segurança operacional de tecnologia não convencional em ambiente fabril já existente"
+    ],
+    "porqueNos": [
+      "Testamos contra uma amostra representativa da variabilidade real do mix, não contra os casos mais fáceis",
+      "A credibilidade vem de mostrar os limites reais da tecnologia, não só seus sucessos",
+      "Entregamos a base de reconhecimento que viabiliza a automação física, mantendo a execução física com parceiro especializado"
+    ]
+  },
+  {
+    "code": "3.5",
+    "etiqueta": "INTELIGÊNCIA SETORIAL",
+    "company": "SEBRAE/RN",
+    "title": "Radar de Convergência para Inovação Setorial",
+    "url": "/desafios/3-5",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/sebrae-rn/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Diagnóstico subjetivo",
+    "pergunta": "Seu diagnóstico setorial depende de entrevista e percepção individual, sem uma base de dado comum?",
+    "reformulacao": "E se o problema não fosse falta de diagnóstico, mas a ausência de estrutura que transforme percepção em evidência?",
+    "oCaso": "O diagnóstico setorial hoje depende de entrevista e percepção individual, o que dificulta enxergar padrão recorrente entre empresas de uma mesma cadeia e limita a formulação de desafios técnicos que realmente atraiam solução aderente.",
+    "oQueFizemos": "Construir um grafo de relações entre setor, empresa, gargalo, tipo de solução e maturidade, extraído de fontes já existentes, para identificar convergência entre empresas com características semelhantes — respeitando o limite de confidencialidade individual.",
+    "oQuePodeSerConstruido": "Grafo de relação setor-empresa-gargalo → extração e normalização → detecção de convergência → validação com especialista",
+    "oQueMuda": "O tempo de estruturação de um novo ciclo de desafio cai, e a priorização passa a ter base em padrão de dado real, não só em percepção qualitativa.",
+    "porQueImporta": "Transforma o SEBRAE/RN de estruturador de diagnóstico pontual em curador de inteligência setorial contínua — um ativo que atrai investimento e engajamento de forma recorrente, não a cada ciclo isolado.",
+    "riscos": [
+      "Agregar dado da cadeia produtiva sem violar confidencialidade individual das empresas",
+      "Baixa adesão inicial das empresas em compartilhar dado, mesmo agregado",
+      "Dado coletado pode não capturar de fato o gargalo setorial real"
+    ],
+    "porqueNos": [
+      "Desenhamos a arquitetura de dado já assumindo a restrição de não fundir dado individual",
+      "Testamos se padrão agregado ainda gera evidência de retorno suficiente para engajar novo parceiro",
+      "A diferenciação está em respeitar confidencialidade desde o desenho, essencial para conseguir adesão da cadeia produtiva"
+    ]
+  },
+  {
+    "code": "3.6",
+    "etiqueta": "CRÉDITO CONSULTIVO",
+    "company": "Sicredi Ouro Verde MT/PA",
+    "title": "Oferta Consultiva de Crédito por Subsegmento",
+    "url": "/desafios/3-6",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/sicredi-ouro-verde-mt-pa/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Processo genérico",
+    "pergunta": "Sua empresa atende públicos muito diferentes com o mesmo processo?",
+    "reformulacao": "E se o problema não fosse burocracia, mas tratar como igual o que na prática exige dois caminhos diferentes?",
+    "oCaso": "A jornada de crédito PF é hoje o segundo maior motivo de detração de NPS da cooperativa, agravada por portais fragmentados e excesso de alçada. O problema não é falta de dado, é tratar subsegmentos de renda muito diferentes com o mesmo fluxo.",
+    "oQueFizemos": "Construir credit scoring para reduzir alçada no Varejo/Média Renda, e uma ferramenta de apoio à decisão que potencializa — sem substituir — o Gerente de Negócios consultor na Alta Renda, tratando os dois como problemas distintos.",
+    "oQuePodeSerConstruido": "Credit scoring para Varejo → apoio à decisão para Alta Renda → medição por subsegmento → respeito à régua já existente",
+    "oQueMuda": "O tempo de aprovação cai e a margem de contribuição sobe, com cada subsegmento recebendo o tipo de solução que de fato precisa — automação para um, apoio consultivo para o outro.",
+    "porQueImporta": "Permite à cooperativa competir simultaneamente contra fintech (velocidade, no Varejo) e banco privado de alta renda (personalização consultiva), sem forçar todos os subsegmentos pelo mesmo funil.",
+    "riscos": [
+      "Fragmentação sistêmica de portais pode limitar a granularidade de dado disponível para o scoring",
+      "Gerente de Negócios pode resistir a delegar parte da decisão a um modelo",
+      "Segurança e compliance na análise automatizada de garantia"
+    ],
+    "porqueNos": [
+      "Tratamos Varejo/Média Renda e Alta Renda como dois problemas de decisão distintos, com solução diferente para cada um",
+      "Testamos cada modelo separadamente contra o resultado real do subsegmento",
+      "A diferenciação está em não tratar crédito como um problema único de \"crédito digital\""
+    ]
+  },
+  {
+    "code": "3.7",
+    "etiqueta": "DESCARBONIZAÇÃO",
+    "company": "TAESA",
+    "title": "Zerar Emissões do Escopo 2 na Transmissão de Energia",
+    "url": "/desafios/3-7",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/taesa/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Responsabilidade sem controle",
+    "pergunta": "Sua empresa é cobrada por um resultado que não controla totalmente?",
+    "reformulacao": "E se o primeiro passo não fosse resolver o problema físico, mas separar o que é de fato controlável do que não é?",
+    "oCaso": "As emissões de Escopo 2 da TAESA vêm de perda física por efeito Joule no fluxo de carga das linhas — uma variável que a empresa não controla diretamente. Vale honestidade técnica: reduzir isso fisicamente é problema de engenharia elétrica e política regulatória, não de dado.",
+    "oQueFizemos": "Estruturar dado histórico de fluxo de carga e perda por efeito Joule para simular, sob diferentes cenários de despacho, o impacto esperado nas perdas — gerando inteligência que subsidie o diálogo técnico com o ONS.",
+    "oQuePodeSerConstruido": "Modelagem da perda histórica → simulação de cenário de despacho → argumento técnico quantificado → separação do que é controlável",
+    "oQueMuda": "A TAESA passa a ter evidência técnica quantificada para negociar com o ONS ou propor modelo regulatório que remunere esforço de descarbonização hoje não previsto.",
+    "porQueImporta": "Posiciona a TAESA como pioneira em descarbonização estrutural do setor de transmissão — vantagem reputacional e de acesso a capital ESG num setor onde a maioria das soluções hoje é apenas incremental.",
+    "riscos": [
+      "O modelo de Receita Anual Permitida pode não remunerar investimento em tecnologia não prevista",
+      "Qualquer mudança relevante de despacho depende de aprovação do ONS/ANEEL",
+      "Pressão de investidor por resultado rápido, incompatível com o ciclo regulatório real do setor"
+    ],
+    "porqueNos": [
+      "Decompomos tecnicamente o problema entre o que é controlável e o que não é, antes de propor qualquer solução",
+      "A honestidade estrutural sobre essa separação é o que diferencia de uma proposta puramente incremental",
+      "A execução física de redução de perda por hardware permanece fora do nosso escopo de competência"
+    ]
+  },
+  {
+    "code": "3.8",
+    "etiqueta": "INFRAESTRUTURA 5G",
+    "company": "Unifique",
+    "title": "Soluções Inovadoras com Potencial do 5G",
+    "url": "/desafios/3-8",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unifique-telecomunicacoes-s-a-1/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Ativo sem aplicação",
+    "pergunta": "Sua empresa investiu numa tecnologia de ponta, mas ainda não achou o caso de uso que realmente precisa dela?",
+    "reformulacao": "E se o problema não fosse falta de ideia, mas usar essa tecnologia em algo que funcionaria igual sem ela?",
+    "oCaso": "A Unifique tem infraestrutura 5G disponível, mas nenhum caso de uso traduziu baixa latência e alta densidade de dispositivo em valor real mensurável. O problema não é tecnológico, é de aplicação.",
+    "oQueFizemos": "Selecionar, entre os candidatos (IoT industrial, visão computacional remota, monitoramento crítico), aquele em que a latência é comprovadamente indispensável, e comprovar isso removendo a variável: o caso falha sem o 5G?",
+    "oQuePodeSerConstruido": "Caso indispensável selecionado → prototipagem real → medição de latência → validação comercial com piloto",
+    "oQueMuda": "A Unifique passa a ter um caso de uso comercialmente viável que depende estruturalmente do 5G, não apenas uma demonstração técnica de conectividade.",
+    "porQueImporta": "Transforma a infraestrutura 5G de custo de capital ocioso em ativo de geração de receita recorrente — com dependência técnica real da tecnologia, não um caso de uso genérico vestido de 5G.",
+    "riscos": [
+      "Risco de validar um caso onde o 5G é conveniente mas não indispensável, o que não sustenta a tese comercial",
+      "Escassez de hardware compatível disponível no mercado",
+      "Baixo conhecimento do cliente final sobre o potencial real da tecnologia"
+    ],
+    "porqueNos": [
+      "Testamos explicitamente se o caso de uso falha sem a baixa latência do 5G, separando o que realmente depende da tecnologia do que apenas se beneficia dela",
+      "Evitamos vender um caso de uso genérico com selo de 5G sem sustentação técnica real"
+    ]
+  },
+  {
+    "code": "3.9",
+    "etiqueta": "DEFESA CIVIL",
+    "company": "Unifique",
+    "title": "Sensores IoT para Atuação da Defesa Civil",
+    "url": "/desafios/3-9",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unifique-telecomunicacoes-s-a-2/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Gestão reativa",
+    "pergunta": "Sua cidade ou operação só reage depois que o evento de risco já aconteceu?",
+    "reformulacao": "E se o problema não fosse falta de vontade de agir, mas a ausência de um sinal de alerta com antecedência real?",
+    "oCaso": "A gestão de risco urbano — alagamento, encosta — é hoje reativa por ausência de sensoriamento dedicado e integração entre dado público e privado. O problema é falta de sinal preditivo acionável, não falta de vontade de agir.",
+    "oQueFizemos": "Instalar sensor IoT de baixo custo (nível de rio, alagamento, movimento de encosta) numa área de risco priorizada por histórico, e construir um modelo simples que gera alerta com antecedência real, validado contra evento conhecido.",
+    "oQuePodeSerConstruido": "Área de risco priorizada → sensoriamento IoT → modelo de alerta validado → medição de antecedência real",
+    "oQueMuda": "A Defesa Civil passa a ter antecedência real de resposta em pelo menos um cenário de risco, e a Unifique valida um portfólio comercial de Smart Cities antes de prometer escala municipal completa.",
+    "porQueImporta": "Posiciona a Unifique como fornecedora de infraestrutura crítica de segurança pública, não só de conectividade — um ativo comercial replicável a múltiplos municípios, com alto valor social associado.",
+    "riscos": [
+      "Incompatibilidade entre sistema público legado e novo sensor privado",
+      "Falso positivo ou negativo em alerta de risco tem custo alto nos dois sentidos",
+      "Dependência de conectividade estável justamente em área remota mais sujeita a risco"
+    ],
+    "porqueNos": [
+      "Tratamos falso positivo e falso negativo como parâmetro operacional crítico, não como detalhe técnico",
+      "Validamos a antecedência real do alerta com evento histórico antes de comercializar o portfólio",
+      "A credibilidade vem de honestidade sobre limitação do sistema, não de demo genérica de IoT"
+    ]
+  },
+  {
+    "code": "3.10",
+    "etiqueta": "GESTÃO DE OPME",
+    "company": "Unimed Campo Grande",
+    "title": "Solicitação e Validação de OPME com Governança",
+    "url": "/desafios/3-10",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unimed-campo-grande-1/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Decisão sem apoio",
+    "pergunta": "Sua equipe descobre divergência só na auditoria, depois que a decisão já foi tomada?",
+    "reformulacao": "E se o problema não fosse a decisão em si, mas a falta de visibilidade do padrão certo no momento em que ela é tomada?",
+    "oCaso": "A solicitação médica de OPME acontece por campo aberto, sem padronização, e sem apoio de dado sobre o que já está homologado — então cada solicitação nasce sujeita a retrabalho de auditoria.",
+    "oQueFizemos": "Apresentar ao médico, no momento da solicitação, um catálogo inteligente vinculado ao procedimento, com as alternativas já homologadas, sinalizando automaticamente qualquer solicitação fora do padrão.",
+    "oQuePodeSerConstruido": "Catálogo vinculado a procedimento → triagem em tempo real → painel de pendência → fluxo que sinaliza, não decide",
+    "oQueMuda": "O custo total com OPME cai, com meta de referência entre 3% e 7% até 2027 definida pela própria Unimed, e a auditoria deixa de ser o primeiro momento em que a divergência aparece.",
+    "porQueImporta": "Transforma a gestão de OPME de auditoria reativa pós-fato em apoio à decisão clínica no momento da solicitação — reduz custo assistencial e desgaste na relação médico-cooperativa ao mesmo tempo.",
+    "riscos": [
+      "Catálogo desatualizado gera falsa sensação de segurança, pior do que a ausência de catálogo",
+      "Médico pode resistir a qualquer restrição percebida sobre autonomia de prescrição",
+      "Dado de homologação hoje está disperso entre áreas diferentes"
+    ],
+    "porqueNos": [
+      "Testamos o catálogo contra um lote real de solicitação histórica antes de prometer redução de custo",
+      "A diferenciação está em provar precisão da triagem, não em vender catálogo genérico de material"
+    ]
+  },
+  {
+    "code": "3.11",
+    "etiqueta": "JORNADA DO PACIENTE",
+    "company": "Unimed Campo Grande",
+    "title": "Integração e Acompanhamento da Jornada Oncológica",
+    "url": "/desafios/3-11",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/unimed-campo-grande-2/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Jornada desconectada",
+    "pergunta": "Sua empresa só percebe um atraso crítico depois que ele já aconteceu?",
+    "reformulacao": "E se o problema não fosse falta de acompanhamento, mas etapas que nunca estiveram de fato conectadas?",
+    "oCaso": "O acompanhamento do paciente oncológico hoje é reativo, limitado a marco administrativo. Informação sobre início, intercorrência e mudança de protocolo fica presa no prestador, sem chegar à operadora a tempo de agir preventivamente.",
+    "oQueFizemos": "Registrar as etapas da jornada — solicitação, ciclo realizado, intercorrência — em formato padronizado com um prestador-piloto, gerando alerta automático de atraso ou desvio de cronograma frente ao protocolo esperado.",
+    "oQuePodeSerConstruido": "Registro estruturado da jornada → alerta automático de desvio → extração de texto livre → visibilidade única do caso",
+    "oQueMuda": "A perda de timing terapêutico e o risco de abandono de tratamento caem, porque a equipe passa a enxergar o desvio antes que ele se torne crítico, começando por um prestador-piloto.",
+    "porQueImporta": "Transforma a operadora de pagadora reativa em gestora ativa da jornada terapêutica — reduz risco regulatório, judicialização e abandono de tratamento, com impacto direto em desfecho clínico.",
+    "riscos": [
+      "Depende de registro consistente pelo prestador, fora do controle direto da operadora",
+      "Risco regulatório se a jornada não capturar corretamente prazo legal aplicável",
+      "Sobrecarga da equipe assistencial se o sistema gerar excesso de alerta pouco priorizado"
+    ],
+    "porqueNos": [
+      "Desenhamos o sistema já assumindo que nem todo prestador vai registrar tudo, priorizando o que mais importa para o timing terapêutico",
+      "Validamos num recorte controlado e real antes de prometer integração sistêmica ampla",
+      "A diferenciação está em provar redução real de atraso, não em entregar mais um painel de acompanhamento"
+    ]
+  },
+  {
+    "code": "3.12",
+    "etiqueta": "AUTOMAÇÃO DOCUMENTAL",
+    "company": "WEG Transformadores",
+    "title": "IA para Leitura Técnica e Elaboração de Orçamentos",
+    "url": "/desafios/3-12",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/weg-transformadores/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Documento não estruturado",
+    "pergunta": "Sua equipe técnica perde tempo lendo o mesmo tipo de documento do zero, projeto após projeto?",
+    "reformulacao": "E se o problema não fosse a quantidade de documento, mas o fato de nada do que já foi lido ser reaproveitado?",
+    "oCaso": "O engenheiro depende de leitura manual de documento técnico não padronizado para montar cada orçamento — cada novo projeto reinicia o trabalho de extração, sem reaproveitar o que já foi lido antes.",
+    "oQueFizemos": "Extrair automaticamente característica elétrica e acessório de construção de documentos técnicos variados, alimentando diretamente SAP e SharePoint, liberando o engenheiro para validar só os casos complexos.",
+    "oQuePodeSerConstruido": "Extração multi-formato → integração com SAP e SharePoint → estruturação do histórico → escopo limitado por precisão",
+    "oQueMuda": "O lead time de orçamento cai e o conhecimento técnico acumulado em projetos anteriores deixa de se perder a cada novo orçamento.",
+    "porQueImporta": "Transforma dado de orçamento passado, hoje desestruturado, em ativo reutilizável para precificação e análise técnica — reduz tempo de resposta comercial e recupera conhecimento que hoje se perde a cada projeto.",
+    "riscos": [
+      "Limitar demais o escopo de extração para garantir precisão pode reduzir o ganho real de tempo",
+      "Documento de baixa qualidade ou formato muito atípico pode exigir intervenção manual mesmo com IA",
+      "Erro técnico na extração pode comprometer a qualidade do equipamento ofertado"
+    ],
+    "porqueNos": [
+      "Medimos a precisão da extração automática contra a leitura manual do engenheiro, num lote real, antes de integrar ao fluxo de precificação",
+      "Limitamos deliberadamente o escopo de extração para garantir precisão técnica desde o início",
+      "A credibilidade vem do rigor técnico, não da amplitude da promessa"
+    ]
+  },
+  {
+    "code": "3.13",
+    "etiqueta": "VELOCIDADE CONTRATUAL",
+    "company": "Empresa Âncora 1",
+    "title": "Otimização dos Processos Jurídicos e de Suprimentos",
+    "url": "/desafios/3-13",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-1/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Processo desproporcional",
+    "pergunta": "Contratar algo pequeno e ágil na sua empresa leva o mesmo tempo que uma compra grande?",
+    "reformulacao": "E se o problema não fosse burocracia em si, mas aplicar o processo errado ao tipo errado de contrato?",
+    "oCaso": "Contratar startup ou ICT segue o mesmo processo de qualquer aquisição — múltiplas aprovações, negociação extensa, ausência de minuta pré-validada — mesmo quando o objeto contratado é, por natureza, de baixo valor e alto risco de inovação.",
+    "oQueFizemos": "Construir, com o time jurídico, minutas pré-validadas para os padrões mais recorrentes de contratação de startup, e um trâmite digital diferenciado com alçada ajustada ao risco real do valor contratado.",
+    "oQuePodeSerConstruido": "Tempo real mapeado por etapa → minuta pré-validada → trâmite digital diferenciado → alçada ajustada ao risco",
+    "oQueMuda": "O tempo de contratação cai, com meta de referência de 50% de redução definida pela própria empresa, sem comprometer o rigor jurídico da análise.",
+    "porQueImporta": "Recupera a credibilidade e a agilidade do pilar de inovação dentro da empresa, permitindo que o orçamento de inovação se traduza em projeto executado no tempo relevante para o mercado.",
+    "riscos": [
+      "O Jurídico pode perceber um fluxo mais leve como redução de controle",
+      "Minutas pré-aprovadas podem não cobrir toda a diversidade real de arranjo com startup",
+      "Depende de que Ariba, ServiceNow e Netlex permitam a integração pretendida"
+    ],
+    "porqueNos": [
+      "Decompomos o tempo real de contratação por etapa antes de propor qualquer automação",
+      "Mostramos exatamente onde o ganho de 50% viria, não uma promessa genérica de digitalização do processo"
+    ]
+  },
+  {
+    "code": "3.14",
+    "etiqueta": "CONTROLE DE QUALIDADE",
+    "company": "Empresa Âncora (não identificada com confiança)",
+    "title": "Inspeção de Chapas",
+    "url": "/desafios/3-14",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-2/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Medição por amostra",
+    "pergunta": "Sua empresa descobre um defeito só depois que boa parte do lote já foi produzida?",
+    "reformulacao": "E se o problema não fosse a frequência da inspeção, mas o fato de ela nunca ser contínua?",
+    "oCaso": "A inspeção de conformidade dimensional (tolerância de ±2mm) é manual e amostral, o que significa que chapa fora de especificação avança antes de o erro ser detectado, gerando sucata, retrabalho e custo de logística reversa.",
+    "oQueFizemos": "Medir continuamente a conformidade dimensional com visão computacional ou laser, na velocidade nominal das máquinas, com rastreabilidade por bobina e lote — testando primeiro a robustez do sensor nas condições reais da linha antes de prometer qualquer precisão.",
+    "oQuePodeSerConstruido": "Condição real de ambiente caracterizada → medição contínua por visão ou laser → rastreabilidade por lote → integração com automação existente",
+    "oQueMuda": "O volume de material fora de especificação que hoje passa despercebido fica visível e rastreável, sustentando a decisão de escalar para as demais linhas.",
+    "porQueImporta": "Transforma o controle de qualidade de amostragem reativa em garantia de conformidade contínua e rastreável — reduz sucata, retrabalho e logística reversa, com impacto direto na qualidade percebida pelo setor automotivo.",
+    "riscos": [
+      "Ambiente industrial adverso pode degradar a confiabilidade do sensor óptico ou laser ao longo do tempo",
+      "Restrição de espaço físico na linha pode limitar a opção de instalação",
+      "Exigência de baixo custo pode limitar a robustez tecnológica disponível"
+    ],
+    "porqueNos": [
+      "Testamos a robustez real do sensor sob condição adversa antes de prometer precisão de ±2mm em produção contínua",
+      "A credibilidade vem de validar sob condição real de fábrica, não sob condição ideal de laboratório"
+    ]
+  },
+  {
+    "code": "3.15",
+    "etiqueta": "VAREJO OMNICHANNEL",
+    "company": "Empresa Âncora 2",
+    "title": "Integração Omnichannel no Varejo de Vizinhança",
+    "url": "/desafios/3-15",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-3/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Canais isolados",
+    "pergunta": "Seu vendedor não sabe o que o cliente já fez no site ou no WhatsApp antes de chegar até ele?",
+    "reformulacao": "E se o problema não fosse falta de sistema, mas o fato de cada canal guardar a informação só pra si?",
+    "oCaso": "Aplicativo, WhatsApp, marketplace e venda externa operam isolados — o vendedor não enxerga o comportamento digital do cliente, então cada canal decide sozinho, sem a informação que o outro já tem.",
+    "oQueFizemos": "Consolidar o comportamento digital do cliente — histórico de pedido, navegação, interação — numa visão única acessível ao vendedor, com recomendação do pacote mais provável para cada cliente.",
+    "oQuePodeSerConstruido": "Perfil único do cliente → modelo de recomendação → interface simples para o vendedor → teste com grupo piloto",
+    "oQueMuda": "Conversão, ticket médio e recorrência sobem no grupo com acesso à visão 360° do cliente, comparado a um grupo sem esse apoio.",
+    "porQueImporta": "Transforma a força de vendas de tomadora de pedido em consultora apoiada por dado — diferencial direto em ticket médio e recorrência num varejo de altíssimo volume de ponto de venda.",
+    "riscos": [
+      "Baixa maturidade analítica pode significar dado de qualidade inconsistente entre canais",
+      "Força de vendas pode resistir a adotar recomendação baseada em dado em vez de julgamento próprio",
+      "Escala de 140 mil pontos de venda exige que a solução funcione sem curadoria manual"
+    ],
+    "porqueNos": [
+      "Validamos o modelo num piloto controlado e comparável antes de qualquer promessa de escala",
+      "A diferenciação está na disciplina de validação incremental, não na ambição do dashboard omnichannel completo"
+    ]
+  },
+  {
+    "code": "3.16",
+    "etiqueta": "EFICIÊNCIA DE PRODUÇÃO",
+    "company": "Empresa Âncora 3",
+    "title": "Automação e Coleta de Dados de Produção em Tempo Real",
+    "url": "/desafios/3-16",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-4/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Dado descartado",
+    "pergunta": "Sua fábrica ainda depende de apontamento manual mesmo com equipamento que já gera esse dado sozinho?",
+    "reformulacao": "E se o problema não fosse falta de instrumentação, mas um dado que a máquina já produz e ninguém aproveita?",
+    "oCaso": "A medição de eficiência depende de apontamento manual sujeito a erro, e os indicadores hoje só olham o gargalo da linha — ignorando o desempenho dos demais equipamentos, que já geram dado nativo não aproveitado.",
+    "oQueFizemos": "Integrar o dado que os equipamentos e supervisórios já geram nativamente, sem depender de apontamento manual, com arquitetura resiliente a instabilidade de conexão e hospedagem em nuvem local.",
+    "oQuePodeSerConstruido": "Inventário do dado nativo → coleta automatizada offline-ready → comparação com apontamento manual → visão ampliada da linha",
+    "oQueMuda": "A divergência frente ao apontamento manual cai, e a visão de eficiência passa a cobrir toda a linha, não apenas o equipamento mais monitorado.",
+    "porQueImporta": "Transforma a gestão de eficiência de uma visão parcial (só o gargalo) para uma visão sistêmica de toda a linha — revela oportunidade de melhoria hoje invisível fora do equipamento mais observado.",
+    "riscos": [
+      "Equipamento legado sem interface de dado nativa acessível pode exigir retrofit",
+      "Exigência de operação offline aumenta a complexidade técnica da solução",
+      "Equipe acostumada ao apontamento manual como forma de controle pode resistir"
+    ],
+    "porqueNos": [
+      "Mapeamos e validamos a confiabilidade do dado nativo já existente antes de propor substituição total do registro humano",
+      "Evitamos prometer automação onde a infraestrutura real ainda não suporta"
+    ]
+  },
+  {
+    "code": "3.17",
+    "etiqueta": "GOVERNANÇA DE CONTRATOS",
+    "company": "Empresa Âncora 4",
+    "title": "Acordos Comerciais em Regras Executáveis Automaticamente",
+    "url": "/desafios/3-17",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-5/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Cláusula não codificada",
+    "pergunta": "O que foi negociado com seu parceiro comercial sempre diverge um pouco do que é pago?",
+    "reformulacao": "E se o problema não fosse falta de conferência, mas o fato de a cláusula nunca ter virado uma regra que o sistema entende?",
+    "oCaso": "Acordos comerciais complexos são geridos em planilha, sem padronização entre empresas do grupo, e os ERPs não foram desenhados para lidar com regra condicional e promoção comercial — a interpretação de cláusula permanece subjetiva e manual.",
+    "oQueFizemos": "Traduzir cláusula de acordo comercial em regra condicional executável, como camada independente sobre o ERP existente — sem substituí-lo — sinalizando divergência antes do fechamento, não depois.",
+    "oQuePodeSerConstruido": "Cláusula codificada em regra → conciliação automática → rastreabilidade do evento contratual → integração independente sobre o ERP",
+    "oQueMuda": "A taxa de conciliação automática sobe, com meta de referência de 95% definida pela própria empresa, e a divergência passa a ser sinalizada antes do fechamento.",
+    "porQueImporta": "Reduz divergência de conciliação de forma mensurável, com rastreabilidade total dos eventos contratuais — sem engessar a flexibilidade da negociação comercial em si.",
+    "riscos": [
+      "A complexidade real da cláusula condicional pode exceder o que é praticamente codificável sem ambiguidade",
+      "Área comercial pode resistir a formalizar o que hoje é negociado de forma flexível",
+      "Regra fiscal e contábil varia entre diferentes empresas do grupo"
+    ],
+    "porqueNos": [
+      "Validamos o motor de regras contra acordo real já fechado, reproduzindo a mesma divergência que a conciliação manual identificou",
+      "A diferenciação está em provar equivalência com o processo humano antes de automatizá-lo totalmente"
+    ]
+  },
+  {
+    "code": "3.18",
+    "etiqueta": "SANIDADE ANIMAL",
+    "company": "Empresa Âncora 5",
+    "title": "Soluções Terapêuticas para Substituição da Fosfomicina na Avicultura",
+    "url": "/desafios/3-18",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-6/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Alternativa não validada",
+    "pergunta": "Sua empresa depende de uma única solução crítica e sabe que isso é um risco?",
+    "reformulacao": "Nesse caso, a resposta certa não é dado — é ciência veterinária. Achamos importante ser diretos sobre isso.",
+    "oCaso": "A pressão regulatória global para reduzir uso de antibiótico na avicultura exige alternativa com eficácia comprovada — peptídeo, fago, probiótico, pós-biótico ou nanotecnologia. Este é um problema de biotecnologia e sanidade animal, não de dado.",
+    "oQueFizemos": "Onde já existir candidato terapêutico com evidência preliminar — estudo in vitro, modelo animal, dado de campo —, apoiar a estruturação e análise estatística desses dados, com triagem bibliográfica e desenho de validação de campo.",
+    "oQuePodeSerConstruido": "Triagem de literatura científica → estruturação de dado de eficácia já existente → desenho estatístico de validação → avaliação de viabilidade de escala",
+    "oQueMuda": "Um candidato terapêutico já em estágio avançado ganha estruturação de dado e evidência mais rigorosa — mas o núcleo científico permanece com o parceiro de sanidade animal.",
+    "porQueImporta": "Transforma um risco estratégico existencial (perda de licença para operar com fosfomicina) em vantagem de pioneirismo em sanidade animal sustentável, quando conduzido pelo parceiro certo.",
+    "riscos": [
+      "Tecnologia emergente pode não escalar com o mesmo custo-benefício do antibiótico convencional em produção intensiva",
+      "Tratamento individual é inviável em lote grande, restringindo as soluções a abordagem profilática coletiva",
+      "Prazo de registro regulatório pode ser mais longo que a janela real de pressão sobre a fosfomicina"
+    ],
+    "porqueNos": [
+      "Não recomendamos este desafio como projeto principal da LuxVerso — nossa contribuição real seria pontual, como estruturação de dado para um candidato já em estágio avançado, não como execução do núcleo científico"
+    ]
+  },
+  {
+    "code": "3.19",
+    "etiqueta": "PREVENÇÃO A FRAUDE",
+    "company": "Empresa Âncora 8",
+    "title": "Prevenção a Fraudes",
+    "url": "/desafios/3-19",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-10/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Sinais desconectados",
+    "pergunta": "Sua análise de risco olha transação por transação, mas nunca a rede de relação entre elas?",
+    "reformulacao": "E se o padrão suspeito só aparecer quando você conecta sinais que hoje são analisados separados?",
+    "oCaso": "O crescimento de pagamento instantâneo, carteira digital e ativo virtual aumenta volume e diversidade de transação, superando a capacidade de detecção de abordagens que analisam transação isolada, não rede.",
+    "oQueFizemos": "Modelar as relações entre conta, transação e vínculo cadastral como rede, priorizando alerta por padrão de conexão — com justificativa rastreável de por que cada caso foi sinalizado, não uma pontuação de caixa-preta.",
+    "oQuePodeSerConstruido": "Grafo transacional → validação contra caso confirmado → alerta com justificativa rastreável → arquitetura com governança desde o início",
+    "oQueMuda": "O esforço manual de priorização de investigação cai e a qualidade do alerta sobe, com justificativa auditável que apoia — sem substituir — a decisão do investigador humano.",
+    "porQueImporta": "Transforma a prevenção de centro de custo reativo em capacidade proativa de identificar padrão emergente — vantagem defensável frente à velocidade crescente de novo arranjo financeiro digital.",
+    "riscos": [
+      "Exigência regulatória rigorosa de segurança, privacidade e governança para qualquer análise comportamental",
+      "Excesso de falso positivo pode sobrecarregar a equipe de investigação tanto quanto a ausência de detecção",
+      "Explicabilidade insuficiente pode inviabilizar o uso do modelo em contexto regulatório"
+    ],
+    "porqueNos": [
+      "Priorizamos explicabilidade e redução de falso positivo sobre acurácia bruta de detecção",
+      "A diferenciação está em produzir resultado acionável e auditável, não apenas mais uma pontuação de risco"
+    ]
+  },
+  {
+    "code": "3.20",
+    "etiqueta": "PREVISIBILIDADE AGRÍCOLA",
+    "company": "Empresa Âncora 6",
+    "title": "Transformação de Dados Agrícolas em Previsões e Insights",
+    "url": "/desafios/3-20",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-7/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Descrição sem previsão",
+    "pergunta": "Seu BI mostra muito bem o que já aconteceu, mas quase nada do que está por vir?",
+    "reformulacao": "E se o problema não fosse falta de dado, mas uma camada de previsão que nunca foi construída em cima dele?",
+    "oCaso": "A usina não consegue correlacionar automaticamente clima, solo, variedade de cana e logística entre polos distintos — o problema não é falta de dado, é falta de camada analítica que transforme dado disperso em previsão.",
+    "oQueFizemos": "Correlacionar as variáveis já disponíveis — clima, solo, variedade, logística — num modelo que estima produtividade e sinaliza desvio de custo em tempo hábil para ação, calibrado com o histórico real de um polo.",
+    "oQuePodeSerConstruido": "Consolidação multivariável → modelo preditivo → comparação com resultado real → validação antes de generalizar",
+    "oQueMuda": "A usina passa a identificar ofensor de custo e produtividade com antecedência útil para ajuste, substituindo o planejamento tardio por operação orientada por sinal preditivo.",
+    "porQueImporta": "Transforma a operação de orientada por análise retrospectiva para orientada por inteligência preditiva — decisão antecipada de safra em vez de ajuste emergencial reativo.",
+    "riscos": [
+      "Heterogeneidade entre polos pode limitar a generalização de um único modelo preditivo",
+      "Qualidade e consistência do dado histórico pode variar por polo",
+      "Ainda depende de validação manual de dado de campo, mesmo após automação parcial"
+    ],
+    "porqueNos": [
+      "Validamos o modelo retroativamente com dado real de um polo antes de prometer generalização para outros",
+      "A diferenciação está em provar ganho de precisão mensurável, não em entregar mais um dashboard descritivo"
+    ]
+  },
+  {
+    "code": "3.21",
+    "etiqueta": "ECONOMIA CIRCULAR",
+    "company": "Empresa Âncora 7",
+    "title": "Reaproveitamento de Subproduto da Produção de Tintas",
+    "url": "/desafios/3-21",
+    "fonte": "https://sementenegocios.com.br/sebraeinovacaoaberta/empresas/empresa-ancora-8/",
+    "status": "dossiê completo",
+    "built": true,
+    "mecanismo": "Variabilidade sem padrão",
+    "pergunta": "Sua empresa descarta um resíduo que poderia virar ativo, mas ele nunca é consistente o suficiente pra reaproveitar?",
+    "reformulacao": "E se o problema não fosse a variabilidade em si, mas nunca ter sido segmentada em partes mais homogêneas?",
+    "oCaso": "O resíduo heterogêneo da limpeza de extrusora impede reinserção consistente na cadeia produtiva. Este é fundamentalmente um problema de engenharia química de processo e ciência de materiais.",
+    "oQueFizemos": "Segmentar lotes de resíduo por padrão de composição, com rastreabilidade de origem, direcionando o esforço de validação técnica de reprocessamento — feito por parceiro de engenharia química — para os subgrupos mais promissores.",
+    "oQuePodeSerConstruido": "Lote segmentado por composição → rastreabilidade de origem → rota priorizada por subgrupo → validação técnica com parceiro",
+    "oQueMuda": "O esforço de tentativa e erro que hoje caracteriza a busca por reaproveitamento cai, porque o time passa a saber, com rastreabilidade, quais lotes valem o investimento de reprocessamento.",
+    "porQueImporta": "Transforma um passivo operacional recorrente — custo de descarte, risco ambiental — em ativo rentável, sustentando a meta de resíduo zero com receita real, não apenas indicador de sustentabilidade.",
+    "riscos": [
+      "A variabilidade qualitativa do resíduo tem causa múltipla, nem toda controlável no processo de limpeza",
+      "Conformidade com norma global (RoHS, REACH) é inegociável e pode limitar a rota técnica viável",
+      "A performance da tinta final não pode ser comprometida pela reinserção do material reciclado"
+    ],
+    "porqueNos": [
+      "Caracterizamos a variabilidade real do resíduo antes de propor qualquer rota de estabilização",
+      "A credibilidade vem de entender a causa raiz da inconsistência do material, não de aplicar tecnologia genérica de reciclagem"
+    ]
+  }
+];
+
+function openDetail(i){
+  const c = challenges[i];
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-eyebrow">${c.etiqueta} · ${c.company}</div>
+    <h1 class="detail-question">${c.pergunta}</h1>
+    <p class="detail-reframe">${c.reformulacao}</p>
+    <a class="detail-source" href="${c.fonte}" target="_blank" rel="noopener">🔗 Ver desafio original ↗</a>
+    <div class="detail-block"><h3>O caso</h3><p>${c.oCaso}</p></div>
+    <div class="detail-block"><h3>O que fizemos</h3><p class="dim">${c.oQueFizemos}</p></div>
+    <div class="detail-block"><h3>O que pode ser construído</h3><p class="detail-chain">${c.oQuePodeSerConstruido}</p></div>
+    <div class="detail-block"><h3>O que muda</h3><p class="dim">${c.oQueMuda}</p></div>
+    <div class="detail-block"><h3>Por que importa</h3><p class="dim">${c.porQueImporta}</p></div>
+    <div class="detail-block"><h3>Riscos já identificados</h3><ul>${c.riscos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="detail-block"><h3>Por que acreditamos ser o parceiro adequado</h3><ul>${c.porqueNos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="cta-block">
+      <span class="cta-text">Se esse problema soa familiar, vamos conversar.</span>
+      <a class="cta-link" href="${'https://wa.me/5585999798762?text=' + encodeURIComponent('Olá, Vini! Li a análise do desafio da ' + c.company + ' no LuxVerso e queria conversar. Acho que minha empresa enfrenta um problema parecido.')}" target="_blank">Conversar sobre este problema ↗</a>
+    </div>`;
+  document.getElementById('detail').classList.add('open');
+  document.getElementById('detail').scrollTo(0,0);
+}
+function closeDetail(){ document.getElementById('detail').classList.remove('open'); }
+
+const dots = [...document.querySelectorAll('.sidenav a')];
+const secs = [...document.querySelectorAll('main section')];
+const spy = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = secs.indexOf(e.target);
+      dots.forEach(d=>d.classList.remove('active'));
+      if(dots[idx]) dots[idx].classList.add('active');
+    }
+  });
+}, {threshold:0.5});
+secs.forEach(s=>spy.observe(s));
+// ---- i18n ----
+const uiText = {
+  pt: {
+    topbarRight: "SALVADOR · BAHIA",
+    langLabel: "EN",
+    langTitle: "Switch to English",
+    navItems: ["01 Hero","02 Espelho","03 O padrão","04 O gap real","05 Método","06 Capacidades","07 Como reduzimos risco","08 35 desafios","09 Contato"],
+    heroH1: "Projetamos sistemas inteligentes capazes de transformar <em>problemas complexos</em> em soluções executáveis.",
+    heroLede: "Combinamos ciência aplicada, engenharia de dados e inteligência artificial para transformar problema difícil em sistema que pode ser construído, testado e colocado para funcionar de verdade.",
+    heroTech: ["Inteligência Artificial","Engenharia de Dados","Machine Learning","LLMs","Sistemas Multiagentes","Visão Computacional","Grafos de Conhecimento","Sensoriamento Remoto","Automação"],
+    heroStats: ["35 desafios","9 setores","35 caminhos de solução","evidências públicas"],
+    mirrorH2: "Sua empresa já tem tecnologia. Mas está tirando dela <em>tudo que ela pode dar?</em>",
+    mirrorCalloutTag: "E se",
+    mirrorCalloutP: "parte do que hoje exige mais gente, mais tempo e mais retrabalho pudesse ser resolvido com um sistema bem desenhado?",
+    mirrorItems: [
+      {before: "Seus dados existem, mas ", b: "não chegam à decisão", after: " na velocidade que deveriam?"},
+      {before: "Sua empresa tem milhares de documento, mas ", b: "a informação que importa continua presa", after: " dentro deles?"},
+      {before: "Seu processo depende de gente que sabe fazer algo que ", b: "ninguém mais sabe reproduzir", after: "?"},
+      {before: "Sua equipe tem tecnologia, mas ", b: "continua descobrindo problema depois", after: " que ele já aconteceu?"},
+      {before: "Existe muita informação, mas pouca capacidade de ", b: "transformar isso em ação", after: "?"}
+    ],
+    patternH2: "O problema é <em>só o começo.</em>",
+    patternLede: "35 desafios. 35 problemas diferentes. E, por trás deles, oportunidades que vão muito além da solução óbvia.",
+    patternItems: [
+      {from: "DOCUMENTO", to: "IA + IDP"},
+      {from: "VÍDEO", to: "VISÃO COMPUTACIONAL"},
+      {from: "TERRITÓRIO", to: "SENSORIAMENTO + EMBEDDINGS"},
+      {from: "DADOS", to: "INTEGRAÇÃO + ANALYTICS"},
+      {from: "PROCESSO", to: "AUTOMAÇÃO + AGENTES"},
+      {from: "DECISÃO", to: "MODELOS PREDITIVOS"}
+    ],
+    capgapH2: "Sua empresa não precisa esperar a próxima tecnologia. <em>Precisa saber o que fazer com a que já existe.</em>",
+    capgapLede: "Hoje já é possível trabalhar com embeddings, visão computacional, grafos, agentes, modelos preditivos, automação e grandes volumes de dados. O desafio é transformar essas possibilidades em sistemas que façam sentido para um problema real.",
+    capgapPunch: "Não é sobre <b>ter</b> tecnologia. É sobre <b>saber operar</b> ela — do embedding ao grafo, do protótipo em Python ao sistema em produção.",
+    methodH2: "Tecnologia sem método vira ferramenta solta. <em>Método sem tecnologia vira estudo que não sai do papel.</em>",
+    methodFlow: ["Entender","Representar","Projetar","Construir","Testar","Colocar para funcionar"],
+    methodLede: "Ciência aplicada, engenharia e tecnologia trabalhando juntas para transformar uma ideia em algo que funciona no mundo real.",
+    capsH2: "O que conseguimos <em>construir.</em>",
+    capsLede: "Não trabalhamos com uma tecnologia só. Combinamos diferentes camadas quando o problema exige.",
+    capCards: [
+      {title: "Detectar padrões invisíveis em grandes volumes de dados territoriais", how: ["Sensoriamento Remoto","Foundation Models","Analytics"], evidence: "GhostWorks · TTI Brazil 2017–2024"},
+      {title: "Construir instrumentos científicos e benchmarks reutilizáveis", how: ["Avaliação de IA","Protocolos Replicáveis","Pesquisa Aplicada"], evidence: "MISB · CMOTP"},
+      {title: "Transformar sinal físico bruto em decisão automatizada", how: ["Machine Learning","Espectroscopia","Interpretabilidade"], evidence: "LuxSense · 99,4% acurácia"},
+      {title: "Integrar dados públicos fragmentados em infraestrutura analítica", how: ["APIs","ETL","Engenharia de Dados"], evidence: "Gastos Reais BA · PNCP + IBGE + SICONFI"}
+    ],
+    capCloser: "Não estamos dizendo que sabemos fazer. Estamos <em style=\"color:var(--signal); font-style:normal;\">mostrando onde fizemos</em>.",
+    riskH2: "Do problema à solução <em>sem apostar no escuro.</em>",
+    riskCards: [
+      {h3: "Começamos pequeno", p: "Escopo controlado, com fronteiras claras do que será testado."},
+      {h3: "Medimos o que importa", p: "Critério de sucesso definido antes de construir, não depois."},
+      {h3: "Construímos rápido", p: "Testamos contra a realidade antes de qualquer decisão maior."},
+      {h3: "Só ampliamos o que funciona", p: "Evidência antes de investimento maior, nunca depois."}
+    ],
+    contextH2: "Antes de construir, <em>investigamos.</em>",
+    contextP1: "Pediram para escolher alguns desafios. A gente analisou os <span class=\"highlight\">35</span>.",
+    contextP2: "Mapeamos o problema, achamos a oportunidade técnica e transformamos cada um numa análise executável antes de qualquer contrato existir.",
+    contextLede: "Talvez o problema que sua empresa enfrenta hoje esteja aqui, com outro nome. Selecione um card para ver como pensamos.",
+    contactH2: "Você traz o problema. <em>A gente descobre o que pode ser construído.</em>",
+    contactLede: "Se você tem um problema difícil, dado espalhado, um processo que não escala ou uma oportunidade que ninguém ainda transformou em sistema, vamos olhar para ele.",
+    contactLink: "Quero explorar meu problema ↗",
+    footer: "LuxVerso Research Initiative · <a href=\"https://github.com/viniburilux\" target=\"_blank\" style=\"text-decoration:none;\">Vinícius Buri</a> · Salvador, Bahia",
+    backBtn: "← voltar",
+    ctaText: "Se esse problema soa familiar, vamos conversar.",
+    ctaLink: "Conversar sobre este problema ↗",
+    whatsappMsgTpl: (name) => `Olá, Vini! Li a análise do desafio da ${name} no LuxVerso e queria conversar sobre essa hipótese. Acho que minha empresa enfrenta um problema parecido.`,
+  },
+  en: {
+    topbarRight: "SALVADOR · BAHIA",
+    langLabel: "PT",
+    langTitle: "Switch to Portuguese",
+    navItems: ["01 Hero","02 Mirror","03 The Pattern","04 The Real Gap","05 Method","06 Capabilities","07 How We Reduce Risk","08 35 Challenges","09 Contact"],
+    heroH1: "We design intelligent systems capable of turning <em>complex problems</em> into executable solutions.",
+    heroLede: "We combine applied science, data engineering, and artificial intelligence to turn hard problems into systems that can be built, tested, and put to work in the real world.",
+    heroTech: ["Artificial Intelligence","Data Engineering","Machine Learning","LLMs","Multi-Agent Systems","Computer Vision","Knowledge Graphs","Remote Sensing","Automation"],
+    heroStats: ["35 challenges","9 sectors","35 solution paths","public evidence"],
+    mirrorH2: "Your company already has technology. But are you getting <em>everything it can deliver?</em>",
+    mirrorCalloutTag: "What if",
+    mirrorCalloutP: "part of what today demands more people, more time, and more rework could be solved with a well-designed system?",
+    mirrorItems: [
+      {before: "Your data exists, but ", b: "it does not reach the decision", after: " at the speed it should?"},
+      {before: "Your company has thousands of documents, but ", b: "the information that matters stays trapped", after: " inside them?"},
+      {before: "Your process depends on people who know how to do something that ", b: "no one else can reproduce", after: "?"},
+      {before: "Your team has technology, but ", b: "keeps discovering problems after", after: " they have already happened?"},
+      {before: "There is a lot of information, but little ability to ", b: "turn it into action", after: "?"}
+    ],
+    patternH2: "The problem is <em>just the beginning.</em>",
+    patternLede: "35 challenges. 35 different problems. And behind them, opportunities that go far beyond the obvious solution.",
+    patternItems: [
+      {from: "DOCUMENT", to: "AI + IDP"},
+      {from: "VIDEO", to: "COMPUTER VISION"},
+      {from: "TERRITORY", to: "REMOTE SENSING + EMBEDDINGS"},
+      {from: "DATA", to: "INTEGRATION + ANALYTICS"},
+      {from: "PROCESS", to: "AUTOMATION + AGENTS"},
+      {from: "DECISION", to: "PREDICTIVE MODELS"}
+    ],
+    capgapH2: "Your company does not need to wait for the next technology. <em>It needs to know what to do with the one it already has.</em>",
+    capgapLede: "It is already possible to work with embeddings, computer vision, graphs, agents, predictive models, automation, and large volumes of data. The challenge is turning these possibilities into systems that make sense for a real problem.",
+    capgapPunch: "It is not about <b>having</b> technology. It is about <b>knowing how to operate</b> it — from embedding to graph, from Python prototype to production system.",
+    methodH2: "Technology without method becomes a loose tool. <em>Method without technology becomes a study that never leaves the page.</em>",
+    methodFlow: ["Understand","Represent","Design","Build","Test","Put to work"],
+    methodLede: "Applied science, engineering, and technology working together to turn an idea into something that works in the real world.",
+    capsH2: "What we can <em>build.</em>",
+    capsLede: "We do not work with a single technology. We combine different layers when the problem demands it.",
+    capCards: [
+      {title: "Detect invisible patterns in large volumes of territorial data", how: ["Remote Sensing","Foundation Models","Analytics"], evidence: "GhostWorks · TTI Brazil 2017–2024"},
+      {title: "Build reusable scientific instruments and benchmarks", how: ["AI Evaluation","Replicable Protocols","Applied Research"], evidence: "MISB · CMOTP"},
+      {title: "Turn raw physical signal into automated decision", how: ["Machine Learning","Spectroscopy","Interpretability"], evidence: "LuxSense · 99.4% accuracy"},
+      {title: "Integrate fragmented public data into analytical infrastructure", how: ["APIs","ETL","Data Engineering"], evidence: "Gastos Reais BA · PNCP + IBGE + SICONFI"}
+    ],
+    capCloser: "We are not saying we know how. We are <em style=\"color:var(--signal); font-style:normal;\">showing where we did it</em>.",
+    riskH2: "From problem to solution <em>without betting in the dark.</em>",
+    riskCards: [
+      {h3: "We start small", p: "Controlled scope, with clear boundaries of what will be tested."},
+      {h3: "We measure what matters", p: "Success criteria defined before building, not after."},
+      {h3: "We build fast", p: "We test against reality before any major decision."},
+      {h3: "We only scale what works", p: "Evidence before bigger investment, never after."}
+    ],
+    contextH2: "Before building, <em>we investigate.</em>",
+    contextP1: "They asked us to pick a few challenges. We analyzed all <span class=\"highlight\">35</span>.",
+    contextP2: "We mapped the problem, found the technical opportunity, and turned each one into an executable analysis before any contract existed.",
+    contextLede: "Perhaps the problem your company faces today is here, under a different name. Select a card to see how we think.",
+    contactH2: "You bring the problem. <em>We figure out what can be built.</em>",
+    contactLede: "If you have a hard problem, scattered data, a process that does not scale, or an opportunity no one has yet turned into a system, let us look at it.",
+    contactLink: "I want to explore my problem ↗",
+    footer: "LuxVerso Research Initiative · <a href=\"https://github.com/viniburilux\" target=\"_blank\" style=\"text-decoration:none;\">Vinícius Buri</a> · Salvador, Bahia",
+    backBtn: "← back",
+    ctaText: "If this problem sounds familiar, let us talk.",
+    ctaLink: "Talk about this problem ↗",
+    whatsappMsgTpl: (name) => `Hi Vini! I read the analysis of the challenge from ${name} on LuxVerso and wanted to talk about this hypothesis. I think my company faces a similar problem.`,
+  }
+};
+
+const challengesEN = [{"etiqueta": "MEDICAL KNOWLEDGE", "pergunta": "Do the top professionals in your network know things the company never captures?", "reformulacao": "What if the problem isn't the lack of a communication channel, but that contributing yields no recognizable return?", "oCaso": "Afya delivers content and training to physicians but never built a return path: the knowledge physicians themselves hold doesn't return as something recognized by the platform. It's a one-way relationship disguised as engagement.", "oQueFizemos": "We created a circuit where a physician's contribution — a case, a practice, a clinical insight — is organized, indexed, and citable by other professionals, with visible and traceable recognition linked to the contributor.", "oQuePodeSerConstruido": "Defined value contribution → indexed knowledge → relationship map → traceable recognition", "oQueMuda": "Physicians see concrete returns when they contribute, increasing recurring participation. Afya gains an organized clinical knowledge base that no pure content competitor can quickly replicate.", "porQueImporta": "Transforms Afya from an educational content provider into the curator of a proprietary clinical knowledge network — an asset that depends on accumulated trust rather than a catalog, and is therefore hard to copy.", "riscos": ["Audience with extreme time scarcity, hard to engage in any new habit", "Uncurated user-generated content can compromise clinical quality", "Governance and compliance with CFM rules"], "porqueNos": ["We see the problem as the absence of return for contributors, not as a lack of channel — that changes what needs to be built first", "We know how to organize dispersed knowledge into a searchable, relational structure", "We measure real recurrence of behavior, not just self-reported satisfaction in surveys", "The same method has already been applied to other contexts of dispersed knowledge across many people"]}, {"etiqueta": "TECHNICAL KNOWLEDGE", "pergunta": "Does your company have people who know how to do the work, but that knowledge is still concentrated in a few individuals?", "reformulacao": "What if the bottleneck is not the number of documents to review, but that the quality standard has never been externalized from the reviewers' heads?", "oCaso": "Rework in document review happens because quality depends on each reviewer's tacit knowledge. When an experienced reviewer leaves or is absent, the review standard drops — the criteria were never documented, only practiced.", "oQueFizemos": "We captured, together with the most experienced reviewers, the criteria they apply in practice. We turned into clear rules what is an objective check, and kept as contextual support what requires judgment — returning to the reviewer only the points that truly need their attention.", "oQuePodeSerConstruido": "Mapped criterion → verifiable rule → contextual support → traceability", "oQueMuda": "Much of today's manual review becomes structured and traceable, without removing the engineer's final say. Quality stops depending on a specific person being available.", "porQueImporta": "It changes the business model: from a consultancy that depends on the talent of a few individuals to a consultancy with a company-owned quality standard — a necessary step to scale without inheriting the same turnover risk on every new project.", "riscos": ["The real standard may be more context-dependent than it first appears", "Senior reviewers may resist putting into writing a judgment that is currently only theirs"], "porqueNos": ["We recognize the problem is knowledge concentrated in people, not the slowness of the review process — this prevents building the wrong tool", "We can separate what is a technical criterion from what is a reviewer's personal style", "We compare any automation with real human judgment before trusting it", "The benefit stays with the company, not the individual: it remains valid even when the team changes"]}, {"etiqueta": "ACCELERATION MANAGEMENT", "pergunta": "Do different areas of your company view the same process differently?", "reformulacao": "What if the problem isn't lack of data, but the absence of a common scale for those who measure progress?", "oCaso": "Each area at Atitus measures a business's progress using its own scale because there is no shared stage model. Dashboards built on that basis produce a visually appealing funnel that is incoherent across observers.", "oQueFizemos": "Built, together with the involved areas, a minimal maturity-stage model accepted by all, and tested it against Atitus's historical trail data to confirm whether it truly separates businesses that progress from those that stall.", "oQuePodeSerConstruido": "Common stage model → validation with real historical data → model adjustment → lightweight integration between systems", "oQueMuda": "All areas start to view business progress by the same scale, enabling preventive intervention instead of late detection of stagnation.", "porQueImporta": "Turns Atitus from a provider of an entrepreneurship program into an institution capable of anticipating a business's success — a differentiator that attracts both students and investors interested in qualified deal flow.", "riscos": ["Departments may resist a common model that exposes their own area's weaknesses", "Progress history may be recorded inconsistently across systems", "Without executive support, cross-area integration tends to stall in governance disputes"], "porqueNos": ["We see the problem as the absence of a common data model between areas, not as a lack of a dashboard — this changes what needs to be solved first", "We treat the stage model as something to be validated with real data, not as a structure handed down by committee consensus", "We tested the model against Atitus's own historical data before making it an institutional standard", "We know how to design categories validated by evidence, not just by interdepartmental agreement"]}, {"etiqueta": "ACCOUNTING CLOSE", "pergunta": "Does your company only discover discrepancies between departments when the number has already reached the close?", "reformulacao": "What if the problem isn't the speed of posting, but the moment when the information is checked?", "oCaso": "Different departments feed the same accounting provision, each recording and interpreting information in its own way. That divergence only appears late, during the manual check before posting — when it's already costly to correct.", "oQueFizemos": "Built a validation layer that checks source information — contracts, measurements, invoices — against rules defined with the accounting team, flagging divergences before posting rather than during the final review.", "oQuePodeSerConstruido": "Source document → consistency rule → risk score → integration with SAP", "oQueMuda": "Interdepartmental divergence is captured before posting, not during the rush of the close. Review time falls and the reliability of accounting information rises.", "porQueImporta": "It shifts the controller role from reactive checking to preventive governance of financial data — a capability that becomes more critical as the company grows in operational complexity.", "riscos": ["Legacy systems and SAP customizations may hinder standard automation", "Accounting teams may resist due to a perceived loss of control", "If the source is already inconsistent, automation only accelerates the propagation of the error"], "porqueNos": ["We see the problem as a lack of trust between departments before posting, not as slowness — that changes what the system needs to validate", "We treat accounting automation with the same audit rigor expected of a human, preserving traceability", "We measure where the largest interdepartmental divergences are today, using real data, before proposing any automation", "The system flags exceptions, it doesn't decide on its own — essential in a critical accounting process"]}, {"etiqueta": "CUSTOMER INTELLIGENCE", "pergunta": "Does your company sell through partners and barely know who actually uses the product?", "reformulacao": "What if the issue isn't a lack of app or technology, but the absence of a direct relationship with the person who decides to buy?", "oCaso": "In the B2B2C model, BV optimized for channel efficiency — the partners — not for the relationship with the end customer. Any attempt at personalization is blocked by the lack of the bank's own rich behavioral data about who actually uses the credit.", "oQueFizemos": "Consolidated the behavioral signals the bank already holds directly, even when fragmented, and used them to detect the right moment to offer the right product — without having to reformulate the relationship with channel partners.", "oQuePodeSerConstruido": "Consolidated behavioral data → propensity model → lifecycle personalization → lightweight legacy integration", "oQueMuda": "The bank can anticipate the right moment to offer the right product even with fragmented data, increasing products per customer without requiring a complete overhaul of the customer journey.", "porQueImporta": "Enables BV to compete with neobanks on personalization while retaining the scale efficiency of the B2B2C model — combining the best of both approaches instead of choosing between them.", "riscos": ["Legacy systems may limit the granularity of data available in a timely manner", "Enriching the customer profile with partner data requires a clear legal basis under LGPD", "Partners may resist initiatives that bring the bank closer to the end customer"], "porqueNos": ["We view the problem as a structural dependency on third parties to know the customer, not as a missing app — that pinpoints where the real value is", "We know how to build predictive models from fragmented and incomplete data without waiting for an ideal dataset", "We measure real incremental gain within a short window; we don't promise a perfect long-term journey", "We design the solution to coexist with legacy systems via lightweight integration, not to replace them"]}, {"etiqueta": "LOGISTICS", "pergunta": "Does your operation waste time waiting for trucks in the yard?", "reformulacao": "What if the problem isn't the size of the yard, but the timing of when information is checked?", "oCaso": "Trucks queue because document validation and registration are only done once they're already in the yard. It's a manual, real-time process resolving issues that could have been addressed before arrival.", "oQueFizemos": "A pre-validation layer that confirms registration, documents and truck scheduling before physical arrival, turning the yard from a checking post into a confirmation post — the driver arrives already cleared.", "oQuePodeSerConstruido": "Digital registration → intelligent scheduling → automated checking → real-time status", "oQueMuda": "Dwell time in the yard drops because the slowest step is resolved before the truck arrives. Binatural gains capacity to handle higher volume without expanding physical area.", "porQueImporta": "It turns the yard from a fixed physical bottleneck into elastic capacity: Binatural can absorb volume growth without investing in more land or infrastructure.", "riscos": ["Drivers may view pre-scheduling as extra bureaucracy, reducing adoption", "Incomplete or outdated registration compromises automatic validation", "The solution depends on stable connectivity inside the yard"], "porqueNos": ["We view the problem as an information-sequence issue, not a lack of space — that changes where the solution must act", "We observe the real manual process to uncover the true constraints, not just the written rules", "We work within tight budgets, prioritizing interventions that deliver fastest gains rather than a full solution at once", "The model, once working in one unit, replicates to others without needing to be rebuilt from scratch"]}, {"etiqueta": "PEDAGOGICAL DECISION", "pergunta": "Does your company generate reports and evaluations, but action on them always arrives too late?", "reformulacao": "What if the problem isn't lack of data, but the distance between the result and the person who needs to act on it?", "oCaso": "Application, consolidation, analysis and pedagogical planning remain disconnected in Digix's workflow. Performance data exists, but it doesn't automatically flow to classroom decision-makers — and when it does, it's often already historical.", "oQueFizemos": "Automatically organize results by skill, class and period, and deliver to each profile — network manager, school principal, coordinator — only the view they need to act, without relying on manual consolidation.", "oQuePodeSerConstruido": "Consolidation by skill and class → digitization when necessary → prioritized view of gaps → segmented delivery by profile", "oQueMuda": "The time between an assessment result and a pedagogical decision is measurably reduced, because each management level receives exactly the information it needs at the right moment.", "porQueImporta": "Positions Digix as an evidence-based public policy partner, not just a software vendor — a strategic asset in public education contracts.", "riscos": ["Failure to anonymize or control access to a minor's data creates serious legal risk", "A dashboard only generates value if it actually changes classroom practice", "Incorrect mapping of question to skill compromises the entire decision chain"], "porqueNos": ["We see the problem as a disconnect between assessment and action, not simply lack of digitization — which changes what must be solved first", "We treat minor data privacy as a design constraint from the start, not as a compliance layer applied at the end", "We validate the question-to-skill mapping against human experts before trusting it at scale", "The traceability infrastructure built here is reusable across other educational products"]}, {"etiqueta": "REGULATORY COMPLIANCE", "pergunta": "Does your company review documents against a standard that changes frequently, always starting from scratch?", "reformulacao": "What if the problem isn't review volume but the absence of a stable translation between the standard and day-to-day practice?", "oCaso": "Labeling legislation (RDC 429/2020, IN 75/2020) changes frequently and allows interpretation. Without a layer that translates the standard into stable operational rules, each label is reviewed from scratch — and at high volume errors become statistically inevitable.", "oQueFizemos": "Worked with the regulatory team to translate the current standard into verifiable, versioned rules, applied them to the existing formulations database, and designed from the outset the update process for those rules when the standard changes.", "oQuePodeSerConstruido": "Standard encoded as rules → automatic checking → update process → ERP integration", "oQueMuda": "Label approval time decreases and non-compliance rate falls, because checking no longer depends exclusively on whoever is available at the moment.", "porQueImporta": "Transforms regulatory compliance from a reactive cost center into a competitive speed capability — accelerating time-to-market with regulatory assurance is a direct advantage in a market of volatile trends.", "riscos": ["An outdated rules engine creates a false sense of security, worse than having no automation", "The final compliance decision must remain with a qualified human", "Inconsistency in the formulations database propagates into automatic checking"], "porqueNos": ["We see the problem as a lack of translation between a living standard and operational practice, not as slow review", "We treat compliance as a living process, with update procedures for every regulatory change, not a one‑off deliverable", "We prioritize verifiable rules over pure generative AI, given the risk of error in a regulatory context", "We measure agreement between automatic checking and human review before promising any reduction in rework"]}, {"etiqueta": "PRODUCT SCIENCE", "pergunta": "Has the market shifted faster than your R&D can respond?", "reformulacao": "What if the problem isn't a lack of ideas, but the absence of objective criteria to decide quickly what to test first?", "oCaso": "Unlike other cases, this is not a data or process problem — it's applied science under the pressure of a market window. Whoever solves the science first captures the functional-ingredient category for this audience.", "oQueFizemos": "Acted as a scientific-analytical support layer around the company's R&D core or research partners, with objective success metrics defined before lab tests, not after.", "oQuePodeSerConstruido": "Candidate screening by evidence → success metric defined before testing → statistical modeling → consumer behavior tracking", "oQueMuda": "The company enters lab tests with candidates prioritized by evidence and with success criteria already defined, instead of reacting opportunistically to the trend.", "porQueImporta": "Positions the company as a scientific pioneer in a new functional-nutrition category, with an entry barrier based on evidence and patents — more defensible than trend-driven marketing.", "riscos": ["Poorly substantiated efficacy claims create serious regulatory and reputational risk", "The GLP-1 phenomenon may evolve faster than the ingredient development cycle", "An ingredient effective in the lab may not withstand industrial thermal processing"], "porqueNos": ["We see the problem as science under market pressure, not trend formulation — this changes the required standard of evidence", "We set objective efficacy metrics before tests, not after, separating scientific validation from opportunistic marketing", "We know how to balance market speed with scientific rigor, without sacrificing either", "We treat industrial scalability as a validation criterion from the lab stage, not as a problem to solve later"]}, {"etiqueta": "CUSTOMER RETENTION", "pergunta": "Does your customer cancel precisely at the moment when they most need guidance?", "reformulacao": "What if the problem isn't contact volume, but that communication doesn't match the customer's real journey timing?", "oCaso": "The consórcio is a product of sparse, unpredictable events — contemplação, lance, reajuste. But communication is handled as a generic, constant stream, so the customer receives noise when they don't need it and silence when they most need guidance.", "oQueFizemos": "Replaced the fixed-calendar communication cadence with triggers based on real journey events — contemplação, lance, reajuste — using language adapted to each customer's level of financial understanding.", "oQuePodeSerConstruido": "Real journey event mapped → risk signal identified → event-driven cadence → language adapted to the customer", "oQueMuda": "Communication now arrives when the customer actually needs it, reducing cancellations in the critical period without increasing contact volume.", "porQueImporta": "Turns relationship/compliance communication into an active retention tool — reduces the cost of reversing cancellations and raises NPS without changing the financial product itself.", "riscos": ["Any behavioral segmentation of customers requires a legal basis and transparency under LGPD", "If poorly calibrated, the system can increase rather than reduce perceived noise", "If the event is not recorded consistently, the trigger loses precision"], "porqueNos": ["We see the problem as a lack of synchronization between communication and the real journey, not as insufficient contact volume", "We treat the cancellation-risk model as something to validate with historical data, not as a ready-made assumption", "We compare a group using the new cadence against a control group without it before any scaling", "The event-driven communication model is generalizable to other long-cycle financial products"]}, {"etiqueta": "SALES QUALITY", "pergunta": "Is your sales team evaluated on closing the sale, not on ensuring the customer understood what they bought?", "reformulacao": "What if early churn wasn't due to lack of training, but due to what the company measures as sales success?", "oCaso": "The commercial success metric today is closing the sale, not ensuring the customer understands what they're contracting. The salesperson's incentives are structurally misaligned with long-term retention.", "oQueFizemos": "Introduced a real-understanding verification mechanism at close of sale — adaptive questions that confirm comprehension rather than a formal acceptance — with an auditable record of what was confirmed.", "oQuePodeSerConstruido": "Sale-cancellation correlation → adaptive understanding verification → auditable record → pilot deployment in the funnel", "oQueMuda": "Early churn falls because customers enter contracts with real understanding, not just formal acceptance — and the company obtains a risk signal at sale, not only afterward.", "porQueImporta": "Turns the salesperson from a deal-closer into a financial decision consultant — reduces downstream retention costs and increases perceived brand value from first contact.", "riscos": ["Salespeople under quota pressure may try to bypass the understanding verification", "A poorly designed mechanism may create unanticipated evidentiary burdens for the company", "Superficial verification (checkbox-style) won't solve the underlying problem"], "porqueNos": ["We see the problem as an incentive misalignment between conversion and real retention, not as lack of training", "We measure the correlation between the verification mechanism and churn reduction with real data, not as a UX best-practice claim", "We designed the mechanism to distinguish genuine understanding from automatic agreement, with defensible evidentiary value", "The signal generated here feeds the churn-risk model from the Relationship challenge, closing the loop between sale and retention"]}, {"etiqueta": "SPACE OPTIMIZATION", "pergunta": "Does your planning fall apart every time operations change at the last minute?", "reformulacao": "What if the problem isn't a shortage of space, but a process designed for a scenario that never remains static?", "oCaso": "Each change in the production plan forces a complete manual re-planning of the warehouse, instead of an incremental adjustment — because the space allocation process was never designed to operate under constant change.", "oQueFizemos": "Formalized the real allocation constraints — material type, lead time, production priority — from observation of the current manual process, and built an automated allocation algorithm that responds to change in minutes, not hours.", "oQuePodeSerConstruido": "Real constraint captured → allocation algorithm → integration with production management → calibration with historical data", "oQueMuda": "Warehouse replanning, which today takes hours, becomes minutes — increasing effective utilization rate without expanding the physical footprint.", "porQueImporta": "Frees the creative capacity of scenography and art teams from logistical constraints, enabling higher production volume without investing in physical expansion.", "riscos": ["Poorly captured allocation constraint optimizes the wrong thing", "Teams who currently perform this manual adjustment may resist the change", "Integration with legacy production management system in real time"], "porqueNos": ["We see the problem as an incompatibility between static planning and dynamic operation, not as lack of organization", "We know how to formalize the real constraint extracted from observing the manual process, not just the documented rule", "We validate the algorithm against a real historical replanning case before promising time savings", "The same type of optimization with real constraints is transferable to other resources beyond physical space"]}, {"etiqueta": "COMPUTER VISION", "pergunta": "Does your company already have cameras or sensors installed but make little use of the data they generate?", "reformulacao": "What if the problem isn't lack of equipment, but that nobody interprets that data in real time?", "oCaso": "The company has already invested in cameras and connectivity. Today the video is only watched after something has already happened. The equipment is there, underutilized — what's missing isn't the camera, it's the layer that turns images into information.", "oQueFizemos": "Computer vision modules running on the existing infrastructure, recognizing the events that matter for each client (school, hospital, mobility) and delivering that signal directly to the management systems they already use.", "oQuePodeSerConstruido": "Legacy hardware diagnosis → computer vision module → edge processing → connection with management system", "oQueMuda": "The existing infrastructure begins to produce useful information without replacing equipment. Interjato stops selling cameras and starts selling the intelligence that runs on top of them.", "porQueImporta": "It takes the company out of the hardware price fight and places it in a higher-margin market, with an advantage based on data and algorithms — harder to copy than a catalog of equipment.", "riscos": ["Installed cameras may have resolution or placement that limit what can be detected", "Monitoring in schools and hospitals requires extra care with image data and LGPD", "A false alarm has high cost in both directions: either missing a real event or generating too many false alerts"], "porqueNos": ["We view this as infrastructure missing an intelligence layer, not as lack of cameras — that changes what the solution needs to deliver", "We first measure the real limits of the equipment already installed, before promising any accuracy rate", "We treat false alerts and missed events as central to the decision, not as a technical detail", "What we validated in one sector was designed to adapt to others without starting from scratch"]}, {"etiqueta": "RESILIÊNCIA HÍDRICA", "pergunta": "Do small producers in your network bear alone a risk that could be shared?", "reformulacao": "What if the problem isn't lack of individual effort, but the absence of shared infrastructure that reduces that risk for everyone?", "oCaso": "Without shared water reuse infrastructure and mechanization, each farmer in Seridó/RN individually bears a structural risk — drought — that could be absorbed collectively. To be technically honest: the core solution is applied hydrology and agronomy, not software engineering.", "oQueFizemos": "Measured, using remote sensing, productivity and water stress before and after introduction of water reuse technology and mechanization — implemented by technical partners — isolating the real effect of the technology from natural climate variation between harvests.", "oQuePodeSerConstruido": "Geospatial baseline → inter-harvest monitoring → statistical isolation of effect → technical execution with partner", "oQueMuda": "It becomes proven, through real measurement, whether productivity gains come from the technology or from a favorable rainfall year — the difference between an isolated success and a replicable model.", "porQueImporta": "It transforms an area of chronic climate risk into a resilient, replicable productive system — a social impact model that generates measurable income, not just an institutional communications metric.", "riscos": ["Adoption without visible local evidence of results", "Economic scalability of water infrastructure in other regions", "Dependence on external technical partnership for execution of the technology itself"], "porqueNos": ["We see the problem as missing shared infrastructure, not lack of producer effort", "We have expertise in remote sensing to measure real productivity over time, not just reports", "We know how to design measurement that separates technology effect from climate effect — the difference between a case study and evidence", "The method is the same applied in other Brazilian territories, replicable beyond Seridó/RN"]}, {"etiqueta": "HARVEST SYNCHRONIZATION", "pergunta": "Does your input arrive at the wrong time because the plan doesn't keep up with changing weather?", "reformulacao": "What if the problem isn't lack of weather forecasting, but a plan that's only revised at formal calendar milestones?", "oCaso": "The planting plan is fixed in an environment that changes constantly. Rain and temperature vary, planting shifts, and field input demand changes — but the original plan doesn't update, causing excess stock or shortages.", "oQueFizemos": "Continuously revise the input delivery plan by cross-referencing weather data, plant growth stage reported by field technicians, and the industrial schedule, anticipating required adjustments at least one week in advance.", "oQuePodeSerConstruido": "Weather and field integration → advance recommendations → simple field reporting → plan vs execution comparison", "oQueMuda": "The divergence between available inputs and the crop's actual needs decreases, because the plan updates alongside the weather, not only at the start of the season.", "porQueImporta": "Transforms planning from logistics hostage to the weather into a full industrial capacity advantage — direct margin gain per ton processed, replicable to other crops in the portfolio.", "riscos": ["The model depends on disciplined field recording, which can fail under harvest pressure", "Regional climate models may not capture sufficient local variation for one-week decisions", "Field technicians may resist changing manual reporting routines"], "porqueNos": ["We first measured the actual divergence between plan and execution in past seasons before promising any advance-forecasting accuracy", "We validated the model with real data from the current season itself, not with generic climate forecasts", "The differentiation lies in empirical evidence of synchronization, not in abstract model sophistication"]}, {"etiqueta": "REAL-TIME QUALITY", "pergunta": "Does your process result vary daily and do adjustments depend solely on the operator's experience?", "reformulacao": "What if the problem isn't lack of operator skill, but the absence of an objective measurement that captures raw-material variation?", "oCaso": "The cheesemaking plant runs a fixed recipe, but the raw material varies daily in composition. Lack of instrumentation forces reliance on the judgment of an experienced operator — always reactive, never preventive.", "oQueFizemos": "We organized historical data on milk composition, recipe adjustments and yields; trained a model that recommends adjustments based on input characteristics; and compared the model's recommendations with the actual decisions made by key operators.", "oQuePodeSerConstruido": "Structured history → recommendation model → comparison with real decisions → sensor prioritized by return", "oQueMuda": "Dependence on individual operator judgment falls, and it becomes clear which sensor truly justifies investment before any full-line automation.", "porQueImporta": "Turns the dairy from an operation dependent on a key operator into a standardized, scalable process — reducing the continuity risk that exists today when that operator leaves.", "riscos": ["Cost of a specialized sensor may not be justified at small production scale", "Experienced operators may resist formalizing the personal know-how that gives them an advantage", "Quality of sensor data in a real production environment (dirt, temperature, steam)"], "porqueNos": ["We view the problem as lack of instrumentation, not lack of operator skill", "We validated the milk-yield correlation with the cheesemaking plant's own data before promising full automation", "Our differentiation is proving the correlation, not selling a generic sensor"]}, {"etiqueta": "PURCHASING EFFICIENCY", "pergunta": "Does your procurement team waste time comparing information that already exists in some system but is scattered?", "reformulacao": "What if the issue isn't lack of automation, but that the central ERP and the satellite systems don't communicate?", "oCaso": "Complex tax and logistics decisions are stuck in manual analysis because information isn't unified between the central ERP (Oracle EBS) and satellite systems (Coupa) — the buyer spends time reconciling data the systems already hold but don't connect.", "oQueFizemos": "Automated quotation and tax/logistics comparison as a native layer in the central ERP, first mapping where time is actually spent today: price, tax analysis across regimes, or logistics cost.", "oQuePodeSerConstruido": "Mapping of the real bottleneck → automated quotation engine → respect for existing approval limits → native integration into the ERP", "oQueMuda": "Requisition lead time decreases and the manual workload of the procurement team is reduced, with Portobello's reference targets of 20% lead-time reduction and 80% automation of raw-material orders.", "porQueImporta": "Reduces dependence on manual buyer judgment for complex tax and logistics decisions, freeing the team for higher-value work and lowering the risk of fiscal errors.", "riscos": ["Compliance with LGPD and with already established approval limits", "Risk of creating another satellite system if the integration is not truly native", "Tax complexity may exceed what deterministic rules can cover"], "porqueNos": ["We mapped the actual tax and logistics decision logic of experienced buyers before automating any purchase trigger", "We deliver native automation to the central ERP, avoiding adding another layer on top of existing fragmentation", "Our differentiation is resolving fragmentation, not adding another system to it"]}, {"etiqueta": "INDUSTRIAL AUTOMATION", "pergunta": "Is your company unable to automate because each part or item is practically unique?", "reformulacao": "What if the problem isn't a lack of robots, but that traditional automation doesn't handle high variability well?", "oCaso": "Finishing of cast parts is hazardous manual work with a growing labor shortage. Conventional robotization is unfeasible due to per-part programming and fixturing costs — the issue is not lack of robots, but that rigid automation cannot cope with extreme variability. Technical honesty: the core here is mechanical engineering and industrial automation; the data contribution is complementary.", "oQueFizemos": "Used computer vision to automatically identify the part and the required finishing pattern, feeding a non-conventional cutting technology (laser or precision wire cutting/EDM), without requiring fixtures or per-item programming.", "oQuePodeSerConstruido": "Geometric pattern characterized → computer vision → mold optimization → physical execution with partner", "oQueMuda": "The need for per-part programming decreases, making the automation of finishing economically viable where it is currently unaffordable due to per-item fixturing costs.", "porQueImporta": "Reduces operational-continuity risk in the face of a structural labor shortage for hazardous roles, and frees talent for higher-value activities — a structural advantage against the sector's demographic challenge.", "riscos": ["Technologies such as laser and precision wire cutting may not yet be mature for true industrial volumes", "High initial cost even without the jigs that conventional automation would require", "Operational safety of non-conventional cutting technologies within an existing factory environment"], "porqueNos": ["We tested against a representative sample of the real mix variability, not just the easiest cases", "Credibility comes from showing the real limits of the technology, not only its successes", "We deliver the recognition foundation that enables physical automation, keeping physical execution with a specialized partner"]}, {"etiqueta": "SECTORAL INTELLIGENCE", "pergunta": "Does your sector diagnosis depend on interviews and individual perception, without a shared database?", "reformulacao": "What if the problem isn't lack of diagnosis but the absence of a structure that turns perception into evidence?", "oCaso": "Today's sector diagnosis relies on interviews and individual perception, which makes it difficult to spot recurring patterns among companies in the same value chain and limits the formulation of technical challenges that truly attract appropriate solutions.", "oQueFizemos": "We built a relationship graph linking sector, company, bottleneck, solution type and maturity, extracted from existing sources, to identify convergence among companies with similar characteristics — while preserving individual confidentiality constraints.", "oQuePodeSerConstruido": "Sector-company-bottleneck relationship graph → extraction and normalization → convergence detection → validation with specialists", "oQueMuda": "The time to structure a new challenge cycle falls, and prioritization is based on real data patterns rather than solely on qualitative perception.", "porQueImporta": "Transforms SEBRAE/RN from an organizer of one-off diagnoses into a curator of continuous sectoral intelligence — an asset that attracts investment and engagement on an ongoing basis, not just per isolated cycle.", "riscos": ["Aggregating value-chain data without violating companies' individual confidentiality", "Low initial uptake from companies in sharing data, even in aggregated form", "Collected data may fail to capture the true sectoral bottleneck"], "porqueNos": ["We designed the data architecture assuming the constraint of not merging individual-level data", "We tested whether aggregated patterns still produce sufficient evidence of return to engage a new partner", "Our differentiation is respecting confidentiality by design, which is essential to secure buy-in from the value chain"]}, {"etiqueta": "CONSULTATIVE CREDIT", "pergunta": "Does your company serve very different customer groups with the same process?", "reformulacao": "What if the problem isn't bureaucracy, but treating as identical what in practice requires two different paths?", "oCaso": "The personal credit (PF) journey is currently the cooperative's second-largest source of NPS detractors, worsened by fragmented portals and excessive approval authority levels. The issue is not lack of data, but applying the same flow to income subsegments that are very different.", "oQueFizemos": "Built a credit scoring model to reduce approval levels for Retail/Middle Income, and a decision-support tool that augments — without replacing — the Relationship Manager acting as consultant for High Income, treating the two as distinct problems.", "oQuePodeSerConstruido": "Credit scoring for Retail → decision support for High Income → measurement by subsegment → respect for the existing credit policy", "oQueMuda": "Approval time falls and contribution margin rises, with each subsegment receiving the solution it actually needs — automation for one, consultative support for the other.", "porQueImporta": "Enables the cooperative to compete simultaneously against fintechs (speed, in Retail) and private banks for high-income clients (consultative personalization), without forcing all subsegments through the same funnel.", "riscos": ["Systemic fragmentation of portals can limit the granularity of data available for scoring", "Relationship Managers may resist delegating part of the decision to a model", "Security and compliance concerns in automated collateral analysis"], "porqueNos": ["We treat Retail/Middle Income and High Income as two distinct decision problems, with a different solution for each", "We test each model separately against the subsegment's actual outcomes", "The differentiation lies in not treating credit as a single \"digital credit\" problem"]}, {"etiqueta": "DECARBONIZATION", "pergunta": "Is your company being held accountable for an outcome it doesn't fully control?", "reformulacao": "What if the first step wasn't to fix the physical problem, but to separate what is actually controllable from what isn't?", "oCaso": "TAESA's Scope 2 emissions come from physical losses due to the Joule effect in line load flow — a variable the company does not directly control. Technical honesty: physically reducing this is an electrical engineering and regulatory policy problem, not a data problem.", "oQueFizemos": "Structured historical load-flow and Joule-loss data to simulate, under different dispatch scenarios, the expected impact on losses — generating intelligence to support technical dialogue with ONS.", "oQuePodeSerConstruido": "Modeling of historical loss → dispatch-scenario simulation → quantified technical argument → separation of what is controllable", "oQueMuda": "TAESA gains quantified technical evidence to negotiate with ONS or propose a regulatory model that remunerates decarbonization efforts not currently foreseen.", "porQueImporta": "Positions TAESA as a pioneer in structural decarbonization of the transmission sector — reputational advantage and improved access to ESG capital in a sector where most solutions today are only incremental.", "riscos": ["The Allowed Annual Revenue model may not remunerate investment in unforeseen technologies", "Any significant change in dispatch depends on approval by ONS/ANEEL", "Investor pressure for quick results, incompatible with the sector's actual regulatory cycle"], "porqueNos": ["We technically decomposed the problem into what is controllable and what is not, before proposing any solution", "The structural honesty about that separation is what distinguishes us from a purely incremental proposal", "Physical execution of loss reduction via hardware remains outside our scope of competence"]}, {"etiqueta": "5G INFRASTRUCTURE", "pergunta": "Has your company invested in a cutting-edge technology but still hasn't found a use case that truly requires it?", "reformulacao": "What if the problem isn't a lack of ideas, but applying the technology to something that would work just as well without it?", "oCaso": "Unifique has 5G infrastructure available, but no use case has translated low latency and high device density into measurable real value. The problem is not technological, it's one of application.", "oQueFizemos": "We selected, among candidate use cases (industrial IoT, remote computer vision, critical monitoring), the one in which latency is demonstrably indispensable, and verified this by removing the variable: does the case fail without 5G?", "oQuePodeSerConstruido": "Selected indispensable use case → real-world prototyping → latency measurement → commercial validation with a pilot", "oQueMuda": "Unifique gains a commercially viable use case that structurally depends on 5G, rather than merely a technical connectivity demo.", "porQueImporta": "It converts idle capital-cost 5G infrastructure into a recurring-revenue asset — with genuine technical dependency on the technology, not a generic use case dressed up as 5G.", "riscos": ["Risk of validating a case where 5G is convenient but not indispensable, which won't support the commercial thesis", "Shortage of compatible hardware available on the market", "Low end-customer awareness of the technology's real potential"], "porqueNos": ["We explicitly test whether the use case fails without 5G's low latency, separating what truly depends on the technology from what merely benefits from it", "We avoid selling a generic use case branded as 5G without real technical backing"]}, {"etiqueta": "DEFESA CIVIL", "pergunta": "Does your city or operation only react after the risk event has already occurred?", "reformulacao": "What if the issue wasn't unwillingness to act, but the absence of an early-warning signal with real lead time?", "oCaso": "Urban risk management—flooding, slope failure—is today reactive due to lack of dedicated sensing and integration between public and private data. The problem is the lack of an actionable predictive signal, not a lack of willingness to act.", "oQueFizemos": "Installed a low-cost IoT sensor (river level, flooding, slope movement) in a risk area prioritized by historical record, and built a simple model that generates alerts with real lead time, validated against a known event.", "oQuePodeSerConstruido": "Prioritized risk area → IoT sensing → validated alert model → measurement of real lead time", "oQueMuda": "Defesa Civil gains real lead time for response in at least one risk scenario, and Unifique validates a commercial Smart Cities portfolio before promising full municipal scale.", "porQueImporta": "Positions Unifique as a provider of critical public-safety infrastructure, not just connectivity — a commercially replicable asset across multiple municipalities with high associated social value.", "riscos": ["Incompatibility between legacy public systems and the new private sensor", "False positives or false negatives in risk alerts carry high costs either way", "Dependence on stable connectivity precisely in remote areas that are more exposed to risk"], "porqueNos": ["We treat false positives and false negatives as critical operational parameters, not as mere technical details", "We validated the alert's real lead time against a historical event before commercializing the portfolio", "Credibility comes from honesty about the system's limitations, not from generic IoT demos"]}, {"etiqueta": "OPME MANAGEMENT", "pergunta": "Does your team only discover discrepancies during the audit, after the decision has already been made?", "reformulacao": "What if the problem isn't the decision itself, but the lack of visibility of the correct standard at the moment the decision is taken?", "oCaso": "OPME medical requests are submitted via open text fields, without standardization and without data about what is already approved — so each request is immediately vulnerable to audit rework.", "oQueFizemos": "Present the physician, at the time of ordering, with an intelligent catalog linked to the procedure, showing the already-approved alternatives and automatically flagging any request outside the standard.", "oQuePodeSerConstruido": "Catalog linked to procedure → real-time screening → pending-items dashboard → flow that flags, not decides", "oQueMuda": "Total OPME spend falls, with a reference target between 3% and 7% through 2027 defined by Unimed, and auditing stops being the first moment a discrepancy appears.", "porQueImporta": "Transforms OPME management from reactive post-factum auditing into decision support at the time of the request — reduces care cost and friction in the physician–cooperative relationship simultaneously.", "riscos": ["An outdated catalog creates a false sense of security, worse than having no catalog", "Physicians may resist any perceived restriction on prescribing autonomy", "Approval data is currently scattered across different departments"], "porqueNos": ["We tested the catalog against a real batch of historical requests before promising cost reduction", "The differentiation is proving screening accuracy, not selling a generic materials catalog"]}, {"etiqueta": "PATIENT JOURNEY", "pergunta": "Does your company only notice a critical delay after it has already happened?", "reformulacao": "What if the problem wasn't lack of monitoring, but steps that were never actually connected?", "oCaso": "Monitoring of the oncology patient today is reactive, limited to administrative milestones. Information about treatment start, intercurrent events, and protocol changes remains trapped at the provider and doesn't reach the payer in time for preventive action.", "oQueFizemos": "Recorded the journey steps — request, completed cycle, intercurrent event — in a standardized format with a pilot provider, generating automatic alerts for delays or schedule deviations relative to the expected protocol.", "oQuePodeSerConstruido": "Structured journey record → automatic deviation alert → free-text extraction → single-case visibility", "oQueMuda": "Therapeutic timing loss and risk of treatment abandonment decrease because the team begins to see the deviation before it becomes critical, starting with a pilot provider.", "porQueImporta": "Transforms the payer from a reactive payer into an active manager of the therapeutic journey — reduces regulatory risk, litigation and treatment abandonment, with direct impact on clinical outcomes.", "riscos": ["Depends on consistent recording by the provider, outside the payer's direct control", "Regulatory risk if the journey does not correctly capture the applicable legal timeframes", "Overload of the clinical team if the system generates an excess of low-priority alerts"], "porqueNos": ["We designed the system assuming not every provider will record everything, prioritizing what matters most for therapeutic timing", "We validated it in a controlled, real-world subset before promising wide system integration", "The differentiation is proving real reduction in delays, not delivering another monitoring dashboard"]}, {"etiqueta": "DOCUMENT AUTOMATION", "pergunta": "Does your technical team waste time reading the same type of document from scratch, project after project?", "reformulacao": "What if the problem isn't the number of documents, but that nothing already read is being reused?", "oCaso": "The engineer relies on manual reading of non-standard technical documents to build each estimate — every new project restarts the extraction work without reusing what was read before.", "oQueFizemos": "Automatically extract electrical characteristics and construction accessories from varied technical documents, feeding SAP and SharePoint directly, freeing the engineer to validate only complex cases.", "oQuePodeSerConstruido": "Multi-format extraction → integration with SAP and SharePoint → historical structuring → scope limited by accuracy", "oQueMuda": "Estimate lead time decreases and technical knowledge accumulated from past projects is no longer lost with each new estimate.", "porQueImporta": "Transforms past, unstructured estimate data into a reusable asset for pricing and technical analysis — reduces commercial response time and recovers knowledge that is currently lost with every project.", "riscos": ["Overly limiting the extraction scope to guarantee precision may reduce actual time savings", "Low-quality documents or highly atypical formats may require manual intervention even with AI", "A technical extraction error could compromise the quality of the quoted equipment"], "porqueNos": ["We measured automatic extraction accuracy against the engineer's manual reading on a real batch before integrating into the pricing flow", "We deliberately limit the extraction scope to ensure technical accuracy from the outset", "Credibility comes from technical rigor, not from the breadth of the promise"]}, {"etiqueta": "CONTRACTING SPEED", "pergunta": "Does contracting something small and agile in your company take the same time as a large purchase?", "reformulacao": "What if the problem isn't bureaucracy itself, but applying the wrong process to the wrong type of contract?", "oCaso": "Hiring a startup or ICT follows the same process as any acquisition — multiple approvals, lengthy negotiation, no pre-validated template — even when the contracted item is, by nature, low value and high innovation risk.", "oQueFizemos": "Built, with the Legal team, pre-validated templates for the most common startup contracting patterns and a differentiated digital workflow with approval thresholds aligned to the actual risk of the contracted value.", "oQuePodeSerConstruido": "Real-time time mapped by stage → pre-validated template → differentiated digital workflow → approval thresholds aligned to risk", "oQueMuda": "Contracting time drops, with a reference target of 50% reduction set by the company itself, without compromising the legal rigor of the review.", "porQueImporta": "Restores credibility and agility to the company's innovation pillar, enabling the innovation budget to turn into projects delivered within market-relevant timeframes.", "riscos": ["The Legal department may perceive a lighter workflow as a reduction of control", "Pre-approved templates may not cover the full diversity of real arrangements with startups", "Depends on Ariba, ServiceNow and Netlex allowing the intended integration"], "porqueNos": ["We decomposed actual contracting time by stage before proposing any automation", "We showed exactly where the 50% gain would come from, not a generic promise of process digitization"]}, {"etiqueta": "CONTROLE DE QUALIDADE", "pergunta": "Does your company only discover a defect after most of the lot has already been produced?", "reformulacao": "What if the problem isn't inspection frequency, but that inspections are never continuous?", "oCaso": "Dimensional conformity inspection (tolerance ±2mm) is manual and sample-based, so out-of-spec sheets proceed down the line before the error is detected, producing scrap, rework, and reverse logistics costs.", "oQueFizemos": "Continuously measure dimensional conformity using machine vision or laser at nominal machine speed, with traceability by coil and lot — first testing sensor robustness under real line conditions before promising any accuracy.", "oQuePodeSerConstruido": "Real environmental conditions characterized → continuous measurement via vision or laser → traceability by lot → integration with existing automation", "oQueMuda": "The volume of out-of-spec material that today goes unnoticed becomes visible and traceable, supporting the decision to scale to other lines.", "porQueImporta": "Transforms quality control from reactive sampling to continuous, traceable compliance assurance — reduces scrap, rework, and reverse logistics, with direct impact on perceived quality in the automotive sector.", "riscos": ["Harsh industrial environment may degrade the reliability of optical or laser sensors over time", "Physical space constraints on the line may limit installation options", "Low-cost requirement may limit the available technological robustness"], "porqueNos": ["We test the real robustness of the sensor under adverse conditions before promising ±2mm accuracy in continuous production", "Credibility comes from validating under real factory conditions, not ideal laboratory conditions"]}, {"etiqueta": "OMNICHANNEL RETAIL", "pergunta": "Does your salesperson not know what the customer has already done on the website or WhatsApp before approaching them?", "reformulacao": "What if the problem isn't lack of a system, but that each channel keeps information to itself?", "oCaso": "Mobile app, WhatsApp, marketplace and external sales operate in isolation — the salesperson can't see the customer's digital behavior, so each channel decides independently without the information the others already have.", "oQueFizemos": "Consolidated the customer's digital behavior — order history, browsing, interactions — into a single view accessible to the salesperson, with a recommendation of the most likely package for each customer.", "oQuePodeSerConstruido": "Single customer profile → recommendation model → simple interface for the salesperson → pilot group test", "oQueMuda": "Conversion, average order value (AOV) and repeat purchase rate increase in the group with access to a 360° customer view, compared to a control group without that support.", "porQueImporta": "Turns the salesforce from order-takers into data-backed consultants — a direct differentiator in average order value and repeat purchases in very high-volume point-of-sale retail.", "riscos": ["Low analytical maturity may mean inconsistent data quality across channels", "Salesforce may resist adopting data-driven recommendations in favor of their own judgment", "Scale of 140,000 points of sale requires the solution to work without manual curation"], "porqueNos": ["We validated the model in a controlled, comparable pilot before making any promises about scale", "The differentiation is in the discipline of incremental validation, not in the ambition of a complete omnichannel dashboard"]}, {"etiqueta": "PRODUCTION EFFICIENCY", "pergunta": "Does your plant still rely on manual logging even though equipment already generates that data on its own?", "reformulacao": "What if the problem isn't lack of instrumentation, but data the machine already produces that nobody leverages?", "oCaso": "Efficiency measurement depends on error-prone manual logging, and current indicators only look at the line bottleneck — ignoring performance of other equipment that already generates native data which is not being used.", "oQueFizemos": "Integrated the data that equipment and supervisory systems already produce natively, removing dependence on manual logging, with an architecture resilient to connection instability and hosted in a local cloud.", "oQuePodeSerConstruido": "Inventory of native data → automated, offline-ready collection → comparison with manual logging → expanded line-level visibility", "oQueMuda": "Discrepancy versus manual logging falls, and efficiency visibility extends to the entire line, not just the most-monitored equipment.", "porQueImporta": "Shifts efficiency management from a partial view (only the bottleneck) to a systemic view of the whole line — revealing improvement opportunities currently invisible outside the most-observed equipment.", "riscos": ["Legacy equipment without an accessible native data interface may require retrofit", "Requirement for offline operation increases the technical complexity of the solution", "Staff accustomed to manual logging as a control mechanism may resist"], "porqueNos": ["We mapped and validated the reliability of the existing native data before proposing full replacement of human records", "We avoid promising automation where the actual infrastructure does not yet support it"]}, {"etiqueta": "CONTRACT GOVERNANCE", "pergunta": "Does what was negotiated with your commercial partner always differ slightly from what is paid?", "reformulacao": "What if the problem isn't lack of checking, but that the clause never became a rule the system understands?", "oCaso": "Complex commercial agreements are managed in spreadsheets, without standardization across group companies, and ERPs were not designed to handle conditional rules and commercial promotions — clause interpretation remains subjective and manual.", "oQueFizemos": "Translated commercial agreement clauses into executable conditional rules, implemented as an independent layer over the existing ERP — without replacing it — flagging divergences before closing, not after.", "oQuePodeSerConstruido": "Clause coded into a rule → automatic reconciliation → traceability of the contractual event → independent integration over the ERP", "oQueMuda": "The automatic reconciliation rate increases, with a reference target of 95% set by the company itself, and divergences become flagged before closing.", "porQueImporta": "Reduces reconciliation divergence measurably, with full traceability of contractual events — without constraining the flexibility of commercial negotiations.", "riscos": ["The real complexity of the conditional clause may exceed what can be practically codified without ambiguity", "The commercial team may resist formalizing what is currently negotiated flexibly", "Tax and accounting rules vary between different companies in the group"], "porqueNos": ["We validated the rules engine against a real already-closed agreement, reproducing the same divergence that manual reconciliation identified", "The differentiation lies in proving equivalence with the human process before fully automating it"]}, {"etiqueta": "ANIMAL HEALTH", "pergunta": "Does your company depend on a single critical solution and recognize that this is a risk?", "reformulacao": "In this case, the right answer is not data — it's veterinary science. We think it's important to be direct about that.", "oCaso": "Global regulatory pressure to reduce antibiotic use in poultry requires alternatives with proven efficacy — peptide, phage, probiotic, postbiotic or nanotechnology. This is a biotechnology and animal health problem, not a data problem.", "oQueFizemos": "Where a therapeutic candidate already has preliminary evidence — in vitro study, animal model, field data — we support structuring and statistical analysis of those data, including literature screening and design of field validation.", "oQuePodeSerConstruido": "Scientific literature screening → structuring of existing efficacy data → statistical validation design → assessment of scale-up viability", "oQueMuda": "An already-advanced therapeutic candidate gains structured data and more rigorous evidence — but the scientific core remains with the animal health partner.", "porQueImporta": "Transforms an existential strategic risk (loss of license to operate with fosfomycin) into a pioneering advantage in sustainable animal health, when led by the right partner.", "riscos": ["Emerging technology may not scale with the same cost-effectiveness as conventional antibiotics in intensive production", "Individual treatment is unfeasible in large flocks, restricting solutions to collective prophylactic approaches", "Regulatory approval timelines may be longer than the actual window of pressure on fosfomycin"], "porqueNos": ["We do not recommend this challenge as LuxVerso's main project — our real contribution would be ad hoc, as data structuring for a candidate already at an advanced stage, not as execution of the scientific core"]}, {"etiqueta": "FRAUD PREVENTION", "pergunta": "Your risk analysis looks at transactions one by one, but never at the network of relationships between them?", "reformulacao": "What if the suspicious pattern only appears when you connect signals that are currently analyzed separately?", "oCaso": "The growth of instant payments, digital wallets and virtual assets increases transaction volume and diversity, exceeding the detection capacity of approaches that analyze isolated transactions rather than the network.", "oQueFizemos": "Modeled the relationships between account, transaction and registration linkage as a network, prioritizing alerts by connection patterns — with traceable justification for why each case was flagged, not a black-box score.", "oQuePodeSerConstruido": "Transaction graph → validation against confirmed case → alert with traceable justification → architecture with governance from the start", "oQueMuda": "Manual effort for investigation prioritization decreases and alert quality improves, with auditable justification that supports — without replacing — the human investigator's decision.", "porQueImporta": "Transforms prevention from a reactive cost center into a proactive capability to identify emerging patterns — a defensible advantage against the accelerating pace of new digital financial arrangements.", "riscos": ["Strict regulatory requirements for security, privacy and governance for any behavioral analysis", "Excess false positives can overload the investigation team as much as lack of detection", "Insufficient explainability may render the model unusable in regulatory contexts"], "porqueNos": ["We prioritize explainability and reduction of false positives over raw detection accuracy", "Our differentiation is producing actionable, auditable results — not just another risk score"]}, {"etiqueta": "AGRICULTURAL PREDICTABILITY", "pergunta": "Does your BI show what already happened clearly, but almost nothing about what’s coming?", "reformulacao": "What if the problem isn't lack of data, but the absence of a predictive layer built on top of it?", "oCaso": "The sugarcane mill cannot automatically correlate climate, soil, variety and logistics across different sites — the problem isn't lack of data, it's the absence of an analytical layer that transforms dispersed data into forecasts.", "oQueFizemos": "Correlated available variables — climate, soil, variety, logistics — into a model that estimates productivity and flags cost deviations in time for action, calibrated with real historical data from one site.", "oQuePodeSerConstruido": "Multivariable consolidation → predictive model → comparison with actual results → validation before generalizing", "oQueMuda": "The mill begins to identify cost and productivity drivers with sufficient lead time for adjustment, replacing late planning with operations guided by predictive signals.", "porQueImporta": "Shifts the operation from retrospective-analysis driven to predictive-intelligence driven — enabling advance harvest decisions instead of reactive emergency adjustments.", "riscos": ["Heterogeneity between sites may limit generalization of a single predictive model", "Quality and consistency of historical data may vary by site", "Still depends on manual validation of field data, even after partial automation"], "porqueNos": ["We validated the model retrospectively with real data from one site before promising generalization to others", "The differentiation is proving measurable accuracy gains, not delivering another descriptive dashboard"]}, {"etiqueta": "CIRCULAR ECONOMY", "pergunta": "Does your company discard a waste stream that could become an asset, but it's never consistent enough to reuse?", "reformulacao": "What if the problem isn't variability per se, but that it was never segmented into more homogeneous fractions?", "oCaso": "Heterogeneous residue from extruder cleaning prevents consistent reinsertion into the production chain. This is fundamentally a chemical process engineering and materials science problem.", "oQueFizemos": "Segmented residue batches by composition pattern with traceability of origin, directing technical validation of reprocessing—carried out by a chemical engineering partner—to the most promising subgroups.", "oQuePodeSerConstruido": "Composition-segmented batch → traceability of origin → prioritized route per subgroup → technical validation with partner", "oQueMuda": "The current trial-and-error effort to find reuse routes is reduced, because the team knows, via traceability, which batches justify reprocessing investment.", "porQueImporta": "Converts a recurring operational liability—disposal cost, environmental risk—into a profitable asset, supporting the zero-waste goal with real revenue rather than just a sustainability metric.", "riscos": ["Qualitative variability of the residue has multiple causes, not all controllable in the cleaning process", "Compliance with global regulations (RoHS, REACH) is non-negotiable and may limit viable technical routes", "Final paint performance must not be compromised by reintroduction of recycled material"], "porqueNos": ["We characterized the actual variability of the residue before proposing any stabilization route", "Credibility comes from understanding the root cause of material inconsistency, not from applying generic recycling technology"]}];
+
+function setLang(lang){
+  document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
+  const t = uiText[lang];
+  // topbar (mantém o botão original no DOM, sem destruir o listener de clique)
+  const tbRight = document.querySelector('.topbar-right');
+  const toggleEl = tbRight.querySelector('.lang-toggle');
+  tbRight.querySelector('.topbar-loc').textContent = t.topbarRight;
+  toggleEl.textContent = t.langLabel;
+  toggleEl.title = t.langTitle;
+  // sidenav
+  const navItems = document.querySelectorAll('.sidenav a span');
+  t.navItems.forEach((text, i) => { if(navItems[i]) navItems[i].textContent = text; });
+  // hero
+  document.querySelector('#s1 h1').innerHTML = t.heroH1;
+  document.querySelector('#s1 .lede').textContent = t.heroLede;
+  const heroTechSpans = document.querySelectorAll('#s1 .hero-tech span');
+  t.heroTech.forEach((text, i) => { if(heroTechSpans[i]) heroTechSpans[i].textContent = text; });
+  const heroStatSpans = document.querySelectorAll('#s1 .hero-stats span');
+  t.heroStats.forEach((text, i) => { if(heroStatSpans[i]) heroStatSpans[i].textContent = text; });
+  // mirror
+  document.querySelector('#s2 h2').innerHTML = t.mirrorH2;
+  document.querySelector('#s2 .mirror-callout .tag').textContent = t.mirrorCalloutTag;
+  document.querySelector('#s2 .mirror-callout p').textContent = t.mirrorCalloutP;
+  const mirrorLis = document.querySelectorAll('#s2 .mirror-list li');
+  t.mirrorItems.forEach((item, i) => {
+    if(mirrorLis[i]) mirrorLis[i].innerHTML = item.before + '<b>' + item.b + '</b>' + item.after;
+  });
+  // pattern
+  document.querySelector('#s3 h2').innerHTML = t.patternH2;
+  document.querySelector('#s3 .lede').textContent = t.patternLede;
+  const patternItems = document.querySelectorAll('#s3 .pattern-item');
+  t.patternItems.forEach((item, i) => {
+    if(patternItems[i]){
+      patternItems[i].querySelector('.from').textContent = item.from;
+      patternItems[i].querySelector('.to').textContent = item.to;
+    }
+  });
+  // capgap
+  document.querySelector('#s4 h2').innerHTML = t.capgapH2;
+  const capgapLede = document.querySelector('#s4 .lede');
+  if(capgapLede) capgapLede.textContent = t.capgapLede;
+  document.querySelector('#s4 .capgap-punch').innerHTML = t.capgapPunch;
+  // method
+  document.querySelector('#s5 h2').innerHTML = t.methodH2;
+  const methodSteps = document.querySelectorAll('#s5 .method-flow .step');
+  t.methodFlow.forEach((text, i) => { if(methodSteps[i]) methodSteps[i].textContent = text; });
+  const methodLede = document.querySelector('#s5 .lede');
+  if(methodLede) methodLede.textContent = t.methodLede;
+  // caps
+  document.querySelector('#s6 h2').innerHTML = t.capsH2;
+  const capsLede = document.querySelector('#s6 .lede');
+  if(capsLede) capsLede.textContent = t.capsLede;
+  const capCards = document.querySelectorAll('#s6 .cap-card');
+  t.capCards.forEach((card, i) => {
+    if(capCards[i]){
+      capCards[i].querySelector('.cap-title').textContent = card.title;
+      const howSpans = capCards[i].querySelectorAll('.cap-how span');
+      card.how.forEach((h, j) => { if(howSpans[j]) howSpans[j].textContent = h; });
+      const evSrc = capCards[i].querySelector('.cap-evidence .src');
+      if(evSrc) evSrc.textContent = card.evidence;
+    }
+  });
+  document.querySelector('#s6 .cap-closer').innerHTML = t.capCloser;
+  // risk
+  document.querySelector('#s7 h2').innerHTML = t.riskH2;
+  const riskCards = document.querySelectorAll('#s7 .risk-card');
+  t.riskCards.forEach((card, i) => {
+    if(riskCards[i]){
+      riskCards[i].querySelector('h3').textContent = card.h3;
+      riskCards[i].querySelector('p').textContent = card.p;
+    }
+  });
+  // context
+  document.querySelector('#s8 h2').innerHTML = t.contextH2;
+  const contextPs = document.querySelectorAll('#s8 .context-block p');
+  if(contextPs[0]) contextPs[0].innerHTML = t.contextP1;
+  if(contextPs[1]) contextPs[1].textContent = t.contextP2;
+  const contextLede = document.querySelector('#s8 .lede');
+  if(contextLede) contextLede.textContent = t.contextLede;
+  // contact
+  document.querySelector('#s9 h2').innerHTML = t.contactH2;
+  document.querySelector('#s9 .lede').textContent = t.contactLede;
+  document.querySelector('#s9 .contact-links a').textContent = t.contactLink;
+  // footer
+  document.querySelector('footer span').innerHTML = t.footer;
+  // detail back button
+  document.querySelector('.back-btn').textContent = t.backBtn;
+  // re-render cards
+  renderCards(lang);
+  // re-render detail if open
+  const detailOpen = document.getElementById('detail').classList.contains('open');
+  if(detailOpen){
+    const openIdx = document.getElementById('detail').dataset.openIdx;
+    if(openIdx !== undefined) openDetail(parseInt(openIdx), lang);
+  }
+}
+
+const actionLabelsPT = [
+  "Ver tese diagnóstica",
+  "Nossa leitura",
+  "Ver análise",
+  "Como pensamos este desafio",
+  "Explorar diagnóstico",
+  "Entender o problema",
+  "Ler hipótese"
+];
+const actionLabelsEN = [
+  "See the diagnostic thesis",
+  "Our reading",
+  "See the analysis",
+  "How we think about this",
+  "Explore the diagnosis",
+  "Understand the problem",
+  "Read the hypothesis"
+];
+
+function renderCards(lang){
+  const grid = document.getElementById('appGrid');
+  grid.innerHTML = '';
+  const data = lang === 'en' ? challengesEN : challenges;
+  const labels = lang === 'en' ? actionLabelsEN : actionLabelsPT;
+  data.forEach((c,i)=>{
+    const ptData = challenges[i];
+    const label = labels[i % labels.length];
+    const card = document.createElement('div');
+    card.className = 'app-card';
+    card.innerHTML = `
+      <div class="app-label">${c.etiqueta}</div>
+      <div class="app-name">${ptData.company}</div>
+      <div class="app-question">${c.pergunta}</div>
+      <div class="app-foot"><span class="app-status">${label}</span><span class="app-arrow">→</span></div>`;
+    card.addEventListener('click', ()=>openDetail(i, lang));
+    grid.appendChild(card);
+  });
+}
+
+function openDetail(i, lang){
+  const c = lang === 'en' ? challengesEN[i] : challenges[i];
+  const ptData = challenges[i];
+  const t = uiText[lang];
+  const waMsg = t.whatsappMsgTpl(ptData.company);
+  document.getElementById('detail').dataset.openIdx = i;
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-eyebrow">${c.etiqueta} · ${ptData.company}</div>
+    <h1 class="detail-question">${c.pergunta}</h1>
+    <p class="detail-reframe">${c.reformulacao}</p>
+    <a class="detail-source" href="${ptData.fonte}" target="_blank" rel="noopener">🔗 ${lang === 'en' ? 'See original challenge ↗' : 'Ver desafio original ↗'}</a>
+    <div class="detail-block"><h3>${lang === 'en' ? 'The case' : 'O caso'}</h3><p>${c.oCaso}</p></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'What we did' : 'O que fizemos'}</h3><p class="dim">${c.oQueFizemos}</p></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'What can be built' : 'O que pode ser construído'}</h3><p class="detail-chain">${c.oQuePodeSerConstruido}</p></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'What changes' : 'O que muda'}</h3><p class="dim">${c.oQueMuda}</p></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'Why it matters' : 'Por que importa'}</h3><p class="dim">${c.porQueImporta}</p></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'Risks already identified' : 'Riscos já identificados'}</h3><ul>${c.riscos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="detail-block"><h3>${lang === 'en' ? 'Why we believe we are the right partner' : 'Por que acreditamos ser o parceiro adequado'}</h3><ul>${c.porqueNos.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="cta-block">
+      <span class="cta-text">${t.ctaText}</span>
+      <a class="cta-link" href="${'https://wa.me/5585999798762?text=' + encodeURIComponent(waMsg)}" target="_blank">${t.ctaLink}</a>
+    </div>`;
+  document.getElementById('detail').classList.add('open');
+  document.getElementById('detail').scrollTo(0,0);
+}
+
+function closeDetail(){ document.getElementById('detail').classList.remove('open'); }
+
+// Lang toggle listener
+document.getElementById('langToggle').addEventListener('click', ()=>{
+  const current = document.documentElement.lang === 'en' ? 'en' : 'pt';
+  setLang(current === 'en' ? 'pt' : 'en');
+});
+
+// Render inicial — sem isso os cards nunca aparecem/funcionam ao carregar a página
+renderCards('pt');
+
+</script>
+
+</body>
+</html>

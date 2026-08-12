@@ -32,7 +32,7 @@
   .brand-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;}
   .brand-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
   .topbar-right{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
-  @media (max-width:520px){ .topbar-right{display:none;} }
+  @media (max-width:520px){ .topbar-loc{display:none;} }
 
   .sidenav{
     position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:55;
@@ -158,11 +158,12 @@
   @media (max-width:560px){ .app-grid{grid-template-columns:1fr;} }
   .app-card{background:var(--ink); padding:26px 24px; cursor:pointer; display:flex; flex-direction:column; gap:12px; min-height:158px; transition:background .18s;}
   .app-card:hover{background:var(--ink-2);}
-  .app-card:hover .app-arrow{transform:translate(3px,-3px); color:var(--signal);}
+  .app-card:hover .app-arrow{transform:translate(3px,0); color:var(--signal);}
   .app-label{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--signal); letter-spacing:.08em; text-transform:uppercase;}
   .app-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; line-height:1.3; color:var(--fg-dim);}
   .app-question{font-size:14.5px; color:var(--fg); line-height:1.45; flex:1;}
-  .app-foot{display:flex; justify-content:flex-end; align-items:center;}
+  .app-foot{display:flex; justify-content:space-between; align-items:center; padding-top:6px; border-top:1px solid var(--line);}
+  .app-status{font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--signal);}
   .app-arrow{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--fg-dimmer); transition:transform .18s, color .18s;}
 
   /* CONTATO */
@@ -207,7 +208,7 @@
     <span class="brand-name">LUXVERSO</span>
     <span class="brand-sub">RESEARCH &amp; TECH</span>
   </div>
-  <div class="topbar-right">SALVADOR · BAHIA <span class="lang-toggle" id="langToggle" title="Switch to English">EN</span></div>
+  <div class="topbar-right"><span class="topbar-loc">SALVADOR · BAHIA</span> <span class="lang-toggle" id="langToggle" title="Switch to English">EN</span></div>
 </header>
 
 <nav class="sidenav" id="sidenav">
@@ -1284,6 +1285,4 @@ const challenges = [
     "oQueFizemos": "Onde já existir candidato terapêutico com evidência preliminar — estudo in vitro, modelo animal, dado de campo —, apoiar a estruturação e análise estatística desses dados, com triagem bibliográfica e desenho de validação de campo.",
     "oQuePodeSerConstruido": "Triagem de literatura científica → estruturação de dado de eficácia já existente → desenho estatístico de validação → avaliação de viabilidade de escala",
     "oQueMuda": "Um candidato terapêutico já em estágio avançado ganha estruturação de dado e evidência mais rigorosa — mas o núcleo científico permanece com o parceiro de sanidade animal.",
-    "porQueImporta": "Transforma um risco estratégico existencial (perda de licença para operar com fosfomicina) em vantagem de pioneirismo em sanidade animal sustentável, quando conduzido pelo parceiro certo.",
-    "riscos": [
-    
+    "por

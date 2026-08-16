@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interjato × LuxVerso — Pitch Reverso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E13;
+    --panel: #10161D;
+    --line: #1D2731;
+    --text: #E9EEF2;
+    --muted: #7C8996;
+    --muted-2: #4E5A66;
+    --amber: #F2A93B;
+    --alert: #E5484D;
+    --cyan: #5FD3C4;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    height:100%;
+    overflow:hidden;
+  }
+  .deck{
+    position:relative;
+    width:100vw;
+    height:100vh;
+  }
+  .slide{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding: 6vh 8vw;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .5s ease;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(95,211,196,0.06), transparent 40%),
+      radial-gradient(circle at 10% 90%, rgba(242,169,59,0.05), transparent 45%),
+      var(--bg);
+  }
+  .slide.active{ opacity:1; pointer-events:auto; }
+
+  /* grid texture, evokes a monitoring wall / schematic */
+  .slide::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:.35;
+    pointer-events:none;
+  }
+
+  /* HUD frame corners — signature element: camera-feed readout */
+  .hud{
+    position:absolute; inset: 3vh 3vw;
+    border: 1px solid var(--line);
+    pointer-events:none;
+  }
+  .hud::before, .hud::after,
+  .hud .c2, .hud .c3{
+    content:"";
+    position:absolute;
+    width:22px; height:22px;
+    border-color: var(--muted-2);
+    border-style: solid;
+    border-width:0;
+  }
+  .hud::before{ top:-1px; left:-1px; border-top-width:2px; border-left-width:2px; }
+  .hud::after{ bottom:-1px; right:-1px; border-bottom-width:2px; border-right-width:2px; }
+
+  .tag{
+    position:absolute; top:3vh; left:3vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    color: var(--muted);
+    display:flex; align-items:center; gap:8px;
+    z-index:5;
+  }
+  .tag .dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--alert);
+    box-shadow: 0 0 8px var(--alert);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+  .idx{
+    position:absolute; top:3vh; right:3vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:.14em; color: var(--muted);
+    z-index:5;
+  }
+  .coords{
+    position:absolute; bottom:3vh; left:3vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px; color: var(--muted-2);
+    z-index:5;
+  }
+
+  .content{ max-width: 1180px; z-index:3; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color: var(--amber);
+    margin-bottom: 22px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size: clamp(32px, 4.6vw, 64px);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    max-width: 20ch;
+  }
+  h1 .soft{ color: var(--muted); font-weight:500; }
+  .sub{
+    margin-top: 26px;
+    font-size: clamp(16px, 1.5vw, 22px);
+    color: var(--muted);
+    max-width: 62ch;
+    line-height:1.55;
+  }
+  .kicker{
+    margin-top: 34px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 1.9vw, 26px);
+    color: var(--cyan);
+    max-width: 46ch;
+    line-height:1.35;
+  }
+
+  /* data proof lines */
+  .proof{
+    margin-top: 40px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .proof-row{
+    display:flex; gap:18px; align-items:baseline;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+  }
+  .proof-row .yr{ color: var(--amber); min-width: 64px; }
+  .proof-row .desc{ color: var(--muted); font-family:'Inter',sans-serif; font-size:15px; }
+
+  /* flow diagram */
+  .flow{
+    margin-top: 46px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .flow-node{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing:.04em;
+    color: var(--text);
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 12px 18px;
+    border-radius: 3px;
+  }
+  .flow-arrow{ color: var(--muted-2); font-size:16px; }
+  .flow-node.hot{ border-color: var(--amber); color: var(--amber); }
+
+  /* three-word emphasis row */
+  .triad{
+    margin-top: 46px;
+    display:flex; gap: 48px;
+  }
+  .triad span{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: clamp(22px, 2.6vw, 34px);
+    color: var(--muted-2);
+  }
+  .triad span.on{ color: var(--text); }
+
+  /* stat list (slide 4) */
+  .stats{ margin-top: 40px; display:flex; flex-direction:column; gap: 18px; }
+  .stat{
+    display:grid;
+    grid-template-columns: 160px 1fr auto;
+    gap: 24px;
+    align-items:center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .stat .place{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; }
+  .stat .desc{ color: var(--muted); font-size:14px; }
+  .stat .num{ font-family:'IBM Plex Mono', monospace; color: var(--cyan); font-size:14px; text-align:right; white-space:nowrap; }
+
+  /* reveal list slide 5 */
+  .reveal{ margin-top: 38px; display:flex; flex-direction:column; gap:16px; max-width: 66ch; }
+  .reveal-item{
+    display:flex; gap:14px; align-items:flex-start;
+    font-size: 17px; color: var(--muted);
+    line-height:1.5;
+  }
+  .reveal-item .mark{ color: var(--alert); font-family:'IBM Plex Mono',monospace; font-size:14px; margin-top:3px;}
+  .reveal-item.strong{ color: var(--text); font-family:'Space Grotesk', sans-serif; font-size: 20px; font-weight:600; }
+  .reveal-item.strong .mark{ color: var(--amber); }
+
+  /* architecture pipeline */
+  .pipe{
+    margin-top:44px;
+    display:flex; flex-direction:column; gap:0;
+    max-width: 520px;
+  }
+  .pipe-node{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:14px 18px;
+    border-radius:3px;
+  }
+  .pipe-node b{ font-family:'Space Grotesk',sans-serif; font-size:14px; color:var(--text); display:block; margin-bottom:3px; }
+  .pipe-node span{ color:var(--muted); font-size:12px; }
+  .pipe-arrow{ text-align:center; color:var(--muted-2); padding:4px 0; }
+
+  .examples{
+    position:absolute; right:8vw; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .ex{
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    color:var(--muted); display:flex; gap:10px; align-items:center;
+  }
+  .ex .ico{ color:var(--amber); }
+
+  /* two circles slide 9 */
+  .circles{
+    margin-top: 40px;
+    display:flex; align-items:center; gap: 40px;
+  }
+  .circle{
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius: 8px;
+    padding: 26px 28px;
+    width: 320px;
+  }
+  .circle h3{
+    font-family:'Space Grotesk',sans-serif; font-size:16px; color:var(--amber);
+    margin-bottom:14px; letter-spacing:.03em;
+  }
+  .circle ul{ list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .circle li{ color:var(--muted); font-size:14px; }
+  .plus{ font-family:'Space Grotesk',sans-serif; font-size:28px; color:var(--muted-2); }
+
+  /* closing slide */
+  .closer{
+    display:flex; flex-direction:column; gap: 22px;
+    align-items:flex-start;
+  }
+  .closer p{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(24px, 3.2vw, 42px);
+    font-weight:500;
+    color: var(--muted);
+    max-width: 18ch;
+    line-height:1.2;
+  }
+  .closer p.on{ color: var(--text); }
+  .brandline{
+    margin-top: 30px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 16px;
+    letter-spacing:.2em;
+    color: var(--amber);
+  }
+
+  .navhint{
+    position:fixed; bottom: 18px; right: 24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px; color:var(--muted-2);
+    z-index:50; letter-spacing:.08em;
+  }
+  .progress{
+    position:fixed; bottom:0; left:0; height:2px;
+    background: var(--amber);
+    transition: width .4s ease;
+    z-index:50;
+  }
+
+  /* portrait talking-head marker slides (1 & 10 note) */
+  .camera-note{
+    position:absolute; top: 3vh; left:50%; transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    color: var(--alert); letter-spacing:.16em; z-index:5;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1 -->
+  <section class="slide active" data-n="1">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">01 / 10</div>
+    <div class="coords">SETOR PÚBLICO · RN · BRASIL</div>
+    <div class="content">
+      <div class="eyebrow">O ativo que já existe</div>
+      <h1>A Interjato já tem o que a maioria das <span class="soft">empresas de IA</span> gasta anos tentando construir.</h1>
+      <div class="sub">Infraestrutura instalada. Contratos ativos. Acesso a dados reais do setor público.</div>
+      <div class="proof">
+        <div class="proof-row"><span class="yr">2018</span><span class="desc">184 câmeras inteligentes — CIOSP, Governo do Estado do RN</span></div>
+        <div class="proof-row"><span class="yr">2022</span><span class="desc">Videomonitoramento de toda Natal — pregão STTU</span></div>
+        <div class="proof-row"><span class="yr">2023</span><span class="desc">Conectividade das escolas públicas do RN — EVOS / Grupo Interjato</span></div>
+      </div>
+      <div class="kicker">O próximo salto não precisa ser mais hardware.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="slide" data-n="2">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">02 / 10</div>
+    <div class="coords">O PROBLEMA REAL</div>
+    <div class="content">
+      <div class="eyebrow">Não é uma dor. É um teto.</div>
+      <h1>Vocês não têm um problema. <span class="soft">Têm quase todo o mercado público do RN.</span></h1>
+      <div class="sub">Hoje não existe cliente demandando. Existe distribuição consolidada — e um mercado onde crescer não significa mais achar cliente novo.</div>
+      <div class="flow">
+        <div class="flow-node">CÂMERA</div><div class="flow-arrow">→</div>
+        <div class="flow-node">VÍDEO</div><div class="flow-arrow">→</div>
+        <div class="flow-node">ARMAZENAMENTO</div><div class="flow-arrow">→</div>
+        <div class="flow-node hot">?</div>
+      </div>
+      <div class="kicker">Dominar distribuição não é o mesmo que vender a próxima geração dela.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 -->
+  <section class="slide" data-n="3">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">03 / 10</div>
+    <div class="coords">MATURIDADE TECNOLÓGICA</div>
+    <div class="content">
+      <div class="eyebrow">O que mudou</div>
+      <h1>A tecnologia para transformar vídeo em inteligência <span class="soft">já existe.</span></h1>
+      <div class="flow" style="margin-top:50px;">
+        <div class="flow-node">DETECÇÃO</div><div class="flow-arrow">→</div>
+        <div class="flow-node">TRACKING</div><div class="flow-arrow">→</div>
+        <div class="flow-node">EMBEDDINGS</div><div class="flow-arrow">→</div>
+        <div class="flow-node hot">EVENTOS</div>
+      </div>
+      <div class="triad">
+        <span class="on">DETECTAR</span>
+        <span class="on">ENTENDER</span>
+        <span class="on">DESCOBRIR</span>
+      </div>
+      <div class="kicker">Não precisamos criar uma IA do zero. Precisamos compor as peças certas.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 -->
+  <section class="slide" data-n="4">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">04 / 10</div>
+    <div class="coords">EVIDÊNCIA · BRASIL · 2024–2026</div>
+    <div class="content">
+      <div class="eyebrow">Isso não é tese</div>
+      <h1>Já está em operação <span class="soft">no Brasil, agora.</span></h1>
+      <div class="stats">
+        <div class="stat"><span class="place">São Paulo</span><span class="desc">Smart Sampa — maior sistema da América Latina</span><span class="num">50 MIL CÂM · 7.400+ PRISÕES</span></div>
+        <div class="stat"><span class="place">Salvador</span><span class="desc">Salvador Segura — lançado em jul/2026</span><span class="num">10 MIL CÂMERAS</span></div>
+        <div class="stat"><span class="place">Goiás</span><span class="desc">IA Contra o Crime — 9 municípios</span><span class="num">564 CÂM · 1.300+ CASOS/4M</span></div>
+        <div class="stat"><span class="place">Distrito Federal</span><span class="desc">TJDFT — analytics sobre câmeras legadas</span><span class="num">30 PRÉDIOS</span></div>
+      </div>
+      <div class="kicker">O movimento já começou. A pergunta é quem faz isso no Rio Grande do Norte primeiro.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 -->
+  <section class="slide" data-n="5">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">05 / 10</div>
+    <div class="coords">RIO GRANDE DO NORTE</div>
+    <div class="content">
+      <div class="eyebrow">O gap tem endereço</div>
+      <h1>No RN, esse gap tem nome: <span class="soft">é de vocês pra preencher.</span></h1>
+      <div class="reveal">
+        <div class="reveal-item"><span class="mark">＋</span>Natal foi a São Paulo estudar o Smart Sampa, em 2025.</div>
+        <div class="reveal-item"><span class="mark">＋</span>O Projeto Íris, de Natal, ainda está em fase de implantação.</div>
+        <div class="reveal-item"><span class="mark">＋</span>O CIOSP roda hoje com reconhecimento facial e leitura de placa — sem a camada de inteligência que outros estados já validaram.</div>
+        <div class="reveal-item strong"><span class="mark">→</span>A Interjato já é quem instalou as câmeras que faltam essa camada.</div>
+        <div class="reveal-item strong"><span class="mark">→</span>E o grupo já vende IA proprietária para o setor público — a Gotiva prova isso em texto e documento jurídico. Falta a mesma camada em vídeo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6 -->
+  <section class="slide" data-n="6">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">06 / 10</div>
+    <div class="coords">A TESE</div>
+    <div class="content">
+      <div class="eyebrow">O coração da proposta</div>
+      <h1>E se a Interjato pudesse <span class="soft">descobrir novos produtos</span> a partir das câmeras que já possui?</h1>
+      <div class="flow" style="margin-top:50px; max-width:900px;">
+        <div class="flow-node">INFRAESTRUTURA</div><div class="flow-arrow">→</div>
+        <div class="flow-node">REPRESENTAÇÃO</div><div class="flow-arrow">→</div>
+        <div class="flow-node">DESCOBERTA</div><div class="flow-arrow">→</div>
+        <div class="flow-node hot">HIPÓTESE</div><div class="flow-arrow">→</div>
+        <div class="flow-node">POC</div><div class="flow-arrow">→</div>
+        <div class="flow-node">PRODUTO</div>
+      </div>
+      <div class="kicker">Uma engine de descoberta audiovisual para o setor público.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7 -->
+  <section class="slide" data-n="7">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">07 / 10</div>
+    <div class="coords">ARQUITETURA</div>
+    <div class="content">
+      <div class="eyebrow">Como funciona</div>
+      <h1 style="font-size:clamp(26px,3vw,40px)">Da câmera ao produto, em camadas.</h1>
+      <div class="pipe">
+        <div class="pipe-node"><b>CÂMERAS</b><span>infraestrutura já instalada</span></div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-node"><b>INGESTÃO / EDGE</b><span>vídeo bruto → stream processável</span></div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-node"><b>REPRESENTAÇÃO</b><span>tracking · embeddings · eventos</span></div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-node"><b>DISCOVERY ENGINE</b><span>padrões · anomalias · clusters</span></div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-node"><b>HIPÓTESES → PRODUTOS</b><span>validadas com cliente real</span></div>
+      </div>
+      <div class="examples">
+        <div class="ex"><span class="ico">▲</span>Hospital — queda</div>
+        <div class="ex"><span class="ico">▲</span>Escola — agressão</div>
+        <div class="ex"><span class="ico">▲</span>Tribunal — intrusão</div>
+        <div class="ex"><span class="ico">▲</span>Hospital — fila</div>
+        <div class="ex"><span class="ico">▲</span>Escola — ocupação</div>
+        <div class="ex"><span class="ico">▲</span>Tribunal — busca retrospectiva</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8 -->
+  <section class="slide" data-n="8">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">08 / 10</div>
+    <div class="coords">MODELO DE NEGÓCIO</div>
+    <div class="content">
+      <div class="eyebrow">Não é conquistar cliente novo</div>
+      <h1>É vender mais <span class="soft">pro cliente que já é de vocês.</span></h1>
+      <div class="flow" style="margin-top:50px;">
+        <div class="flow-node">CLIENTE ATUAL</div><div class="flow-arrow">＋</div>
+        <div class="flow-node hot">CAMADA DE INTELIGÊNCIA</div><div class="flow-arrow">=</div>
+        <div class="flow-node">CONTRATO AMPLIADO</div>
+      </div>
+      <div class="sub" style="margin-top:34px;">Mecanismos possíveis: contrato direto, POC apoiada pela própria Interjato, instrumentos de compra pública para inovação.</div>
+      <div class="kicker">A inovação deixa de ser custo de P&amp;D e passa a ser motor de receita sobre o ativo que já está instalado.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9 -->
+  <section class="slide" data-n="9">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">09 / 10</div>
+    <div class="coords">A PARCERIA</div>
+    <div class="content">
+      <div class="eyebrow">Por que Interjato + nós</div>
+      <h1>A combinação <span class="soft">é o ativo.</span></h1>
+      <div class="circles">
+        <div class="circle">
+          <h3>INTERJATO</h3>
+          <ul>
+            <li>Infraestrutura instalada</li>
+            <li>Câmeras e conectividade</li>
+            <li>Distribuição no setor público do RN</li>
+            <li>Clientes cativos, relação de confiança</li>
+          </ul>
+        </div>
+        <span class="plus">+</span>
+        <div class="circle">
+          <h3>PARCEIRO</h3>
+          <ul>
+            <li>Arquitetura de descoberta</li>
+            <li>Pesquisa aplicada, validada por pares</li>
+            <li>Capacidade de transformar dado bruto em hipótese testável</li>
+            <li>Execução rápida, sem depender de fornecedor fechado</li>
+          </ul>
+        </div>
+      </div>
+      <div class="kicker" style="margin-top:36px;">= novas camadas de inteligência sobre a infraestrutura que já está no chão.</div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10 -->
+  <section class="slide" data-n="10">
+    <div class="hud"></div>
+    <div class="tag"><span class="dot"></span>REC · CÂMERA ATIVA</div>
+    <div class="idx">10 / 10</div>
+    <div class="coords">FECHAMENTO</div>
+    <div class="camera-note">VOLTA PARA CÂMERA</div>
+    <div class="content">
+      <div class="closer">
+        <p>A Interjato não precisa apenas vender infraestrutura.</p>
+        <p class="on">Pode transformar infraestrutura em inteligência.</p>
+        <p class="on">E inteligência em novos produtos — sobre o mercado que já é seu.</p>
+        <div class="brandline">INTERJATO × LUXVERSO</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="progress" id="progress" style="width:10%;"></div>
+<div class="navhint">← → PARA NAVEGAR · ESC PARA VISÃO GERAL</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  const progress = document.getElementById('progress');
+
+  function render(){
+    slides.forEach((s,i)=> s.classList.toggle('active', i===current));
+    progress.style.width = ((current+1)/total*100)+'%';
+  }
+  function next(){ if(current<total-1){ current++; render(); } }
+  function prev(){ if(current>0){ current--; render(); } }
+
+  window.addEventListener('keydown', (e)=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){ e.preventDefault(); next(); }
+    if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+  });
+  document.getElementById('deck').addEventListener('click', (e)=>{
+    const w = window.innerWidth;
+    if(e.clientX > w/2) next(); else prev();
+  });
+  render();
+</script>
+
+</body>
+</html>

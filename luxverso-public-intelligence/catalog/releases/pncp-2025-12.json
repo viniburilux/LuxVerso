@@ -15,6 +15,11 @@
     "file_count": 324,
     "scope": "27 UFs × 12 meses; Parquets finais mensais"
   },
+  "data_schema": {
+    "schema_version": "pncp-inexigibilidades-v1",
+    "schema_url": "https://github.com/viniburilux/LuxVerso/blob/main/luxverso-public-intelligence/catalog/schemas/pncp-inexigibilidades-v1.json",
+    "fields_reference": "numeroControlePNCP, datas, valores, modalidade, processo, objeto, órgão/unidade, amparo legal e rota de origem"
+  },
   "assets": {
     "format": "Parquet",
     "total_bytes": 74942898,

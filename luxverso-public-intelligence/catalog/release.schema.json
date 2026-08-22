@@ -3,7 +3,7 @@
   "$id": "https://luxverso.org/catalog/release/v1",
   "title": "LuxVerso Dataset Release v1",
   "type": "object",
-  "required": ["schema_version", "slug", "title", "source", "status", "period", "coverage", "assets", "provenance", "access", "limitations"],
+  "required": ["schema_version", "slug", "title", "source", "status", "period", "coverage", "data_schema", "assets", "provenance", "access", "limitations"],
   "properties": {
     "schema_version": {"const": "dataset-release-v1"},
     "slug": {"type": "string", "pattern": "^[a-z0-9-]+$"},
@@ -12,6 +12,7 @@
     "status": {"enum": ["public"]},
     "period": {"type": "object", "required": ["start", "end", "label"]},
     "coverage": {"type": "object", "required": ["uf_count", "month_count", "file_count", "scope"]},
+    "data_schema": {"type": "object", "required": ["schema_version", "schema_url", "fields_reference"]},
     "assets": {"type": "object", "required": ["format", "total_bytes", "archive_folder_url", "manifest_url", "manifest_sha256"]},
     "provenance": {"type": "object", "required": ["source_url", "collected_at", "method_version"]},
     "access": {"type": "object", "required": ["catalog_path", "manifest_url", "raw_data_policy"]},

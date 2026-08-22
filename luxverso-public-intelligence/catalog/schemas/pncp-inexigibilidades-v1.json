@@ -1,0 +1,27 @@
+{
+  "schema_version": "pncp-inexigibilidades-v1",
+  "title": "PNCP — Inexigibilidades / Modalidade 9",
+  "description": "Referência estrutural dos campos extraídos dos Parquets mensais PNCP. Esta referência descreve colunas; não contém registros de contratação.",
+  "source": "Portal Nacional de Contratações Públicas (PNCP)",
+  "fields": [
+    {"name": "numeroControlePNCP", "role": "identificador estável da contratação"},
+    {"name": "dataPublicacaoPncp", "role": "data de publicação no PNCP"},
+    {"name": "dataAtualizacao", "role": "data de atualização do registro"},
+    {"name": "anoCompra", "role": "ano da compra"},
+    {"name": "numeroCompra", "role": "número da compra"},
+    {"name": "processo", "role": "número do processo"},
+    {"name": "objetoCompra", "role": "objeto declarado da contratação"},
+    {"name": "modalidadeId", "role": "código da modalidade"},
+    {"name": "modalidadeNome", "role": "nome da modalidade"},
+    {"name": "valorTotalEstimado", "role": "valor total estimado"},
+    {"name": "valorTotalHomologado", "role": "valor total homologado"},
+    {"name": "orgaoEntidade", "role": "órgão ou entidade compradora"},
+    {"name": "unidadeOrgao", "role": "unidade compradora, incluindo chave territorial quando disponível"},
+    {"name": "amparoLegal", "role": "amparo legal declarado"},
+    {"name": "linkSistemaOrigem", "role": "rota ao sistema de origem"}
+  ],
+  "limitations": [
+    "Os campos e tipos podem variar conforme a origem PNCP evolui; a versão de release declara a estrutura usada.",
+    "A referência não substitui a leitura de registros, documentos de origem ou regras de interpretação."
+  ]
+}

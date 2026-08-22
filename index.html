@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LuxVerso Research & Tech</title>
+<meta name="description" content="A LuxVerso constrói infraestrutura de inteligência para transformar problemas complexos em sistemas investigáveis, testáveis e colocados para funcionar.">
+<meta property="og:title" content="LuxVerso — Research & Build">
+<meta property="og:description" content="Infraestrutura de inteligência para transformar problemas complexos em sistemas que podem ser investigados, testados e colocados para funcionar.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://viniburilux.github.io/LuxVerso/">
+<title>LuxVerso — Research & Build | Infraestrutura de inteligência</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -30,15 +35,24 @@
   .gate-mark{width:9px; height:9px; background:var(--amber); box-shadow:0 0 14px var(--amber);}
   .gate-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; letter-spacing:.02em;}
   .gate-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer); letter-spacing:.04em;}
-  .gate-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:600; max-width:620px; line-height:1.25; margin-bottom:50px;}
+  .gate-title{font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:600; max-width:620px; line-height:1.25; margin-bottom:22px;}
   .gate-title em{font-style:normal; color:var(--amber);}
+  .gate-vision{max-width:720px; margin:0 auto 22px; color:var(--fg); font-family:'Space Grotesk',sans-serif; font-size:clamp(18px,2.6vw,24px); line-height:1.35; letter-spacing:-.02em;}
+  .gate-vision strong{color:var(--amber); font-weight:600;}
+  .gate-cycle{display:flex; flex-wrap:wrap; justify-content:center; gap:0; margin:0 auto 38px; color:var(--fg-dim); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;}
+  .gate-cycle span:not(:last-child)::after{content:'→'; margin:0 10px; color:var(--amber-dim);}
+  .gate-signals{display:flex; flex-wrap:wrap; justify-content:center; gap:18px; max-width:760px; margin:28px auto 0; padding-top:18px; border-top:1px solid var(--line); color:var(--fg-dim); font-family:'IBM Plex Mono',monospace; font-size:11px;}
+  .gate-signals b{color:var(--fg); font-weight:500;}
+  .gate-signals span{display:inline-flex; gap:5px; align-items:center;}
+  .gate-signals span::before{content:'·'; color:var(--amber);}
   .gate-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); max-width:760px; width:100%;}
   @media (max-width:640px){ .gate-grid{grid-template-columns:1fr;} }
   .gate-card{
-    background:var(--ink); padding:30px 26px; text-align:left; cursor:pointer;
+    background:var(--ink); padding:30px 26px; text-align:left; cursor:pointer; color:inherit; text-decoration:none;
     display:flex; flex-direction:column; gap:8px; transition:background .18s;
   }
-  .gate-card:hover{background:var(--ink-2);}
+  .gate-card:hover,.gate-card:focus-visible{background:var(--ink-2); outline:none;}
+  .gate-card:focus-visible{box-shadow:inset 0 0 0 2px var(--amber);}
   .gate-card:hover .gate-icon{color:var(--amber);}
   .gate-icon{font-size:20px; color:var(--fg-dim); transition:color .18s;}
   .gate-card-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;}
@@ -142,9 +156,12 @@
     <span class="gate-name">LUXVERSO</span>
     <span class="gate-sub">RESEARCH &amp; TECH</span>
   </div>
+  <div class="gate-vision">A LuxVerso constrói <strong>infraestrutura de inteligência</strong> para transformar problemas complexos em sistemas que podem ser investigados, testados e colocados para funcionar.</div>
+  <div class="gate-cycle" aria-label="Ciclo Research and Build"><span>Research</span><span>Build</span><span>Test</span><span>Apply</span></div>
   <div class="gate-title">O que você quer descobrir <em>sobre a LuxVerso?</em></div>
-  <div class="gate-grid" id="gateGrid"></div>
-  <a class="gate-direct" onclick="enter('rapido')">Entrar direto →</a>
+  <div class="gate-grid" id="gateGrid" aria-label="Perspectivas sobre a LuxVerso"></div>
+  <div class="gate-signals" aria-label="Sinais rápidos"><span><b>Visão</b> Research &amp; Build</span><span><b>Evidência</b> sistemas e artefatos públicos</span><span><b>Trajetória</b> construção independente</span></div>
+  <a class="gate-direct" href="#rapido">Entrar direto →</a>
 </div>
 
 <!-- ============ APP ============ -->
@@ -218,10 +235,12 @@ const doors = [
 
 const gateGrid = document.getElementById('gateGrid');
 doors.forEach(d=>{
-  const el = document.createElement('div');
+  const el = document.createElement('a');
   el.className='gate-card';
-  el.onclick = ()=>enter(d.key);
-  el.innerHTML = `<div class="gate-icon">${d.icon}</div><div class="gate-card-title">${d.title}</div><div class="gate-card-desc">${d.desc}</div>`;
+  el.href = `#${d.key}`;
+  el.setAttribute('aria-label', `${d.title}: ${d.desc}`);
+  el.addEventListener('click', ()=>enter(d.key));
+  el.innerHTML = `<div class="gate-icon" aria-hidden="true">${d.icon}</div><div class="gate-card-title">${d.title}</div><div class="gate-card-desc">${d.desc}</div>`;
   gateGrid.appendChild(el);
 });
 
@@ -437,6 +456,7 @@ function render(view){
 
 function enter(view){
   localStorage.setItem('luxverso_perspective', view);
+  if(location.hash !== `#${view}`) history.replaceState(null, '', `#${view}`);
   document.getElementById('gate').style.display = 'none';
   document.getElementById('app').classList.add('open');
   render(view);
@@ -444,13 +464,20 @@ function enter(view){
 }
 
 function showGate(){
+  history.replaceState(null, '', location.pathname + location.search);
   document.getElementById('app').classList.remove('open');
   document.getElementById('gate').style.display = 'flex';
   window.scrollTo(0,0);
 }
 
-/* On load: if a perspective is remembered, could auto-enter; but we always show the gate
-   so the choice remains visible and intentional. Direct entry link uses 'rapido' as default. */
+/* Deep links remain simple: each perspective can be shared as #rapido, #tecnologia, #empresa, #pesquisa or #investidor. */
+const validViews = doors.map(d=>d.key);
+const requestedView = location.hash.replace('#','');
+if(validViews.includes(requestedView)) enter(requestedView);
+window.addEventListener('hashchange', ()=>{
+  const view = location.hash.replace('#','');
+  if(validViews.includes(view)) enter(view);
+});
 </script>
 
 </body>

@@ -1,0 +1,39 @@
+{
+  "schema_version": "dataset-release-v1",
+  "slug": "pncp-2025-12",
+  "title": "PNCP Brasil — Inexigibilidades · Release 2025.12",
+  "source": "Portal Nacional de Contratações Públicas (PNCP)",
+  "status": "public",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-12-31",
+    "label": "2025 · janeiro a dezembro"
+  },
+  "coverage": {
+    "uf_count": 27,
+    "month_count": 12,
+    "file_count": 324,
+    "scope": "27 UFs × 12 meses; Parquets finais mensais"
+  },
+  "assets": {
+    "format": "Parquet",
+    "total_bytes": 74942898,
+    "archive_folder_url": "https://drive.google.com/drive/folders/1D-dFv6jhS2LR179PCGgdACglAvqfMxy1",
+    "manifest_url": "https://drive.google.com/file/d/1oP7zjho8UmQU3PmGlLIRuqC8Qt-hflZn/view?usp=drivesdk",
+    "manifest_sha256": "37feb3c46409f6edc7b5008b50345d27d23f8e147e1d95061132458056232993"
+  },
+  "provenance": {
+    "source_url": "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao",
+    "collected_at": "2026-08-22T02:38:31.852911+00:00",
+    "method_version": "pncp-data-pipeline-v5"
+  },
+  "access": {
+    "catalog_path": "catalog/releases/pncp-2025-12.json",
+    "manifest_url": "https://drive.google.com/file/d/1oP7zjho8UmQU3PmGlLIRuqC8Qt-hflZn/view?usp=drivesdk",
+    "raw_data_policy": "Parquets preservados no Drive; o catálogo divulga cobertura e integridade sem duplicar os binários."
+  },
+  "limitations": [
+    "Release restrita à modalidade 9 (Inexigibilidade).",
+    "Os Parquets são registros de contratação e não demonstram, por si, pagamento, execução ou irregularidade."
+  ]
+}

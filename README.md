@@ -1,20 +1,113 @@
-# LuxVerso
+# LUXVERSO
 
-Repositório composto majoritariamente por páginas HTML estáticas (site institucional/portfolio/pitch) e uma coleção de documentos texto (.txt) organizados em /docs. Não há código de aplicação backend, scripts de build, testes ou configuração de CI/CD visíveis no dossiê. Estrutura e artefatos sugerem protótipo de presença online e material de apr...
+## Research & Build
 
-## Auditoria e Potencial (Manus AI)
+> **LUXVERSO é um ecossistema independente de Research & Build: pesquisa, constrói e testa infraestrutura de inteligência para transformar problemas complexos em sistemas investigáveis e operáveis.**
 
-Este repositório foi auditado e possui um dossiê completo em `docs/AUDITORIA_E_POTENCIAL_MANUS.md`.
+Este repositório é a porta de entrada do ecossistema criado e conduzido por [Vinícius Buri Lux](https://github.com/viniburilux). Ele reúne páginas, mapas, documentação e artefatos que conectam pesquisa aplicada, engenharia de dados, inteligência artificial, proveniência de evidências e construção de sistemas.
 
-### Próximos Passos Sugeridos
-- Adicionar README.md de alto nível explicando propósito do repositório, público-alvo, instruções básicas para visualizar localmente (ex.: abrir index.html) e roadmap desejado.
-- Incluir um arquivo LICENSE apropriado para abrir/fechar uso do conteúdo; documentar propriedade intelectual de textos e assets.
-- Catalogar os textos em /docs: converter .txt para Markdown (.md) com front-matter (título, autor, data, tags, resumo) para facilitar ingestão e searchability.
-- Criar um inventário de conteúdo (metadata.csv ou JSON) com campos chave para suporte a pipelines de IA (id, caminho, tópico, idioma, confidencialidade).
-- Configurar um pipeline mínimo de CI (ex.: GitHub Actions) com checks: validação HTML, lint CSS, checagem de links e testes básicos de build do site estático; incluir step de deploy para Netlify/Vercel se o objetivo for site público.
-- Estruturar um processo/repositório separado para dados/ML: extrair os textos limpos, definir licença de dataset, criar scripts de pré-processamento e versionamento de artefatos (DVC ou storage controlado).
-- Adicionar arquivos de governança: CODE_OF_CONDUCT.md, CONTRIBUTING.md e SECURITY.md para orientar contribuições e resposta a vulnerabilidades.
-- Fazer limpeza editorial: revisar e unificar arquivos pasted_content_* (remover duplicatas, normalizar encoding), e extrair tópicos-chave para criar um glossário/metadados.
-- Se o objetivo for integrar com GhostWorks/IA: gerar vetores (embeddings) do corpus, indexar em mecanismo de vetores (ex.: FAISS/Weaviate) e criar protótipo de query/retrieval sobre esse índice — operar em ambiente isolado respeitando licenças dos textos.
-- Avaliar riscos de exposição: verificar se há informações sensíveis não intencionais nos textos; aplicar revisão legal e de privacidade antes de publicar dados ou treiná-los em modelos públicos.
-- Planejar roadmap técnico: definir se o repositório deve permanecer como site estático (simples) ou evoluir para um monorepo com front-end, API e pipelines de dados; priorizar modularização antes de adicionar complexidade.
+**Research & Build não é uma segunda marca.** É o modo de operação do LUXVERSO: entender, representar, projetar, construir, testar e aplicar.
+
+## Comece por aqui
+
+| Quero... | Acesso |
+|---|---|
+| Conhecer Vinícius Buri Lux | [Perfil autoral](https://github.com/viniburilux) |
+| Ver a experiência web do ecossistema | [Site LUXVERSO](https://viniburilux.github.io/LuxVerso/) |
+| Entender a infraestrutura pública | [TraceFoundry](https://github.com/viniburilux/TraceFoundry) |
+| Ver projetos de pesquisa | [Organoid Intelligence](https://github.com/viniburilux/organoid-intelligence) e [Inteligência Biotecnológica](https://github.com/viniburilux/inteligencia-biotecnologica) |
+| Ver evidências da trajetória | [Página Barcelona / CHI 2026](https://viniburilux.github.io/barcelona/) e [perfil OpenReview](https://openreview.net/profile?id=~Vinicius_Buri_Lux1) |
+
+## Por que existe
+
+Problemas complexos raramente falham por falta de informação. Eles falham porque perguntas, fontes, decisões, limites e artefatos ficam fragmentados. O LUXVERSO existe para construir as condições de uma investigação mais legível: uma pergunta pode virar método; um método pode virar infraestrutura; uma infraestrutura pode produzir evidência revisável; e um resultado negativo pode melhorar a próxima pergunta.
+
+O ecossistema não se apresenta como uma coleção de projetos desconectados. Cada frente é uma aplicação do mesmo ciclo de investigação e construção, com diferentes domínios, fontes, riscos e estados de evidência.
+
+## Arquitetura
+
+```text
+Vinícius Buri Lux
+        ↓
+LUXVERSO — ecossistema
+        ↓
+Research & Build — modo de operação
+        ├── TraceFoundry — infraestrutura pública
+        ├── LuxMemory — memória e continuidade privadas
+        └── Projetos e linhas de investigação
+                ├── Organoid Intelligence
+                ├── Inteligência Biotecnológica
+                ├── GhostWorks
+                └── dados públicos e outras frentes
+        ↓
+Evidências: papers, aceites, datasets, artefatos e resultados
+```
+
+## Camadas do ecossistema
+
+| Camada | Função |
+|---|---|
+| **Autoria** | Vinícius Buri Lux, pesquisador independente e construtor de sistemas de investigação sediado em Salvador, Bahia. |
+| **Ecossistema** | LUXVERSO, a camada que abriga ideias, projetos, métodos, infraestrutura e evidências. |
+| **Operação** | Research & Build: entender, representar, projetar, construir, testar e aplicar. |
+| **Infraestrutura pública** | [TraceFoundry](https://github.com/viniburilux/TraceFoundry), para discovery, evidência, proveniência e próximos passos defensáveis. |
+| **Memória privada** | LuxMemory, camada de memória, continuidade e estado de investigação, sem exposição de conteúdo privado. |
+| **Projetos** | Frentes de investigação e aplicações em biotecnologia, sistemas neurais, inteligência territorial, dados públicos e outros domínios. |
+| **Evidências** | Aceites, publicações, datasets, repositórios, demonstrações, resultados negativos e limites explícitos. |
+
+## Infraestrutura pública: TraceFoundry
+
+> **TraceFoundry é a camada pública de infraestrutura de investigação do LUXVERSO.**
+
+O TraceFoundry mantém identidade própria e documentação técnica independente. Ele organiza discovery entre fontes, normaliza metadados, registra seleção explicável, preserva proveniência, representa evidência negativa e produz manifests versionados antes de uma decisão de aquisição, análise ou parceria.
+
+A relação é complementar: o **LUXVERSO abriga e desenvolve a arquitetura de Research & Build**; o **TraceFoundry materializa uma camada pública reutilizável** dessa arquitetura. O TraceFoundry não é um substituto do LUXVERSO, nem o LUXVERSO é apenas uma página de apresentação do TraceFoundry.
+
+## LuxMemory e fronteira público/privado
+
+LuxMemory é tratado na arquitetura do ecossistema como a camada privada de memória, continuidade e estado de investigação. Esta página não publica memória privada, prompts, estados internos, traces, credenciais, dados sensíveis ou estratégias operacionais.
+
+A ponte entre as camadas é seletiva: trabalho privado pode gerar candidatos; um artefato público só aparece depois de curadoria, verificação de proveniência, análise de licença e segurança, avaliação de reprodutibilidade e revisão da linguagem usada para descrever o que a evidência sustenta.
+
+## Projetos e linhas de investigação
+
+| Projeto | O que investiga ou demonstra | Entrada |
+|---|---|---|
+| **Organoid Intelligence** | Registro público orientado por evidências sobre aprendizagem, previsão, memória e inteligência em sistemas neurais biológicos, com resultados negativos, contradições e limites explícitos. | [Repositório](https://github.com/viniburilux/organoid-intelligence) |
+| **Inteligência Biotecnológica** | Camada pública de investigação, evidência, síntese e proveniência sobre biotecnologia, começando pela aplicação agropecuária. | [Repositório](https://github.com/viniburilux/inteligencia-biotecnologica) |
+| **GhostWorks** | Pesquisa e prototipagem de inteligência territorial a partir de sinais geoespaciais e embeddings de satélite. | [Repositório](https://github.com/viniburilux/ghostworks) |
+| **Dados públicos** | Pipelines, exploradores e interfaces para tornar contratos, gastos e fontes públicas investigáveis. | [Mapa de repositórios](docs/MAPA_ESTRATEGICO_GITHUB_MANUS.md) |
+| **Pesquisa multi-modelo** | Estudos sobre avaliação de LLMs, convergência semântica, falhas de atribuição e protocolos de investigação. | [Semantic Convergence Study](https://github.com/viniburilux/LuxVerso-Semantic-Convergence-Study) |
+
+## Evidências e trajetória
+
+O índice de evidências deve distinguir cuidadosamente o estado de cada registro. No momento, a página pública do ecossistema registra dois trabalhos aceitos em workshops da CHI 2026 e um trabalho no workshop GlobalSouthAI do IJCAI-ECAI 2026. O aceite condicional no workshop da ICML permanece **NEEDS CONFIRMATION** até que seu título, workshop, status oficial e fonte primária sejam confirmados.
+
+| Status | Significado |
+|---|---|
+| `Accepted` | Aceite confirmado para o evento ou workshop indicado. |
+| `Conditionally Accepted` | Aceite sujeito às condições indicadas pela organização; não deve ser reescrito como aceite definitivo. |
+| `Submitted` | Submissão realizada, sem decisão final registrada. |
+| `Under Review` | Em avaliação por pares. |
+| `Published` | Versão publicada em fonte oficial, preferencialmente com DOI ou URL editorial. |
+
+- [Página Barcelona / CHI 2026](https://viniburilux.github.io/barcelona/)
+- [Perfil OpenReview](https://openreview.net/profile?id=~Vinicius_Buri_Lux1)
+- [Mapa estratégico dos repositórios](docs/MAPA_ESTRATEGICO_GITHUB_MANUS.md)
+- [Auditoria técnica preservada](docs/AUDITORIA_E_POTENCIAL_MANUS.md)
+
+## Princípios de leitura
+
+O LUXVERSO adota uma separação explícita entre o estatuto das afirmações. `Observed` registra o que uma fonte sustenta diretamente; `Inferred` registra uma relação derivada por regra explícita; `Hypothesis` identifica uma possibilidade ainda não testada; `Insufficient` indica que faltam evidências; `Blocked` preserva limitações de acesso; `Rejected` e `Contradicted` mantêm visíveis resultados que não devem ser tratados como confirmação.
+
+> **Falsificar antes de aceitar.**
+
+Esse princípio vale para pesquisa, engenharia e comunicação. A meta não é mostrar apenas o que funciona, mas tornar visíveis os limites, as mudanças de pergunta, os resultados negativos e as condições sob as quais uma conclusão deixa de ser defensável.
+
+## Documentação
+
+A auditoria técnica e os relatórios de inventário permanecem em [`docs/`](docs/). A pasta de filosofia será reorganizada para separar princípios de trabalho, hipóteses conceituais, ensaios poéticos e arquivos de origem. O ensaio **Breathing Mathematics** permanece como ensaio especulativo/poético; ele não deve ser lido como evidência científica nem como descrição de resultado experimental.
+
+## Licença e limites
+
+Cada subprojeto mantém sua própria licença e seus próprios limites. Este README é um mapa editorial; detalhes técnicos, dados, métodos, fontes e condições de uso devem ser consultados nos repositórios e documentos primários vinculados.

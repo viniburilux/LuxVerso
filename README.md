@@ -4,9 +4,9 @@
 
 > **O domínio muda. O modo de investigar permanece.**
 
-**LUXVERSO é um ecossistema de pesquisa e construção aplicado a problemas complexos.** Ele conecta perguntas, métodos, infraestrutura, projetos e evidências — sem exigir que todos os domínios sejam iguais.
+**LUXVERSO é um ecossistema de pesquisa e construção aplicado a problemas complexos.** Ele nasceu de uma prática simples: diante de um problema difícil, em vez de esperar pela infraestrutura ideal, começar a construí-la.
 
-O trabalho é conduzido por [Vinícius Buri Lux](https://github.com/viniburilux), pesquisador independente e construtor de sistemas de investigação sediado em Salvador, Bahia.
+As perguntas foram mudando de domínio. A prática permaneceu: investigar, construir, testar, documentar e seguir o que os resultados permitem.
 
 ---
 
@@ -30,9 +30,9 @@ O **LUXVERSO é o ecossistema**.
 
 **Research & Build é o modo de operação.**
 
-Não são duas marcas concorrentes. Research & Build descreve como o trabalho acontece: investigar uma pergunta, construir as condições para examiná-la, testar o que foi construído e levar adiante apenas o que pode ser defendido.
+É a forma de levar uma pergunta até algum lugar: entender o problema, construir uma representação, testar um caminho, documentar o que aconteceu e transformar o resultado em uma próxima possibilidade de investigação.
 
-O domínio pode ser biotecnologia, sistemas neurais, inteligência territorial, inteligência artificial, dados públicos ou outro problema complexo. O domínio muda. O modo de investigar permanece.
+O domínio pode ser biotecnologia, sistemas neurais, inteligência territorial, inteligência artificial, dados públicos ou outro problema complexo. **O domínio muda. O modo de investigar permanece.**
 
 ---
 
@@ -70,9 +70,13 @@ EVIDÊNCIA
 PRÓXIMA PERGUNTA
 ```
 
-A velocidade de produção também faz parte desse modo de trabalho. A capacidade de transformar uma pergunta em protótipo, documentação, teste e próximo caminho em pouco tempo é uma capacidade real de construção.
+### Velocidade como capacidade de iteração
 
-Mas **velocidade não é sinônimo de validade**. Produzir rapidamente permite testar mais cedo, encontrar limites mais cedo e abandonar caminhos fracos antes de investir demais neles. O rigor está no ciclo completo: no que é testado, no que é registrado, no que é recusado e no que ainda não pode ser afirmado.
+> **Velocidade também é uma capacidade de pesquisa e construção.**
+>
+> O LUXVERSO trabalha em ciclos curtos: uma pergunta pode rapidamente se transformar em representação, protótipo, experimento, documentação e próxima pergunta. Isso amplia a capacidade de explorar caminhos, testar hipóteses e aprender com os resultados enquanto ainda há espaço para mudar de direção.
+>
+> O rigor aparece na forma como o trabalho é produzido: registrando o que foi feito, preservando evidências, tornando resultados negativos visíveis e distinguindo claramente o que foi observado, inferido, hipotetizado ou ainda não pode ser afirmado.
 
 O ciclo produz:
 
@@ -82,7 +86,24 @@ O ciclo produz:
 - resultados;
 - resultados negativos;
 - documentação;
-- próximos caminhos defensáveis.
+- próximos caminhos.
+
+---
+
+## Trabalho em evidência
+
+O modo de operação já produziu coisas concretas em diferentes domínios. O ponto não é reunir um currículo, mas mostrar o que acontece quando uma pergunta encontra uma infraestrutura própria de investigação.
+
+| Trabalho | O que revela |
+|---|---|
+| [TraceFoundry](https://github.com/viniburilux/TraceFoundry) | Uma infraestrutura pública para discovery, evidência, proveniência, seleção explicável e próximos caminhos defensáveis. |
+| [Organoid Intelligence](https://github.com/viniburilux/organoid-intelligence) | Uma investigação orientada por evidências sobre aprendizagem, previsão, memória e inteligência em sistemas neurais biológicos. |
+| [Inteligência Biotecnológica](https://github.com/viniburilux/inteligencia-biotecnologica) | Uma camada pública de investigação, síntese e proveniência aplicada à biotecnologia. |
+| [GhostWorks](https://github.com/viniburilux/ghostworks) | Uma frente de inteligência territorial construída a partir de sinais geoespaciais e embeddings de satélite. |
+| [CHI 2026](https://viniburilux.github.io/barcelona/) | Dois trabalhos aceitos em workshops, documentados em uma superfície pública de trajetória. |
+| [IJCAI-ECAI 2026 / GlobalSouthAI](https://openreview.net/forum?id=d89iIi3Z2D) | Um trabalho aceito em um workshop voltado a perspectivas do Sul Global. |
+
+A velocidade de produção pode ser vista nesses rastros: perguntas diferentes se transformam em repositórios, protótipos, páginas, documentos, submissões e novas perguntas em ciclos curtos.
 
 ---
 
@@ -109,30 +130,29 @@ Evidências — papers, aceites, artefatos e resultados
 
 [TraceFoundry](https://github.com/viniburilux/TraceFoundry) é a **camada pública de infraestrutura de investigação do LUXVERSO**. Ele organiza discovery entre fontes, seleção explicável, proveniência, evidência negativa e manifests versionados.
 
-O TraceFoundry mantém identidade técnica própria. Sua função não é substituir o LUXVERSO, mas tornar reutilizável uma parte de seu modo de investigar.
+O TraceFoundry mantém identidade técnica própria. Sua função é tornar reutilizável uma parte do modo de investigar que sustenta o ecossistema.
 
 ### LuxMemory
 
-LuxMemory corresponde à camada privada de memória, continuidade e estado de investigação. Esta arquitetura não expõe memória privada, prompts, estados internos, traces, credenciais, dados sensíveis ou estratégias operacionais.
-
-A passagem do privado para o público é seletiva. Um artefato só deve ser promovido depois de curadoria, verificação de proveniência, análise de licença e segurança, avaliação de reprodutibilidade e revisão do estatuto da afirmação.
+LuxMemory corresponde à camada privada de memória, continuidade e estado de investigação. A ponte entre o privado e o público é seletiva: conhecimento pode ser curado e transformado em artefato, documentação ou evidência pública quando sua proveniência, licença, segurança, reprodutibilidade e estatuto estiverem claros.
 
 ### Projetos
 
-Os projetos são lugares onde o Research & Build é aplicado. Eles não são apenas itens de um currículo e não precisam produzir o mesmo tipo de resultado. Cada um tem seu domínio, suas fontes, seus limites e seu estado de investigação.
-
-| Frente | Entrada |
-|---|---|
-| Sistemas neurais e Organoid Intelligence | [Repositório Organoid Intelligence](https://github.com/viniburilux/organoid-intelligence) |
-| Biotecnologia | [Repositório Inteligência Biotecnológica](https://github.com/viniburilux/inteligencia-biotecnologica) |
-| Inteligência territorial | [GhostWorks](https://github.com/viniburilux/ghostworks) |
-| Dados públicos e outros projetos | [Mapa estratégico de repositórios](docs/MAPA_ESTRATEGICO_GITHUB_MANUS.md) |
+Os projetos são lugares onde o Research & Build ganha forma. Cada um tem seu domínio, suas fontes, seus limites e seu estado de investigação.
 
 ---
 
-## Evidências
+## Resultados negativos também são produção
 
-O LUXVERSO não apresenta toda produção como se tivesse o mesmo peso. O estado de cada registro importa.
+Alguns dos resultados mais úteis não foram confirmações. Foram limites: experimentos que não superaram baselines, hipóteses que precisaram ser abandonadas, dados que não sustentavam a pergunta original e problemas de proveniência que mudaram a interpretação de um resultado.
+
+Esses resultados não interrompem a trajetória. Eles tornam a próxima pergunta mais precisa.
+
+---
+
+## Evidências e estados
+
+O LUXVERSO diferencia os estados dos registros e das afirmações. Um aceite, uma submissão, uma hipótese e uma publicação não ocupam o mesmo lugar.
 
 | Status | Significado |
 |---|---|
@@ -153,9 +173,15 @@ Para acompanhar os registros e as fontes disponíveis:
 
 ---
 
-## Como ler uma afirmação
+## Falsificar antes de aceitar
 
-O rigor não está apenas em usar vocabulário científico. Está em deixar claro **o que uma afirmação é e o que a sustenta**.
+> **Falsificar antes de aceitar.**
+
+Esse é um princípio de trabalho, não uma declaração de perfeição. O LUXVERSO não precisa provar que todas as hipóteses estavam certas. Precisa conseguir descobrir rapidamente quais caminhos merecem continuar.
+
+O rigor aparece no que é feito: resultados negativos são registrados, a proveniência é preservada, estados de evidência são distinguidos, perguntas mudam quando os dados exigem, hipóteses permanecem abertas, caminhos interrompidos são documentados, contradições são preservadas e artefatos verificáveis são produzidos.
+
+Para tornar isso legível, as afirmações podem ser marcadas como:
 
 - `Observed` — observado diretamente em uma fonte ou teste;
 - `Inferred` — inferido a partir de observações e regras explícitas;
@@ -165,25 +191,21 @@ O rigor não está apenas em usar vocabulário científico. Está em deixar clar
 - `Rejected` — proposta ou caminho rejeitado;
 - `Contradicted` — contradito por evidência disponível.
 
-> **Falsificar antes de aceitar.**
-
-Esse princípio não torna todos os projetos “científicos” da mesma maneira. Ele cria uma disciplina comum para pesquisa, engenharia, filosofia, prototipagem e comunicação: não esconder o limite de uma afirmação atrás de uma frase bonita.
-
 ---
 
 ## Documentação
 
 Este README é um mapa, não a documentação completa de cada projeto. A pasta [`docs/`](docs/) preserva auditorias, relatórios, mapas estratégicos e outros materiais de origem.
 
-Os ensaios filosóficos também permanecem preservados, mas devem ser lidos em sua própria camada. **Breathing Mathematics**, por exemplo, é um ensaio especulativo/poético; não deve ser apresentado como evidência científica ou resultado experimental.
+Os ensaios filosóficos permanecem preservados em sua própria camada. **Breathing Mathematics**, por exemplo, é um ensaio especulativo/poético; sua função é explorar ideias, não substituir os registros de evidência dos projetos.
 
 ---
 
 ## O que está sendo construído
 
-O LUXVERSO está sendo construído em público, por ciclos curtos de investigação e produção. Isso significa que o repositório pode conter perguntas abertas, protótipos, caminhos interrompidos, documentação parcial e resultados que ainda precisam de confirmação.
+O LUXVERSO está sendo construído em público, por ciclos de investigação e produção. Existe uma pessoa por trás dessa infraestrutura, fazendo perguntas, escrevendo código, montando experimentos, documentando resultados e seguindo os caminhos que o próprio trabalho abre.
 
-Essa incompletude não é um defeito a ser escondido. É parte do registro de como uma ideia se torna um sistema.
+O repositório registra esse movimento: sistemas que começam pequenos, hipóteses que mudam, artefatos que ganham autonomia e problemas novos que aparecem quando uma primeira pergunta finalmente encontra uma forma de ser investigada.
 
 ---
 

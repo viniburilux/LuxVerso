@@ -145,6 +145,18 @@
   .perspective-nudge a:hover{color:var(--amber); border-color:var(--amber-dim);}
 
   footer{max-width:1100px; margin:0 auto; padding:30px 40px 60px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--fg-dimmer);}
+
+  /* ===== NAVEGAÇÃO INSTITUCIONAL ===== */
+  .main-nav{display:flex;gap:8px;}
+  .nav-link{padding:6px 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--fg-dim);text-decoration:none;border-radius:2px;cursor:pointer;transition:all .15s;}
+  .nav-link:hover{color:var(--fg);background:rgba(242,239,233,0.06);}
+  .nav-link.active{color:var(--amber);background:rgba(240,180,41,0.08);}
+  @media(max-width:860px){
+    .main-nav{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(10,10,8,0.98);flex-direction:column;padding:12px;border-bottom:1px solid var(--line);}
+    .main-nav.open{display:flex;}
+    .mobile-nav-toggle{display:block !important;}
+    .topbar{flex-wrap:wrap;}
+  }
 </style>
 <script src="https://luxverso.com/_nav.js" defer></script>
 </head>
@@ -173,7 +185,19 @@
       <span class="brand-name">LUXVERSO</span>
       <span class="brand-sub">RESEARCH &amp; TECH</span>
     </div>
-    <a class="switch-perspective" onclick="showGate()">Mudar perspectiva</a>
+    <!-- NEW: NAVEGAÇÃO INSTITUCIONAL -->
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a class="nav-link" onclick="enterView('sobre')">Sobre</a>
+      <a class="nav-link" onclick="enterView('pesquisa-view')">Pesquisa</a>
+      <a class="nav-link" onclick="enterView('inteligencia-view')">Inteligência</a>
+      <a class="nav-link" onclick="enterView('sistemas-view')">Sistemas</a>
+      <a class="nav-link" onclick="enterView('dominios-view')">Domínios</a>
+      <a class="nav-link" onclick="enterView('oportunidades-view')">Oportunidades</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a class="switch-perspective" onclick="showGate()">Mudar perspectiva</a>
+      <button class="mobile-nav-toggle" onclick="document.querySelector('.main-nav').classList.toggle('open')" aria-label="Menu" style="display:none;background:none;border:none;color:var(--fg-dim);font-size:1.2rem;cursor:pointer">☰</button>
+    </div>
   </header>
   <main id="mainContent"></main>
   <footer>
@@ -456,11 +480,208 @@ function render(view){
   }
 }
 
+/* ============ NOVAS VIEWS INSTITUCIONAIS ============ */
+function renderInstitutional(view) {
+  const m = document.getElementById('mainContent');
+  const baseNav = `<div class="perspective-nudge"><span>Navegar:</span>
+    <a onclick="enterView('sobre')">Sobre</a>
+    <a onclick="enterView('pesquisa-view')">Pesquisa</a>
+    <a onclick="enterView('inteligencia-view')">Inteligência</a>
+    <a onclick="enterView('sistemas-view')">Sistemas</a>
+    <a onclick="enterView('dominios-view')">Domínios</a>
+    <a onclick="showGate()">← Voltar ao início</a>
+  </div>`;
+
+  if(view === 'sobre'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Sobre</div>
+      <h1>Um ecossistema de pesquisa e construção <em>aplicado a problemas complexos.</em></h1>
+      <p class="lede">O LuxVerso não é uma empresa de tecnologia comum. É um laboratório independente que investiga, constrói e descobre — transformando problemas que não cabem em respostas prontas em sistemas, inteligência e aplicação.</p>
+    </section>
+    <section>
+      <div class="eyebrow">O que fazemos</div>
+      <div class="method-flow">
+        <span class="step">Pesquisar</span><span class="arrow">→</span>
+        <span class="step">Construir</span><span class="arrow">→</span>
+        <span class="step">Investigar</span><span class="arrow">→</span>
+        <span class="step">Descobrir</span><span class="arrow">→</span>
+        <span class="step">Aplicar</span>
+      </div>
+      <p class="lede" style="margin-top:24px;">23 repositórios públicos, 10 sistemas funcionais, 19 descobertas documentadas, 4 papers aceitos, 3 datasets públicos — produzidos de forma independente, sem laboratório institucional, sem financiamento externo.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Como trabalhamos</div>
+      <p class="lede" style="margin-top:0;">Research &amp; Build é o método: diante de um problema difícil, em vez de esperar pela infraestrutura ideal, começar a construí-la. O domínio muda — biotecnologia, território, energia, dados públicos, ciência. O modo de investigar permanece.</p>
+    </section>
+    <section>
+      <div class="eyebrow">O que já construímos</div>
+      <div class="evid-grid">${evidence.map(e=>evidCard(e,false)).join('')}</div>
+    </section>
+    <section>
+      <div class="eyebrow">Publicações e trajetória</div>
+      ${pubBlock()}
+      <div style="height:20px;"></div>
+      ${barcelonaBlock()}
+    </section>
+    <section>${baseNav}</section>`;
+  }
+
+  else if(view === 'pesquisa-view'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Pesquisa</div>
+      <h1>Investigação aplicada, <em>organizada em programas.</em></h1>
+      <p class="lede">A pesquisa no LuxVerso é organizada em 5 programas institucionais, cada um com investigações ativas, sistemas construídos e descobertas publicadas.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Programas</div>
+      <div class="evid-grid">
+        <div class="evid-card"><div class="evid-title">🧬 Biotecnologia e Agro</div><div class="evid-body" style="font-size:13px;">Investigação de bioinsumos, organismos, processos e rotas tecnológicas. 763 obras catalogadas, 2.680 atores, 4.045 relações.</div></div>
+        <div class="evid-card"><div class="evid-title">🛰️ Território, Energia e Meio Ambiente</div><div class="evid-body" style="font-size:13px;">Detecção de transformação territorial, monitoramento de mineração, energia e ecossistemas. GhostWorks, TTI, Manguezais SP.</div></div>
+        <div class="evid-card"><div class="evid-title">⛏️ Mineração e Materiais Críticos</div><div class="evid-body" style="font-size:13px;">Patentes minerais, prospecção, reciclagem de baterias. Corpus de 72 arquivos, 22 datasets, 43 patentes.</div></div>
+        <div class="evid-card"><div class="evid-title">🏛️ Dados Públicos e Transparência</div><div class="evid-body" style="font-size:13px;">Contratações públicas, cruzamento multi-fonte, dashboards. R$160M mapeados, 4 cruzamentos CGU.</div></div>
+        <div class="evid-card"><div class="evid-title">🔬 Ciência, Tecnologia e Infraestrutura</div><div class="evid-body" style="font-size:13px;">TraceFoundry, representações R4-R6, experimento Lux-vs-LLM, sensoriamento inteligente.</div></div>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Publicações</div>
+      ${pubBlock()}
+    </section>
+    <section>${baseNav}</section>`;
+  }
+
+  else if(view === 'inteligencia-view'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Inteligência</div>
+      <h1>O que <em>estamos descobrindo.</em></h1>
+      <p class="lede">Descobertas recentes produzidas pelos nossos sistemas — com pergunta, evidência, implicação e próximo passo. Cada entrada tem fonte rastreável e nível de publicação definido.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Descobertas recentes</div>
+      <div id="intelFeed" class="evid-grid" style="margin-top:0;">
+        <div class="evid-card"><div class="evid-title">🔄 Carregando...</div></div>
+      </div>
+      <p style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--fg-dimmer);"><a href="https://github.com/viniburilux/Sistemas-Inteligentes/tree/main/intelligence-pipeline" style="color:var(--amber);">Ver pipeline completo ↗</a></p>
+    </section>
+    <section>${baseNav}</section>`;
+    // Load feed from pipeline
+    fetch('./intel-feed.json')
+      .then(r=>r.json())
+      .then(data=>{
+        const feed = document.getElementById('intelFeed');
+        if(data.entries){
+          feed.innerHTML = data.entries.slice(0,6).map(e=>
+            `<div class="evid-card">
+              <div class="evid-title">${e.title.length > 70 ? e.title.slice(0,70)+'...' : e.title}</div>
+              <div class="evid-body" style="font-size:13px;">${e.summary}</div>
+              <div class="evid-foot"><span class="evid-src">${e.domain} · ${e.status}</span><span class="evid-links"><a href="./intelligence/${e.slug}.md">Abrir ↗</a></span></div>
+            </div>`
+          ).join('');
+        } else {
+          feed.innerHTML = `<div class="evid-card"><div class="evid-title">Nenhuma descoberta publicada ainda</div></div>`;
+        }
+      })
+      .catch(()=>{
+        document.getElementById('intelFeed').innerHTML = `<div class="evid-card"><div class="evid-title">Pipeline disponível no GitHub</div><div class="evid-body" style="font-size:13px;">O Intelligence Pipeline está ativo. As páginas são geradas a partir do objects.yaml.</div></div>`;
+      });
+  }
+
+  else if(view === 'sistemas-view'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Sistemas</div>
+      <h1>Produtos e plataformas <em>construídos pelo laboratório.</em></h1>
+      <p class="lede">Cada sistema representa uma capacidade real, com código público, dados abertos e resultados verificáveis.</p>
+    </section>
+    <section>
+      <div class="evid-grid">
+        <div class="evid-card"><div class="evid-title">Sistemas Inteligentes</div><div class="evid-body" style="font-size:13px;">Plataforma de investigação multi-domínio. Capacidades: descoberta, proveniência, representação, agentes, sensoriamento.</div><div class="evid-foot"><span class="evid-links"><a href="https://viniburilux.github.io/Sistemas-Inteligentes/" target="_blank">Abrir ↗</a></span></div></div>
+        <div class="evid-card"><div class="evid-title">GhostWorks</div><div class="evid-body" style="font-size:13px;">Inteligência territorial por embeddings de satélite. TTI, atlas de trajetórias, mineração.</div><div class="evid-foot"><span class="evid-links"><a href="https://viniburilux.github.io/ghostworks/" target="_blank">Abrir ↗</a></span></div></div>
+        <div class="evid-card"><div class="evid-title">LuxSense</div><div class="evid-body" style="font-size:13px;">Sensor Raman com IA (99,43% acurácia). Paper em revisão, TRL 3-4.</div><div class="evid-foot"><span class="evid-links"><a href="https://luxverso.com/luxsense" target="_blank">Abrir ↗</a></span></div></div>
+        <div class="evid-card"><div class="evid-title">Lux-Radar</div><div class="evid-body" style="font-size:13px;">Motor de oportunidade com release semanal automatizado.</div><div class="evid-foot"><span class="evid-links"><a href="https://github.com/viniburilux/Lux-Radar" target="_blank">Abrir ↗</a></span></div></div>
+        <div class="evid-card"><div class="evid-title">TraceFoundry</div><div class="evid-body" style="font-size:13px;">Infraestrutura de evidência com 7 estados epistêmicos. Licença MIT.</div><div class="evid-foot"><span class="evid-links"><a href="https://github.com/viniburilux/TraceFoundry" target="_blank">Abrir ↗</a></span></div></div>
+        <div class="evid-card"><div class="evid-title">Inteligência Biotecnológica</div><div class="evid-body" style="font-size:13px;">Corpus público de 763 obras, 2.680 atores, trilhas de investigação.</div><div class="evid-foot"><span class="evid-links"><a href="https://github.com/viniburilux/inteligencia-biotecnologica-agropecuaria" target="_blank">Abrir ↗</a></span></div></div>
+      </div>
+    </section>
+    <section>${baseNav}</section>`;
+  }
+
+  else if(view === 'dominios-view'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Domínios</div>
+      <h1>A mesma capacidade, <em>múltiplas aplicações.</em></h1>
+      <p class="lede">Domínio é aplicação. Capacidade é o produto. Não somos 'IA para X' — construímos sistemas inteligentes aplicados a qualquer domínio com fontes fragmentadas e perguntas complexas.</p>
+    </section>
+    <section>
+      <div class="evid-grid">
+        <div class="evid-card"><div class="evid-title">🧬 Biotecnologia e Agro</div><div class="evid-body" style="font-size:13px;">Bioinsumos, controle biológico, rotas tecnológicas. Corpus de 763 obras, 2.680 atores.</div></div>
+        <div class="evid-card"><div class="evid-title">🛰️ Território e Meio Ambiente</div><div class="evid-body" style="font-size:13px;">Transformação territorial, manguezais, queimadas, monitoramento costeiro.</div></div>
+        <div class="evid-card"><div class="evid-title">⛏️ Mineração e Materiais</div><div class="evid-body" style="font-size:13px;">Prospecção mineral, materiais críticos, reciclagem de baterias, patentes.</div></div>
+        <div class="evid-card"><div class="evid-title">⚡ Energia</div><div class="evid-body" style="font-size:13px;">Expansão renovável, impacto territorial, transição energética.</div></div>
+        <div class="evid-card"><div class="evid-title">🏛️ Dados Públicos</div><div class="evid-body" style="font-size:13px;">Transparência, contratações, cruzamento multi-fonte, controle social.</div></div>
+        <div class="evid-card"><div class="evid-title">🔬 Ciência e P&D</div><div class="evid-body" style="font-size:13px;">Technology intelligence, scouting, investigação científica, sensoriamento.</div></div>
+      </div>
+    </section>
+    <section>${baseNav}</section>`;
+  }
+
+  else if(view === 'oportunidades-view'){
+    m.innerHTML = `
+    <section>
+      <div class="eyebrow">Oportunidades</div>
+      <h1>Você tem um problema <em>que dados convencionais não resolvem?</em></h1>
+      <p class="lede">Traga seu desafio. Investigamos, construímos e testamos um sistema para ele.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Como começamos</div>
+      <div class="risk-grid">
+        <div class="risk-card"><span class="n">01</span><h3>Você apresenta o problema</h3><p>Contexto, dados disponíveis, perguntas que precisam de resposta.</p></div>
+        <div class="risk-card"><span class="n">02</span><h3>Investigamos</h3><p>Mapeamos fontes, estruturamos a investigação, identificamos o que existe.</p></div>
+        <div class="risk-card"><span class="n">03</span><h3>Construímos o sistema</h3><p>Arquitetura, componentes, integração com o problema real.</p></div>
+        <div class="risk-card"><span class="n">04</span><h3>Testamos e aplicamos</h3><p>Critério de sucesso definido antes de construir. Só ampliamos o que funciona.</p></div>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">Para quem trabalhamos</div>
+      <p class="lede">Empresas, institutos de pesquisa, universidades, governo, editais, laboratórios, organizações com problemas técnicos complexos.</p>
+    </section>
+    <section>
+      <div class="eyebrow">Editais e chamadas</div>
+      <p class="lede" style="margin-top:0;">O Lux-Radar monitora continuamente fontes de oportunidade. <a href="https://github.com/viniburilux/Lux-Radar" style="color:var(--amber);" target="_blank">Ver pipeline ativo ↗</a></p>
+    </section>
+    <section>
+      <h2>Vamos conversar?</h2>
+      <div class="cta-row">
+        <a class="cta-main" href="https://wa.me/5585999798762?text=Ol%C3%A1%2C%20Vini!%20Tenho%20um%20desafio%20que%20quero%20investigar%20com%20voc%C3%AAs." target="_blank">Traga seu problema ↗</a>
+      </div>
+    </section>
+    <section>${baseNav}</section>`;
+  }
+}
+
+function enterView(view) {
+  localStorage.setItem('luxverso_perspective', view);
+  if(location.hash !== `#${view}`) history.replaceState(null, '', `#${view}`);
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').classList.add('open');
+  // Update active nav link
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => {
+    if(l.getAttribute('onclick')?.includes(view)) l.classList.add('active');
+  });
+  renderInstitutional(view);
+  window.scrollTo(0,0);
+}
+
 function enter(view){
   localStorage.setItem('luxverso_perspective', view);
   if(location.hash !== `#${view}`) history.replaceState(null, '', `#${view}`);
   document.getElementById('gate').style.display = 'none';
   document.getElementById('app').classList.add('open');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   render(view);
   window.scrollTo(0,0);
 }
